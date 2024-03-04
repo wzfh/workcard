@@ -1,0 +1,6 @@
+
+zpython:S1192"bDefine a constant instead of duplicating this literal 'application/x-www-form-urlencoded' 4 times.(¼ø£æ
+npython:S1192"QDefine a constant instead of duplicating this literal 'application/json' 9 times.(íúÄ¬øÿÿÿÿ
+hpython:S18544"KRemove this assignment to local variable 'result'; the value is never used.(²§´«ûÿÿÿÿ
+gpython:S1854l"JRemove this assignment to local variable 'data1'; the value is never used.(î™Àøÿÿÿÿÿ
+ipython:S1854Ù"KRemove this assignment to local variable 'result'; the value is never used.(²§´«ûÿÿÿÿ

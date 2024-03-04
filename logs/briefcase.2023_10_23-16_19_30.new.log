@@ -1,0 +1,448 @@
+Date/Time:       2023-10-23 16:19:31 
+Command line:    C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Scripts\briefcase new
+
+OS Release:      Windows 10
+OS Version:      10.0.19041
+Architecture:    AMD64
+Platform:        Windows-10-10.0.19041-SP0
+
+Python exe:      C:\Users\Administrator\AppData\Local\Programs\Python\Python38\python.exe
+Python version:  3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 23:11:46) [MSC v.1916 64 bit (AMD64)]
+Virtual env:     False
+Conda env:       False
+
+Briefcase:       0.3.16
+Target platform: all
+Target format:   None
+
+Environment Variables:
+    ALLUSERSPROFILE=C:\ProgramData
+    APPDATA=C:\Users\Administrator\AppData\Roaming
+    CLASSPATH=.;F:\java\jdk\lib\dt.jar;F:\java\jdk\lib\tools.jar;  ;F:\jmeter\apache-jmeter-5.5\lib\ext\ApacheJMeter_core.jar; F:\jmeter\apache-jmeter-5.5\lib\jorphan.jar;
+    COMMONPROGRAMFILES=C:\Program Files\Common Files
+    COMMONPROGRAMFILES(X86)=C:\Program Files (x86)\Common Files
+    COMMONPROGRAMW6432=C:\Program Files\Common Files
+    COMPUTERNAME=RJCSYB2
+    COMSPEC=C:\WINDOWS\system32\cmd.exe
+    DRIVERDATA=C:\Windows\System32\Drivers\DriverData
+    EPS_INSTALL_ROOT=f:\sangfor\edr\agent\
+    FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+    FPS_BROWSER_USER_PROFILE_STRING=Default
+    HOMEDRIVE=C:
+    HOMEPATH=\Users\Administrator
+    IDEA_INITIAL_DIRECTORY=C:\Users\Administrator\Desktop
+    JAVA_HOME=F:\java\jdk
+    JMETER_HOME=F:\jmeter\apache-jmeter-5.5
+    LOCALAPPDATA=C:\Users\Administrator\AppData\Local
+    LOGONSERVER=\\BSJ01
+    MYSQL_HOME=F:\mysql\mysql-8.0.32-winx64
+    NUMBER_OF_PROCESSORS=4
+    ONEDRIVE=C:\Users\Administrator\OneDrive
+    OS=Windows_NT
+    PATH=C:\Users\Administrator\Desktop\workcard\venv\Scripts;"F:\java\jdk\bin; F:\java\jdk\jre\bin;";C:\Users\Administrator\Desktop\ADB;F:\VM\bin\;"F:\chromedriver_win32;";F:\mysql\mysql-8.0.32-winx64\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Users\Administrator\Desktop\ADB;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Lib\site-packages\pip;C:\Users\Administrator\AppData\Local\Programs\Python\Python38;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;"F:\java\jdk\bin;F:\java\jdk\jre\bin;";C:\Program Files\Docker\Docker\resources\bin;F:\jmeter\apache-jmeter-5.5\bin;C:\Users\Administrator\Desktop\AirtestIDE-win-1.2.14\AirtestIDE\chromedriver.exe;E:\AI鐜嬭�呰崳鑰�-m\ResnetGPT-master;C:\Program Files\Git\cmd;C:\Users\Administrator\AppData\Roaming\FreeControl\scrcpy-win64-v2.1.1\;F:\java\jdk\bin;C:\Users\Administrator\Desktop\ADB;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;D:\鏂囦欢涓嬭浇\PyCharm Community Edition 2022.3.1\bin;;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Lib\site-packages\pip;\\192.168.100.168\bsj杞欢鍏变韩\v3.8s_client\bin;
+    PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+    PROCESSOR_ARCHITECTURE=AMD64
+    PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
+    PROCESSOR_LEVEL=6
+    PROCESSOR_REVISION=9e09
+    PROGRAMDATA=C:\ProgramData
+    PROGRAMFILES=C:\Program Files
+    PROGRAMFILES(X86)=C:\Program Files (x86)
+    PROGRAMW6432=C:\Program Files
+    PROMPT=(venv) $P$G
+    PSMODULEPATH=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+    PUBLIC=C:\Users\Public
+    PYCHARM COMMUNITY EDITION=D:\文件下载\PyCharm Community Edition 2022.3.1\bin;
+    SESSIONNAME=Console
+    SYSTEMDRIVE=C:
+    SYSTEMROOT=C:\WINDOWS
+    TEMP=C:\Users\Administrator\AppData\Local\Temp
+    TERMINAL_EMULATOR=JetBrains-JediTerm
+    TERM_SESSION_ID=fb787c9c-4237-4706-8d0e-fceabc6a29dc
+    TMP=C:\Users\Administrator\AppData\Local\Temp
+    USERDNSDOMAIN=BSJ.COM
+    USERDOMAIN=BSJ
+    USERDOMAIN_ROAMINGPROFILE=BSJ
+    USERNAME=rjcsyb2
+    USERPROFILE=C:\Users\Administrator
+    VIRTUAL_ENV=C:\Users\Administrator\Desktop\workcard\venv
+    WINDIR=C:\WINDOWS
+    _OLD_VIRTUAL_PATH="F:\java\jdk\bin; F:\java\jdk\jre\bin;";C:\Users\Administrator\Desktop\ADB;F:\VM\bin\;"F:\chromedriver_win32;";F:\mysql\mysql-8.0.32-winx64\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Users\Administrator\Desktop\ADB;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Lib\site-packages\pip;C:\Users\Administrator\AppData\Local\Programs\Python\Python38;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;"F:\java\jdk\bin;F:\java\jdk\jre\bin;";C:\Program Files\Docker\Docker\resources\bin;F:\jmeter\apache-jmeter-5.5\bin;C:\Users\Administrator\Desktop\AirtestIDE-win-1.2.14\AirtestIDE\chromedriver.exe;E:\AI鐜嬭�呰崳鑰�-m\ResnetGPT-master;C:\Program Files\Git\cmd;C:\Users\Administrator\AppData\Roaming\FreeControl\scrcpy-win64-v2.1.1\;F:\java\jdk\bin;C:\Users\Administrator\Desktop\ADB;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;D:\鏂囦欢涓嬭浇\PyCharm Community Edition 2022.3.1\bin;;C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Lib\site-packages\pip;\\192.168.100.168\bsj杞欢鍏变韩\v3.8s_client\bin;
+    _OLD_VIRTUAL_PROMPT=$P$G
+    __INTELLIJ_COMMAND_HISTFILE__=C:\Users\Administrator\AppData\Local\JetBrains\PyCharmCE2022.3\terminal\history\rob3.py-history2
+
+Briefcase Log:
+[16:19:10]                                                                                                                                                                new.py:444
+           Let's build a new Briefcase app!                                                                                                                               new.py:445
+                                                                                                                                                                          new.py:446
+                                                                                                                                                                          new.py:237
+           First, we need a formal name for your application. This is the name that will                                                                                            
+           be displayed to humans whenever the name of the application is displayed. It                                                                                             
+           can have spaces and punctuation if you like, and any capitalization will be                                                                                              
+           used as you type it.                                                                                                                                                     
+                                                                                                                                                                          new.py:240
+[16:19:14] Formal Name [Hello World]:                                                                                                                                     new.py:296
+           >>> User input: qqq                                                                                                                                            new.py:296
+                                                                                                                                                                          new.py:237
+           Next, we need a name that can serve as a machine-readable Python package name                                                                                            
+           for your application. This name must be PEP508-compliant - that means the name                                                                                           
+           may only contain letters, numbers, hyphens and underscores; it can't contain                                                                                             
+           spaces or punctuation, and it can't start with a hyphen or underscore.                                                                                                   
+                                                                                                                                                                                    
+           Based on your formal name, we suggest an app name of 'qqq',                                                                                                              
+           but you can use another name if you want.                                                                                                                                
+                                                                                                                                                                          new.py:240
+[16:19:15] App Name [qqq]:                                                                                                                                                new.py:310
+           >>> User input: qq                                                                                                                                             new.py:310
+                                                                                                                                                                          new.py:237
+           Now we need a bundle identifier for your application. App stores need to                                                                                                 
+           protect against having multiple applications with the same name; the bundle                                                                                              
+           identifier is the namespace they use to identify applications that come from                                                                                             
+           you. The bundle identifier is usually the domain name of your company or                                                                                                 
+           project, in reverse order.                                                                                                                                               
+                                                                                                                                                                                    
+           For example, if you are writing an application for Example Corp, whose website                                                                                           
+           is example.com, your bundle would be ``com.example``. The bundle will be                                                                                                 
+           combined with your application's machine readable name to form a complete                                                                                                
+           application identifier (e.g., com.example.qq).                                                                                                                           
+                                                                                                                                                                          new.py:240
+[16:19:16] Bundle Identifier [com.example]:                                                                                                                               new.py:327
+           >>> User input:                                                                                                                                                new.py:327
+                                                                                                                                                                          new.py:237
+           Briefcase can manage projects that contain multiple applications, so we need a                                                                                           
+           Project name. If you're only planning to have one application in this                                                                                                    
+           project, you can use the formal name as the project name.                                                                                                                
+                                                                                                                                                                          new.py:240
+[16:19:20] Project Name [qqq]:                                                                                                                                            new.py:344
+           >>> User input: 去                                                                                                                                             new.py:344
+                                                                                                                                                                          new.py:237
+           Now, we need a one line description for your application.                                                                                                                
+                                                                                                                                                                          new.py:240
+[16:19:23] Description [My first application]:                                                                                                                            new.py:353
+           >>> User input:                                                                                                                                                new.py:353
+                                                                                                                                                                          new.py:237
+           Who do you want to be credited as the author of this application? This could be                                                                                          
+           your own name, or the name of your company you work for.                                                                                                                 
+                                                                                                                                                                          new.py:240
+[16:19:25] Author [Jane Developer]:                                                                                                                                       new.py:360
+           >>> User input: y                                                                                                                                              new.py:360
+                                                                                                                                                                          new.py:237
+           What email address should people use to contact the developers of this                                                                                                   
+           application? This might be your own email address, or a generic contact address                                                                                          
+           you set up specifically for this application.                                                                                                                            
+                                                                                                                                                                          new.py:240
+[16:19:26] Author's Email [y@example.com]:                                                                                                                                new.py:368
+           >>> User input:                                                                                                                                                new.py:368
+                                                                                                                                                                          new.py:237
+           What is the website URL for this application? If you don't have a website set                                                                                            
+           up yet, you can put in a dummy URL.                                                                                                                                      
+                                                                                                                                                                          new.py:240
+           Application URL [https://example.com/qq]:                                                                                                                      new.py:378
+           >>> User input:                                                                                                                                                new.py:378
+                                                                                                                                                                          new.py:268
+           What license do you want to use for this project's code?                                                                                                                 
+[16:19:29]                                                                                                                                                                new.py:283
+           Select one of the following:                                                                                                                                             
+                                                                                                                                                                                    
+               [1] BSD license                                                                                                                                                      
+               [2] MIT license                                                                                                                                                      
+               [3] Apache Software License                                                                                                                                          
+               [4] GNU General Public License v2 (GPLv2)                                                                                                                            
+               [5] GNU General Public License v2 or later (GPLv2+)                                                                                                                  
+               [6] GNU General Public License v3 (GPLv3)                                                                                                                            
+               [7] GNU General Public License v3 or later (GPLv3+)                                                                                                                  
+               [8] Proprietary                                                                                                                                                      
+               [9] Other                                                                                                                                                            
+                                                                                                                                                                                    
+           Project License [1]:                                                                                                                                                     
+           >>> User input: 2                                                                                                                                              new.py:283
+                                                                                                                                                                          new.py:268
+           What GUI toolkit do you want to use for this project?                                                                                                                    
+                                                                                                                                                                          new.py:283
+           Select one of the following:                                                                                                                                             
+                                                                                                                                                                                    
+               [1] Toga                                                                                                                                                             
+               [2] PySide2 (does not support iOS/Android deployment)                                                                                                                
+               [3] PySide6 (does not support iOS/Android deployment)                                                                                                                
+               [4] PursuedPyBear (does not support iOS/Android deployment)                                                                                                          
+               [5] Pygame (does not support iOS/Android deployment)                                                                                                                 
+               [6] None                                                                                                                                                             
+                                                                                                                                                                                    
+           GUI Framework [1]:                                                                                                                                                       
+           >>> User input:                                                                                                                                                new.py:283
+                                                                                                                                                                          new.py:450
+           Generating a new application 'qqq'                                                                                                                             new.py:451
+           Using app template: https://github.com/beeware/briefcase-template, branch v0.3.16                                                                              new.py:478
+[16:19:30]                                                                                                                                                            __main__.py:40
+           Unable to clone template repository; is your computer offline?                                                                                             __main__.py:41
+
+Main thread traceback:
+╭─────────────────────────────────────────────────────────────────────── Traceback (most recent call last) ────────────────────────────────────────────────────────────────────────╮
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\briefcase\commands\base.py:919 in generate_template                                              │
+│                                                                                                                                                                                  │
+│   916 │   │                                                                                                                                                                      │
+│   917 │   │   try:                                                                                                                                                               │
+│   918 │   │   │   # Unroll the template                                                                                                                                          │
+│ ❱ 919 │   │   │   self.tools.cookiecutter(                                                                                                                                       │
+│   920 │   │   │   │   str(cached_template),                                                                                                                                      │
+│   921 │   │   │   │   no_input=True,                                                                                                                                             │
+│   922 │   │   │   │   output_dir=str(output_path),                                                                                                                               │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────── locals ──────────────────────────────────────╮                                                                                           │
+│ │          branch = 'v0.3.16'                                                        │                                                                                           │
+│ │ cached_template = 'https://github.com/beeware/briefcase-template'                  │                                                                                           │
+│ │   extra_context = {                                                                │                                                                                           │
+│ │                   │   'formal_name': 'qqq',                                        │                                                                                           │
+│ │                   │   'app_name': 'qq',                                            │                                                                                           │
+│ │                   │   'class_name': 'qqq',                                         │                                                                                           │
+│ │                   │   'module_name': 'qq',                                         │                                                                                           │
+│ │                   │   'project_name': '去',                                        │                                                                                           │
+│ │                   │   'description': 'My first application',                       │                                                                                           │
+│ │                   │   'author': 'y',                                               │                                                                                           │
+│ │                   │   'author_email': 'y@example.com',                             │                                                                                           │
+│ │                   │   'bundle': 'com.example',                                     │                                                                                           │
+│ │                   │   'url': 'https://example.com/qq',                             │                                                                                           │
+│ │                   │   ... +5                                                       │                                                                                           │
+│ │                   }                                                                │                                                                                           │
+│ │     output_path = WindowsPath('C:/Users/Administrator/Desktop/workcard')           │                                                                                           │
+│ │            self = <briefcase.commands.new.NewCommand object at 0x00000201B664F430> │                                                                                           │
+│ │        template = 'https://github.com/beeware/briefcase-template'                  │                                                                                           │
+│ ╰────────────────────────────────────────────────────────────────────────────────────╯                                                                                           │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\cookiecutter\main.py:80 in cookiecutter                                                          │
+│                                                                                                                                                                                  │
+│    77 │   │   config_file=config_file,                                                                                                                                           │
+│    78 │   │   default_config=default_config,                                                                                                                                     │
+│    79 │   )                                                                                                                                                                      │
+│ ❱  80 │   base_repo_dir, cleanup_base_repo_dir = determine_repo_dir(                                                                                                             │
+│    81 │   │   template=template,                                                                                                                                                 │
+│    82 │   │   abbreviations=config_dict['abbreviations'],                                                                                                                        │
+│    83 │   │   clone_to_dir=config_dict['cookiecutters_dir'],                                                                                                                     │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────────────────────────────────────────── locals ──────────────────────────────────────────────────────────────────────────╮                   │
+│ │            accept_hooks = True                                                                                                                             │                   │
+│ │                checkout = 'v0.3.16'                                                                                                                        │                   │
+│ │             config_dict = {                                                                                                                                │                   │
+│ │                           │   'cookiecutters_dir': 'C:\\Users\\Administrator/.cookiecutters/',                                                             │                   │
+│ │                           │   'replay_dir': 'C:\\Users\\Administrator/.cookiecutter_replay/',                                                              │                   │
+│ │                           │   'default_context': OrderedDict(),                                                                                            │                   │
+│ │                           │   'abbreviations': {                                                                                                           │                   │
+│ │                           │   │   'gh': 'https://github.com/{0}.git',                                                                                      │                   │
+│ │                           │   │   'gl': 'https://gitlab.com/{0}.git',                                                                                      │                   │
+│ │                           │   │   'bb': 'https://bitbucket.org/{0}'                                                                                        │                   │
+│ │                           │   }                                                                                                                            │                   │
+│ │                           }                                                                                                                                │                   │
+│ │             config_file = None                                                                                                                             │                   │
+│ │          default_config = False                                                                                                                            │                   │
+│ │               directory = None                                                                                                                             │                   │
+│ │           extra_context = {                                                                                                                                │                   │
+│ │                           │   'formal_name': 'qqq',                                                                                                        │                   │
+│ │                           │   'app_name': 'qq',                                                                                                            │                   │
+│ │                           │   'class_name': 'qqq',                                                                                                         │                   │
+│ │                           │   'module_name': 'qq',                                                                                                         │                   │
+│ │                           │   'project_name': '去',                                                                                                        │                   │
+│ │                           │   'description': 'My first application',                                                                                       │                   │
+│ │                           │   'author': 'y',                                                                                                               │                   │
+│ │                           │   'author_email': 'y@example.com',                                                                                             │                   │
+│ │                           │   'bundle': 'com.example',                                                                                                     │                   │
+│ │                           │   'url': 'https://example.com/qq',                                                                                             │                   │
+│ │                           │   ... +5                                                                                                                       │                   │
+│ │                           }                                                                                                                                │                   │
+│ │ keep_project_on_failure = False                                                                                                                            │                   │
+│ │                no_input = True                                                                                                                             │                   │
+│ │              output_dir = 'C:\\Users\\Administrator\\Desktop\\workcard'                                                                                    │                   │
+│ │     overwrite_if_exists = False                                                                                                                            │                   │
+│ │                password = None                                                                                                                             │                   │
+│ │                  replay = None                                                                                                                             │                   │
+│ │     skip_if_file_exists = False                                                                                                                            │                   │
+│ │                template = 'https://github.com/beeware/briefcase-template'                                                                                  │                   │
+│ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                   │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\cookiecutter\repository.py:107 in determine_repo_dir                                             │
+│                                                                                                                                                                                  │
+│   104 │   │   repository_candidates = [unzipped_dir]                                                                                                                             │
+│   105 │   │   cleanup = True                                                                                                                                                     │
+│   106 │   elif is_repo_url(template):                                                                                                                                            │
+│ ❱ 107 │   │   cloned_repo = clone(                                                                                                                                               │
+│   108 │   │   │   repo_url=template,                                                                                                                                             │
+│   109 │   │   │   checkout=checkout,                                                                                                                                             │
+│   110 │   │   │   clone_to_dir=clone_to_dir,                                                                                                                                     │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────────────────────────── locals ───────────────────────────────────────────────────────────╮                                                  │
+│ │ abbreviations = {'gh': 'https://github.com/{0}.git', 'gl': 'https://gitlab.com/{0}.git', 'bb': 'https://bitbucket.org/{0}'} │                                                  │
+│ │      checkout = 'v0.3.16'                                                                                                   │                                                  │
+│ │  clone_to_dir = 'C:\\Users\\Administrator/.cookiecutters/'                                                                  │                                                  │
+│ │     directory = None                                                                                                        │                                                  │
+│ │      no_input = True                                                                                                        │                                                  │
+│ │      password = None                                                                                                        │                                                  │
+│ │      template = 'https://github.com/beeware/briefcase-template'                                                             │                                                  │
+│ ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                  │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\cookiecutter\vcs.py:103 in clone                                                                 │
+│                                                                                                                                                                                  │
+│   100 │                                                                                                                                                                          │
+│   101 │   if clone:                                                                                                                                                              │
+│   102 │   │   try:                                                                                                                                                               │
+│ ❱ 103 │   │   │   subprocess.check_output(  # nosec                                                                                                                              │
+│   104 │   │   │   │   [repo_type, 'clone', repo_url],                                                                                                                            │
+│   105 │   │   │   │   cwd=clone_to_dir,                                                                                                                                          │
+│   106 │   │   │   │   stderr=subprocess.STDOUT,                                                                                                                                  │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────── locals ────────────────────────────────────────────────╮                                                                        │
+│ │     checkout = 'v0.3.16'                                                                              │                                                                        │
+│ │        clone = True                                                                                   │                                                                        │
+│ │ clone_to_dir = WindowsPath('C:/Users/Administrator/.cookiecutters')                                   │                                                                        │
+│ │     no_input = True                                                                                   │                                                                        │
+│ │       output = "Cloning into 'briefcase-template'...\nfatal: unable to access 'https://github.com"+66 │                                                                        │
+│ │     repo_dir = 'C:\\Users\\Administrator\\.cookiecutters\\briefcase-template'                         │                                                                        │
+│ │    repo_name = 'briefcase-template'                                                                   │                                                                        │
+│ │    repo_type = 'git'                                                                                  │                                                                        │
+│ │     repo_url = 'https://github.com/beeware/briefcase-template'                                        │                                                                        │
+│ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                        │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\subprocess.py:411 in check_output                                                                              │
+│                                                                                                                                                                                  │
+│    408 │   │   # empty string. That is maintained here for backwards compatibility.                                                                                              │
+│    409 │   │   kwargs['input'] = '' if kwargs.get('universal_newlines', False) else b''                                                                                          │
+│    410 │                                                                                                                                                                         │
+│ ❱  411 │   return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,                                                                                                      │
+│    412 │   │   │      **kwargs).stdout                                                                                                                                           │
+│    413                                                                                                                                                                           │
+│    414                                                                                                                                                                           │
+│                                                                                                                                                                                  │
+│ ╭──────────────────────────────────────── locals ─────────────────────────────────────────╮                                                                                      │
+│ │    kwargs = {'cwd': WindowsPath('C:/Users/Administrator/.cookiecutters'), 'stderr': -2} │                                                                                      │
+│ │ popenargs = (['git', 'clone', 'https://github.com/beeware/briefcase-template'],)        │                                                                                      │
+│ │   timeout = None                                                                        │                                                                                      │
+│ ╰─────────────────────────────────────────────────────────────────────────────────────────╯                                                                                      │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\subprocess.py:512 in run                                                                                       │
+│                                                                                                                                                                                  │
+│    509 │   │   │   raise                                                                                                                                                         │
+│    510 │   │   retcode = process.poll()                                                                                                                                          │
+│    511 │   │   if check and retcode:                                                                                                                                             │
+│ ❱  512 │   │   │   raise CalledProcessError(retcode, process.args,                                                                                                               │
+│    513 │   │   │   │   │   │   │   │   │    output=stdout, stderr=stderr)                                                                                                        │
+│    514 │   return CompletedProcess(process.args, retcode, stdout, stderr)                                                                                                        │
+│    515                                                                                                                                                                           │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────────────────── locals ──────────────────────────────────────────────────╮                                                                   │
+│ │ capture_output = False                                                                                     │                                                                   │
+│ │          check = True                                                                                      │                                                                   │
+│ │          input = None                                                                                      │                                                                   │
+│ │         kwargs = {'stdout': -1, 'cwd': WindowsPath('C:/Users/Administrator/.cookiecutters'), 'stderr': -2} │                                                                   │
+│ │      popenargs = (['git', 'clone', 'https://github.com/beeware/briefcase-template'],)                      │                                                                   │
+│ │        process = <subprocess.Popen object at 0x00000201B88C1EB0>                                           │                                                                   │
+│ │        retcode = 128                                                                                       │                                                                   │
+│ │         stderr = None                                                                                      │                                                                   │
+│ │         stdout = b"Cloning into 'briefcase-template'...\nfatal: unable to access 'https://github.com"+66   │                                                                   │
+│ │        timeout = None                                                                                      │                                                                   │
+│ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+CalledProcessError: Command '['git', 'clone', 'https://github.com/beeware/briefcase-template']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+╭─────────────────────────────────────────────────────────────────────── Traceback (most recent call last) ────────────────────────────────────────────────────────────────────────╮
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\briefcase\__main__.py:25 in main                                                                 │
+│                                                                                                                                                                                  │
+│   22 │   │   command = Command(logger=logger, console=console)                                                                                                                   │
+│   23 │   │   options = command.parse_options(extra=extra_cmdline)                                                                                                                │
+│   24 │   │   command.parse_config(Path.cwd() / "pyproject.toml")                                                                                                                 │
+│ ❱ 25 │   │   command(**options)                                                                                                                                                  │
+│   26 │   except HelpText as e:                                                                                                                                                   │
+│   27 │   │   logger.info()                                                                                                                                                       │
+│   28 │   │   logger.info(str(e))                                                                                                                                                 │
+│                                                                                                                                                                                  │
+│ ╭───────────────────────────────────── locals ─────────────────────────────────────╮                                                                                             │
+│ │       command = <briefcase.commands.new.NewCommand object at 0x00000201B664F430> │                                                                                             │
+│ │       Command = <class 'briefcase.commands.new.NewCommand'>                      │                                                                                             │
+│ │       console = <briefcase.console.Console object at 0x00000201B6644E80>         │                                                                                             │
+│ │             e = NetworkFailure('clone template repository')                      │                                                                                             │
+│ │ extra_cmdline = []                                                               │                                                                                             │
+│ │        logger = <briefcase.console.Log object at 0x00000201B677CD90>             │                                                                                             │
+│ │       options = {'template': None, 'template_branch': None}                      │                                                                                             │
+│ │        result = 200                                                              │                                                                                             │
+│ ╰──────────────────────────────────────────────────────────────────────────────────╯                                                                                             │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\briefcase\commands\new.py:531 in __call__                                                        │
+│                                                                                                                                                                                  │
+│   528 │   │   # There are no apps, so finalize() will be a no op on app configurations.                                                                                          │
+│   529 │   │   self.finalize()                                                                                                                                                    │
+│   530 │   │                                                                                                                                                                      │
+│ ❱ 531 │   │   return self.new_app(                                                                                                                                               │
+│   532 │   │   │   template=template, template_branch=template_branch, **options                                                                                                  │
+│   533 │   │   )                                                                                                                                                                  │
+│   534                                                                                                                                                                            │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────── locals ──────────────────────────────────────╮                                                                                           │
+│ │         options = {}                                                               │                                                                                           │
+│ │            self = <briefcase.commands.new.NewCommand object at 0x00000201B664F430> │                                                                                           │
+│ │        template = None                                                             │                                                                                           │
+│ │ template_branch = None                                                             │                                                                                           │
+│ ╰────────────────────────────────────────────────────────────────────────────────────╯                                                                                           │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\briefcase\commands\new.py:480 in new_app                                                         │
+│                                                                                                                                                                                  │
+│   477 │   │   try:                                                                                                                                                               │
+│   478 │   │   │   self.logger.info(f"Using app template: {template}, branch {branch}")                                                                                           │
+│   479 │   │   │   # Unroll the new app template                                                                                                                                  │
+│ ❱ 480 │   │   │   self.generate_template(                                                                                                                                        │
+│   481 │   │   │   │   template=template,                                                                                                                                         │
+│   482 │   │   │   │   branch=branch,                                                                                                                                             │
+│   483 │   │   │   │   output_path=self.base_path,                                                                                                                                │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────── locals ──────────────────────────────────────╮                                                                                           │
+│ │          branch = 'v0.3.16'                                                        │                                                                                           │
+│ │         context = {                                                                │                                                                                           │
+│ │                   │   'formal_name': 'qqq',                                        │                                                                                           │
+│ │                   │   'app_name': 'qq',                                            │                                                                                           │
+│ │                   │   'class_name': 'qqq',                                         │                                                                                           │
+│ │                   │   'module_name': 'qq',                                         │                                                                                           │
+│ │                   │   'project_name': '去',                                        │                                                                                           │
+│ │                   │   'description': 'My first application',                       │                                                                                           │
+│ │                   │   'author': 'y',                                               │                                                                                           │
+│ │                   │   'author_email': 'y@example.com',                             │                                                                                           │
+│ │                   │   'bundle': 'com.example',                                     │                                                                                           │
+│ │                   │   'url': 'https://example.com/qq',                             │                                                                                           │
+│ │                   │   ... +5                                                       │                                                                                           │
+│ │                   }                                                                │                                                                                           │
+│ │         options = {}                                                               │                                                                                           │
+│ │            self = <briefcase.commands.new.NewCommand object at 0x00000201B664F430> │                                                                                           │
+│ │        template = 'https://github.com/beeware/briefcase-template'                  │                                                                                           │
+│ │ template_branch = None                                                             │                                                                                           │
+│ │         version = <Version('0.3.16')>                                              │                                                                                           │
+│ ╰────────────────────────────────────────────────────────────────────────────────────╯                                                                                           │
+│                                                                                                                                                                                  │
+│ C:\Users\Administrator\AppData\Local\Programs\Python\Python38\lib\site-packages\briefcase\commands\base.py:929 in generate_template                                              │
+│                                                                                                                                                                                  │
+│   926 │   │   except subprocess.CalledProcessError as e:                                                                                                                         │
+│   927 │   │   │   # Computer is offline                                                                                                                                          │
+│   928 │   │   │   # status code == 128 - certificate validation error.                                                                                                           │
+│ ❱ 929 │   │   │   raise NetworkFailure("clone template repository") from e                                                                                                       │
+│   930 │   │   except cookiecutter_exceptions.RepositoryNotFound as e:                                                                                                            │
+│   931 │   │   │   # Either the template path is invalid,                                                                                                                         │
+│   932 │   │   │   # or it isn't a cookiecutter template (i.e., no cookiecutter.json)                                                                                             │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────── locals ──────────────────────────────────────╮                                                                                           │
+│ │          branch = 'v0.3.16'                                                        │                                                                                           │
+│ │ cached_template = 'https://github.com/beeware/briefcase-template'                  │                                                                                           │
+│ │   extra_context = {                                                                │                                                                                           │
+│ │                   │   'formal_name': 'qqq',                                        │                                                                                           │
+│ │                   │   'app_name': 'qq',                                            │                                                                                           │
+│ │                   │   'class_name': 'qqq',                                         │                                                                                           │
+│ │                   │   'module_name': 'qq',                                         │                                                                                           │
+│ │                   │   'project_name': '去',                                        │                                                                                           │
+│ │                   │   'description': 'My first application',                       │                                                                                           │
+│ │                   │   'author': 'y',                                               │                                                                                           │
+│ │                   │   'author_email': 'y@example.com',                             │                                                                                           │
+│ │                   │   'bundle': 'com.example',                                     │                                                                                           │
+│ │                   │   'url': 'https://example.com/qq',                             │                                                                                           │
+│ │                   │   ... +5                                                       │                                                                                           │
+│ │                   }                                                                │                                                                                           │
+│ │     output_path = WindowsPath('C:/Users/Administrator/Desktop/workcard')           │                                                                                           │
+│ │            self = <briefcase.commands.new.NewCommand object at 0x00000201B664F430> │                                                                                           │
+│ │        template = 'https://github.com/beeware/briefcase-template'                  │                                                                                           │
+│ ╰────────────────────────────────────────────────────────────────────────────────────╯                                                                                           │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+NetworkFailure: Unable to clone template repository; is your computer offline?
