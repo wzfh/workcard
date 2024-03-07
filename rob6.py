@@ -879,7 +879,7 @@ class MY_GUI(tk.Tk):
             return ipstr.upper()
         except Exception as e:
             print("设备号转伪ip失败！原因：%s" % e)
-            return None
+            return self.result_data_Text4.insert(1.0, "设备号转伪ip失败！原因：{}".format(e))
 
     def sb_hao4(self):
         sb = self.sbei_Text4.get().strip()
@@ -1962,6 +1962,11 @@ class MY_GUI(tk.Tk):
             self.result_data_Text4.insert(1.0, f"{src}\n\n")
             self.result_data_Text4.insert(END, f"服务器应答：{send.upper()}\n\n")
 
+    def qdo_808jiexq(self):
+        import subprocess
+        exe_path = r"C:\Users\rjcsyb2\Desktop\BSJ-协议解析器\BSJ_dataParser.exe"
+        subprocess.run(exe_path)
+
     # 设置窗口
     def set_init_window(self):
         import os
@@ -2261,6 +2266,10 @@ class MY_GUI(tk.Tk):
         #
         self.result_Text2 = Button(pane2, text="发送", command=lambda: self.thread_it(self.qo_send2))
         self.result_Text2.grid(row=19, column=10, )
+
+        self.result_Text3 = Button(pane2, text="808解析器", width=10,
+                                   command=self.qdo_808jiexq)  # 调用内部方法  加()为直接调用
+        self.result_Text3.grid(row=19, column=11)
 
         self.result_data_label2 = Label(pane2, text="输出结果：有返回，即发送成功")
         self.result_data_label2.grid(row=0, column=11)
@@ -2729,4 +2738,4 @@ def gui4_start():
 
 if __name__ == '__main__':
     gui4_start()
-    # count_runs()
+    count_runs()

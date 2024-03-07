@@ -35,7 +35,6 @@ def shebeihao2Vip(sSim):
             sTemp.append(int(sSim[7:9]))
             sTemp.append(int(sSim[9:11]))
             iHigt = int(sSim[1:3]) - 30
-            print(sTemp)
             print(iHigt)
         elif len(sSim) == 10:
             sTemp.append(int(sSim[2:4]))
@@ -43,7 +42,6 @@ def shebeihao2Vip(sSim):
             sTemp.append(int(sSim[6:8]))
             sTemp.append(int(sSim[8:10]))
             iHigt = int(sSim[0:2]) - 30
-            print(sTemp)
             print(iHigt)
         elif len(sSim) == 9:
             sTemp.append(int(sSim[1:3]))
@@ -51,7 +49,6 @@ def shebeihao2Vip(sSim):
             sTemp.append(int(sSim[5:7]))
             sTemp.append(int(sSim[7:9]))
             iHigt = int(sSim[0:1])
-            print(sTemp)
             print(iHigt)
         elif len(sSim) < 9:
             sSim = "140" + sSim.zfill(8)
@@ -60,11 +57,10 @@ def shebeihao2Vip(sSim):
             sTemp.append(int(sSim[7:9]))
             sTemp.append(int(sSim[9:11]))
             iHigt = int(sSim[1:3]) - 30
-            print(sTemp)
             print(iHigt)
         else:
             return None
-        print(iHigt & 0x8)
+        print(sTemp)
         if (iHigt & 0x8) != 0:
             sIp.append(sTemp[0] | 128)
             print(sTemp[0] | 128)
@@ -101,4 +97,22 @@ def shebeihao2Vip(sSim):
         return None
 
 
-shebeihao2Vip('1353491299')
+# shebeihao2Vip('13534912299')
+
+import os
+
+# 替换为你的文件夹路径
+folder_path = r'C:\Users\rjcsyb2\Desktop\BSJ-协议解析器'
+
+# 获取文件夹内的所有文件名
+# current_directory = os.getcwd()
+# print(current_directory)
+import subprocess
+
+# # 遍历文件名并处理每个文件
+#
+#
+exe = os.path.join(folder_path, 'BSJ_dataParser.exe')
+
+# subprocess.Popen(exe1)
+subprocess.run(exe)
