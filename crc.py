@@ -101,4 +101,4 @@ def shebeihao2Vip(sSim):
         return None
 
 
-shebeihao2Vip('13534912299')
+shebeihao2Vip('1353491299')
