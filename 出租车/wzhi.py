@@ -161,28 +161,28 @@ class login:
             油量 = ['5208', '044C', '04B0']
             附加油量 = f'0202{random.choice(油量)}'
             w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 附加里程 + 附加油量
-                a = get_xor(w)
-                b = get_bcc(a).zfill(2)
-                E = w + b.upper()
-                t = 标识位 + E.replace("7E", "00") + 标识位
-                D = get_xor(E)
-                data = '7E ' + D + ' 7E'
-                if data[:2] != "7E":
-                    print(f"错误：{data}")
-                    print('\n' * 1)
-                    t = t[:81] + "00" + t[82:]
-                    data = get_xor(t)
-                    print("修改后data：{}".format(data))
-                    print('\n' * 1)
-                print(t)
-                print(data)
-                s = socket(AF_INET, SOCK_STREAM)
+            a = get_xor(w)
+            b = get_bcc(a).zfill(2)
+            E = w + b.upper()
+            t = 标识位 + E.replace("7E", "00") + 标识位
+            D = get_xor(E)
+            data = '7E ' + D + ' 7E'
+            if data[:2] != "7E":
+                print(f"错误：{data}")
+                print('\n' * 1)
+                t = t[:81] + "00" + t[82:]
+                data = get_xor(t)
+                print("修改后data：{}".format(data))
+                print('\n' * 1)
+            print(t)
+            print(data)
+            s = socket(AF_INET, SOCK_STREAM)
             s.connect((self.wg, int(self.wg_port)))  # 测试
             s.send(bytes().fromhex(data))
-                send = s.recv(1024).hex()
-                print('服务器应答：' + send.upper())
-                print('\n' * 1)
-                countdown(10)
+            send = s.recv(1024).hex()
+            print('服务器应答：' + send.upper())
+            print('\n' * 1)
+            countdown(10)
 
 
 if __name__ == '__main__':
