@@ -177,12 +177,12 @@ class login:
             print(t)
             print(data)
             s = socket(AF_INET, SOCK_STREAM)
-            s.connect((self.wg, int(self.wg_port)))  # 测试
-            s.send(bytes().fromhex(data))
-            send = s.recv(1024).hex()
-            print('服务器应答：' + send.upper())
-            print('\n' * 1)
-            countdown(10)
+        s.connect((self.wg, int(self.wg_port)))  # 测试
+        s.send(bytes().fromhex(data))
+        send = s.recv(1024).hex()
+        print('服务器应答：' + send.upper())
+        print('\n' * 1)
+        countdown(10)
 
 
 if __name__ == '__main__':
