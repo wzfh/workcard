@@ -1,14 +1,10 @@
 # coding=utf-8
-import binascii
-import csv
 import os
 import re
 import time
 from socket import *
 
-import diaoyongjar
-
-
+from configobj import ConfigObj
 
 
 def get_bcc(inputStr: str) -> str:
@@ -40,40 +36,39 @@ def get_xor(data):
 车辆非法位移='02000000'
 正常='00000000'
 
-class login:
-    def get(self, nob,noc):
-        count=0
-        for i in range(1):
-            try:
-                print(i)
-                wd1 = 30.520167 * 60 / 0.0001
-                # print(wd1)
-                wd2 = hex(int(wd1))
-                # print(wd2[2:].zfill(8).upper())
 
-                jd1 = 104.042433 * 60 / 0.0001
-                # print(jd1)
+class login:
+    def __init__(self):
+        conf_ini = os.path.dirname(os.path.dirname(__file__)) + "\\conf\\config.ini"
+        config = ConfigObj(conf_ini, encoding='UTF-8')
+        self.wg = config['ces']['出租车_cswg']
+        self.wg_port = config['ces']['出租车_cs905wg_port']
+        self.wd = config['address']['茂名市WD']
+        self.jd = config['address']['茂名市JD']
+        self.baojing = config['905baojing']
+        self.ztai = config['905ztai']
+        self.sbei = config['sbei']['905sbei']
+        self.驾驶员从业资格证号 = config['驾驶员从业资格证号']['欧先生']
+
+    def get(self, nob, noc):
+        count = 0
+        for i in range(1):
+            wd1 = float(self.wd) * 60 / 0.0001
+            # print(wd1)
+            wd2 = hex(int(wd1))
+            # print(wd2[2:].zfill(8).upper())
+
+            jd1 = float(self.jd) * 60 / 0.0001
+            # print(jd1)
                 jd2 = hex(int(jd1))
                 # print(jd2[2:].zfill(8).upper())
 
                 now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
                 标识位='7E'
                 消息ID='0B03'
-                消息体属性='0043'
-                # if 1 < i < 10:
-                #     设备号 = f'000000000{i}'
-                # if 9 < i < 100:
-                #     设备号 = f'00000000{i}'
-                # if 99 < i < 1000:
-                #     设备号 = f'0000000{i}'
-                # if 999 < i < 10000:
-                #     设备号 = f'000000{i}'
-                # if 9999<i<10991:
-                #     设备号 = f'00000{i}'
-                # 设备号 = f'1356000000'
-                # ISU标识 = '10{}'.format(设备号)  # 10位
-                ISU标识 = '015265236688'  # 10位
-                流水号 = f'{i}'.zfill(4)
+            消息体属性 = '0043'
+            ISU标识 = self.sbei  # 10位
+            流水号 = f'{i}'.zfill(4)
 
                 报警=正常
                 状态='00000300'
@@ -83,14 +78,10 @@ class login:
                 方向='00'
                 时间=now_time[2:]
                 # print(时间)
-                企业经营许可证号='534E3132333435363738393100000000'#SN1234567891
-                驾驶员从业资格证号='534E3132333435363738393132333435363738'#SN12345678912345679
-                # 驾驶员从业资格证号='534E3132333435363738393132333435363730'#SN12345678912345670
-                # 驾驶员从业资格证号='534E3132333435363738393132333435363731'#SN12345678912345671
-                车牌号='534E31323535'#SN1255
-                # now=hex(int(now_time[:12]))[2:].zfill(12).upper()
+            企业经营许可证号 = '534E3132333435363738393100000000'  # SN1234567891
+            驾驶员从业资格证号 = self.驾驶员从业资格证号
+            车牌号 = '534E31323535'  # SN1255
                 开机时间=now_time[:12]
-                # print(开机时间)
                 附加='01040000006E0202044C250400000000300103'
 
                 w=消息ID+消息体属性+ISU标识+流水号+报警+状态+纬度+经度+速度+方向+时间+企业经营许可证号+驾驶员从业资格证号+车牌号+开机时间
@@ -109,14 +100,8 @@ class login:
                 print(data)
                 count += 1
 
-
-
-        # return '登录包数据：{}\n\n设备号：{}\n\n原始数据：{}'.format(t,t[12:-30],q)
-
-
-        #
                 s = socket(AF_INET, SOCK_STREAM)
-                s.connect(('120.79.74.223', 17202))
+            s.connect((self.wg, int(self.wg_port)))
                 # # s.connect(('120.79.176.183', 17800))  # 压测
                 # s.connect(('47.119.168.112', 17800))  # 生产
                 s.send(bytes().fromhex(data))
@@ -124,9 +109,7 @@ class login:
                 print(send.upper())
                 print('\n' * 1)
                 time.sleep(1)
-                # s.close()
-            except:
-                pass
+
 
 
 if __name__ == '__main__':

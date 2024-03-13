@@ -96,23 +96,22 @@ def shebeihao2Vip(sSim):
         print("设备号转伪ip失败！原因：%s" % e)
         return None
 
-
 # shebeihao2Vip('13534912299')
 
-import os
-
-# 替换为你的文件夹路径
-folder_path = r'C:\Users\rjcsyb2\Desktop\BSJ-协议解析器'
-
-# 获取文件夹内的所有文件名
-# current_directory = os.getcwd()
-# print(current_directory)
-import subprocess
-
-# # 遍历文件名并处理每个文件
+# import os
 #
+# # 替换为你的文件夹路径
+# folder_path = r'C:\Users\rjcsyb2\Desktop\BSJ-协议解析器'
 #
-exe = os.path.join(folder_path, 'BSJ_dataParser.exe')
-
-# subprocess.Popen(exe1)
-subprocess.run(exe)
+# # 获取文件夹内的所有文件名
+# # current_directory = os.getcwd()
+# # print(current_directory)
+# import subprocess
+#
+# # # 遍历文件名并处理每个文件
+# #
+# #
+# exe = os.path.join(folder_path, 'BSJ_dataParser.exe')
+#
+# # subprocess.Popen(exe1)
+# subprocess.run(exe)

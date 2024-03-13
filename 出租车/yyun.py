@@ -1,12 +1,10 @@
 # coding=utf-8
-import binascii
-import csv
 import os
 import re
 import time
 from socket import *
 
-import diaoyongjar
+from configobj import ConfigObj
 
 
 def get_bcc(inputStr: str) -> str:
@@ -22,16 +20,7 @@ def get_xor(data):
     return result
 
 
-# print(now_time)
-wd1 = 27.520167 * 60 / 0.0001
-wd2 = 30.392750 * 60 / 0.0001
-wd3 = hex(int(wd1))
-wd4 = hex(int(wd2))
 
-jd1 = 104.042433 * 60 / 0.0001
-jd2 = 103.924817 * 60 / 0.0001
-jd3 = hex(int(jd1))
-jd4 = hex(int(jd2))
 
 紧急报警 = '00000001'
 进出区域路线报警 = '00100000'
@@ -59,91 +48,95 @@ ACC开和载客 = '00000300'
 
 
 class login:
-    def get(self, nob, noc):
+    def __init__(self):
+        conf_ini = os.path.dirname(os.path.dirname(__file__)) + "\\conf\\config.ini"
+        config = ConfigObj(conf_ini, encoding='UTF-8')
+        self.wg = config['ces']['出租车_cswg']
+        self.wg_port = config['ces']['出租车_cs905wg_port']
+        self.wd = config['address']['茂名市WD']
+        self.jd = config['address']['茂名市JD']
+        self.baojing = config['905baojing']
+        self.ztai = config['905ztai']
+        self.sbei = config['sbei']['905sbei']
+        self.驾驶员从业资格证号 = config['驾驶员从业资格证号']['欧先生']
+
+    def get(self):
         for i in range(1):
-            try:
-                print(i)
-                now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
-                标识位 = '7E'
-                消息ID = '0B05'
-                消息体属性 = '0073'
-                # 设备号 = f'15875226049'
-                ISU标识 = '015265236688' # 10位
-                流水号 = f'0001'
-                报警 = 正常
-                状态 = 空转重
-                纬度 = wd3[2:].zfill(8).upper()
-                经度 = jd3[2:].zfill(8).upper()
-                速度 = '0013'
-                方向 = '01'
-                时间 = now_time[2:]
-                # 时间 = '240130152159'
+            wd1 = float(self.wd) * 60 / 0.0001
+            wd2 = 42.927734 * 60 / 0.0001
+            wd3 = hex(int(wd1))
+            wd4 = hex(int(wd2))
 
-                报警1 = 正常
-                状态1 = 重转空
-                纬度1 = wd4[2:].zfill(8).upper()
-                经度1 = jd4[2:].zfill(8).upper()
-                速度1 = '0031'
-                方向1 = '04'
-                时间1 = now_time[2:]
-                # 时间1 = '240130155455'
+            jd1 = float(self.jd) * 60 / 0.0001
+            jd2 = 123.545735 * 60 / 0.0001
+            jd3 = hex(int(jd1))
+            jd4 = hex(int(jd2))
+            print(i)
+            now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+            标识位 = '7E'
+            消息ID = '0B05'
+            消息体属性 = '0073'
+            ISU标识 = self.sbei  # 10位
+            流水号 = f'0001'
+            报警 = self.baojing['紧急报警']
+            状态 = self.ztai['ACC开']
+            纬度 = wd3[2:].zfill(8).upper()
+            经度 = jd3[2:].zfill(8).upper()
+            速度 = '0013'
+            方向 = '01'
+            时间 = now_time[2:]
 
-                营运ID = '3590AA28'  # 001101  0110  01000  01010 101000 101000
-                评价ID = '3590AA28'
-                评价选项 = '01'
-                评价选项扩展 = '0000'
+            报警1 = self.baojing['正常']
+            状态1 = self.ztai['重转空']
+            纬度1 = wd4[2:].zfill(8).upper()
+            经度1 = jd4[2:].zfill(8).upper()
+            速度1 = '0031'
+            方向1 = '04'
+            时间1 = now_time[2:]
+
+            营运ID = '3590AA28'  # 001101  0110  01000  01010 101000 101000
+            评价ID = '3590AA28'
+            评价选项 = '01'
+            评价选项扩展 = '0000'
                 电召订单ID = '1'.zfill(8)
                 车牌号 = '534E31323535'  # SN1255
-                企业经营许可证号 = '534E3132333435363738393100000000'  # SN1234567891
-                驾驶员从业资格证号 = '534E3132333435363738393132333435363737'  # SN12345678912345679
-                # 驾驶员从业资格证号 = '534E3132333435363738393132333435363730'  # SN12345678912345670
-                # 驾驶员从业资格证号 = '534E3132333435363738393132333435363731'  # SN12345678912345671
-                上车时间 = 时间[:10]
+            企业经营许可证号 = '534E3132333435363738393100000000'  # SN1234567891
+            驾驶员从业资格证号 = self.驾驶员从业资格证号
+            上车时间 = 时间[:10]
                 print(f'上车时间：{上车时间}')
                 上车时间1 = 时间[:10].replace(f'{上车时间}', f'{int(上车时间)- 5}')
                 print('ww:'+上车时间1)
                 下车时间 = 上车时间[6:]
                 print('ww:'+下车时间)
-                # 上车时间1 = '2401301521'
-                # 下车时间 = '1554'
-
                 计程公里数 = '000920'
                 空驶里程 = '0091'
                 附加费 = '000830'
                 等待计时时间 = '0220'
-                # print(等待计时时间)
                 交易金额 = '004500'
                 当前车次 = f'{i}'.zfill(8)
                 交易类型 = '00'  # 0x00:现金交易：0x01:M1卡交易：0x03：CPU卡交易：0x09:其他
                 附加 = '01040000008E0202044C250400000000300103'
 
-                w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 报警1 + 状态1 + 纬度1 + 经度1 + 速度1 + 方向1 + 时间1 + 营运ID + 评价ID + 评价选项 + 评价选项扩展 + 电召订单ID + 车牌号 + 企业经营许可证号 + 驾驶员从业资格证号 + 上车时间1 + 下车时间 + 计程公里数 + 空驶里程 + 附加费 + 等待计时时间 + 交易金额 + 当前车次 + 交易类型 + 附加
-                # w='0B0500830135268588550033000000080000000100D2B02C0416D0F6000000231205141112000000080000020100D2B02C0416D0F6000000231205141600370AE280000000000000000000000041303030303036313233203435363700000000000000BDADCBD5B0A2B2A8C2DE00000000000000000023120514101416000000000000000000050000860000001B00'
-                a = get_xor(w)
-                b = get_bcc(a)
-                t = 标识位 + w + b.upper() + 标识位
-                data = get_xor(t)
-                print(t)
-                print(data)
+            w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 报警1 + 状态1 + 纬度1 + 经度1 + 速度1 + 方向1 + 时间1 + 营运ID + 评价ID + 评价选项 + 评价选项扩展 + 电召订单ID + 车牌号 + 企业经营许可证号 + 驾驶员从业资格证号 + 上车时间1 + 下车时间 + 计程公里数 + 空驶里程 + 附加费 + 等待计时时间 + 交易金额 + 当前车次 + 交易类型 + 附加
+            a = get_xor(w)
+            b = get_bcc(a)
+            t = 标识位 + w + b.upper() + 标识位
+            data = get_xor(t)
+            print(t)
+            print(data)
 
-                # return '登录包数据：{}\n\n设备号：{}\n\n原始数据：{}'.format(t,t[12:-30],q)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((self.wg, int(self.wg_port)))
 
-                # #
-                s = socket(AF_INET, SOCK_STREAM)
-                s.connect(('120.79.74.223', 17202))
-                # # s.connect(('120.79.176.183', 17800))  # 压测
-                # s.connect(('47.119.168.112', 17800))  # 生产
-                s.send(bytes().fromhex(t))
-                send = s.recv(1024).hex()
-                print(send.upper())
-                print('\n' * 1)
-                time.sleep(1)
-                # s.close()
-            except:
-                pass
+            s.send(bytes().fromhex(t))
+            send = s.recv(1024).hex()
+            print(send.upper())
+            print('\n' * 1)
+            time.sleep(1)
 
 
 if __name__ == '__main__':
+    # while True:
     ll = login()
     # for j in range(100):
-    ll.get(2, 1)
+    ll.get()
