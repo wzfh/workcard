@@ -1,13 +1,12 @@
 # coding=utf-8
-import binascii
-import csv
+import math
 import os
+import random
 import re
 import time
 from socket import *
-import random
-import diaoyongjar
-import math
+
+from configobj import ConfigObj
 
 
 def get_bcc(inputStr: str) -> str:
@@ -64,46 +63,34 @@ def countdown(t):
         print("\r休眠倒计时：%d" % (t - i) + '秒', end='')
         time.sleep(1)
 
+
 class login:
-    def get(self, sbhao):
+    def __init__(self):
+        conf_ini = os.path.dirname(os.path.dirname(__file__)) + "\\conf\\config.ini"
+        config = ConfigObj(conf_ini, encoding='UTF-8')
+        self.wg = config['ces']['出租车_cswg']
+        self.wg_port = config['ces']['出租车_cs808wg_port']
+        self.wd = config['address']['茂名市WD']
+        self.jd = config['address']['茂名市JD']
+        self.baojing = config['808baojing']
+        self.ztai = config['808ztai']
+        self.sbei = config['sbei']['808sbei']
+
+    def get(self):
 
         for i in range(1):
-            #     try:
-            # wd1 = f'23.012173'
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = get_latitude(base_lat=23.012173, radius=15000)
             print(wd1)
             wd2 = float(wd1) * 1000000
             wd3 = hex(int(wd2))
-            # print(wd3[2:].zfill(8).upper())
-
-            # jd1 = f'114.34{i}462'
-            # jd1 = f'114.340462'
             jd1 = get_longitude(base_log=114.340462, radius=10000)
             print(jd1)
             jd2 = float(jd1) * 1000000
             jd3 = hex(int(jd2))
             print(jd3[2:].zfill(8).upper())
-            # for i in range(9):
-            # if i < 10:
-            #     设备号 = f'00135900000{i}'
-            # elif 9<i<100:
-            #     设备号 = f'0013590000{i}'
-            # elif 99<i<200:
-            #     设备号 = f'001359000{i}'
-
-            # if i < 10:
-            #     a = f'1113000000{i}'
-            # elif 9 < i < 100:
-            #     a = f'111300000{i}'
-            # elif 99 < i < 1000:
-            #     a = f'11130000{i}'
-            # elif 999 < i < 10000:
-            #     a = f'1113000{i}'
-            # 设备号='0'+f'{a}'
             协议版本号 = '01'
-            a = f'{sbhao}'.zfill(20)
-            print(sbhao)
+            a = f'{self.sbei}'.zfill(20)
             状态 = '00000001'
             纬度 = wd3[2:].zfill(8).upper()
             经度 = jd3[2:].zfill(8).upper()
@@ -138,98 +125,18 @@ class login:
             # print(t)
 
             s = socket(AF_INET, SOCK_STREAM)
-            # s = socket(AF_INET, SOCK_DGRAM)
-            # s.connect(('120.77.26.175', 7788))
-            s.connect(('120.79.74.223', 17201))  # 压测
-            # s.connect(('47.119.168.112', 17700))  # 生产
+            s.settimeout(10)  # 设置超时时间
+
+            s.connect((self.wg, int(self.wg_port)))  # 测试
             s.send(bytes().fromhex(data))
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            countdown(200)
+            countdown(10)
 
-
-        # return '登录包数据：{}\n\n设备号：{}\n\n原始数据：{}'.format(t,t[12:-30],q)
-
-        #
-        # s = socket(AF_INET, SOCK_STREAM)
-        # # s = socket(AF_INET, SOCK_DGRAM)
-        # s.connect(('120.77.26.175', 7788))
-        # # # s.connect(('120.79.176.183', 17700))  # 压测
-        # # s.connect(('47.119.168.112', 17700))  # 生产
-        # s.send(bytes().fromhex(t))
-        # send = s.recv(1024).hex()
-        # print(send.upper())
-        # print('\n' * 1)
-        # time.sleep(1)
-        # s.close()
-        # except:
-        #     continue
 
 
 if __name__ == '__main__':
     ll = login()
     while True:
-        sbhaos = [
-            # "13534877410",
-            # "13534877411",
-            # "13534877412",
-            # "13534877413",
-            # "13534877414",
-            # "13534877415",
-            # "13534877416",
-            # "13534877417",
-            # "13534877418",
-            # "13534877519",
-            # "13534877522",
-            # "13534877523",
-            # "13534877524",
-            # "13534877525",
-            # "13534877526",
-            # "13534877527",
-            # "13534877528",
-            # "13534877529",
-            # "13534877530",
-            # "13534877531",
-            # "13534877532",
-            # "13534877533",
-            # "13534877534",
-            # "13534877535",
-            # "13534877536",
-            "13534877415"
-        ]
-        ll.get(random.choice(sbhaos))
-# !/usr/bin/env python
-# coding: utf-8
-
-# from __future__ import division
-# import random
-# import math
-
-
-# def get_longitude(base_log=None, base_lat=None, radius=None):
-#     radius_in_degrees = radius / 111300
-#     u = float(random.uniform(0.0, 1.0))
-#     v = float(random.uniform(0.0, 1.0))
-#     w = radius_in_degrees * math.sqrt(u)
-#     t = 2 * math.pi * v
-#     y = w * math.sin(t)
-#     longitude = y + base_log
-#     print(str(longitude)[:10])
-#     return longitude
-#
-# def get_latitude(base_log=None, base_lat=None, radius=None):
-#     radius_in_degrees = radius / 111300
-#     u = float(random.uniform(0.0, 1.0))
-#     v = float(random.uniform(0.0, 1.0))
-#     w = radius_in_degrees * math.sqrt(u)
-#     t = 2 * math.pi * v
-#     x = w * math.cos(t)
-#     latitude = x + base_lat
-#     print(str(latitude)[:9])
-#     return latitude
-#
-#
-# if __name__ == '__main__':
-#     log = get_longitude(base_log=114.3, radius=100000)
-#     lat = get_latitude(base_lat=23, radius=100000)
+        ll.get()

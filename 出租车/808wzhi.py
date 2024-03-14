@@ -96,7 +96,7 @@ class login:
             #        '013526855521', '013526855544', '013526855532', '545465454556', '545465454559', '013534985577',
             #        '013525874455', '015869596655']
             设备号 = self.sbei
-            print(f'设备号:{设备号}')
+            print(f"设备号:{设备号}")
 
             流水号 = f'{i}'.zfill(4)
             # baojlxs = [
@@ -126,7 +126,7 @@ class login:
             #         self.ztai['车辆油路断开'],
             #         self.ztai['车辆电路断开'],
             #         self.ztai['车门加锁']]
-            状态 = self.ztai['定位']
+            状态 = self.ztai['ACC开定位开北斗GPS满载']
             纬度 = wd3[2:].zfill(8).upper()
             经度 = jd3[2:].zfill(8).upper()
             print(f'纬度:{纬度}' + ' ' + f'经度：{经度}')
@@ -174,7 +174,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            countdown(1)
+            countdown(10)
 
 
 def countdown(t):
@@ -184,13 +184,6 @@ def countdown(t):
 
 
 if __name__ == '__main__':
-    # login()
-    ll = login()
-    # while True:
-    # 执行任务的代码
-    ll.get()
-    # print("任务执行中...")
-
-    # 暂停10秒
-    # countdown(10)
-    # print('\n')
+    while True:
+        ll = login()
+        ll.get()

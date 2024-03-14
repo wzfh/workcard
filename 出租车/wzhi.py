@@ -186,5 +186,6 @@ class login:
 
 
 if __name__ == '__main__':
-    ll = login()
-    ll.ww1()
+    while True:
+        ll = login()
+        ll.ww1()
