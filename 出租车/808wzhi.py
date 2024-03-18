@@ -16,7 +16,6 @@ def get_longitude(base_log=None, radius=None):
     t = 2 * math.pi * v
     y = w * math.sin(t)
     longitude = y + base_log
-    # print()
     return str(longitude)[:10]
 
 
@@ -28,7 +27,6 @@ def get_latitude(base_lat=None, radius=None):
     t = 2 * math.pi * v
     x = w * math.cos(t)
     latitude = x + base_lat
-    # print(str(latitude)[:9])
     return str(latitude)[:9]
 
 
@@ -148,7 +146,6 @@ class login:
             w = 消息ID + 油耗消息体属性 + 设备号 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 高程 + 速度 + 方向 + 时间 + 附加里程 + 附加油量 + 附加信息ID
             a = get_xor(w)
             b = get_bcc(a)
-            # print(附加信息67)
             if b.upper() == "7E":
                 a.replace("00", "01")
                 b = get_bcc(a)

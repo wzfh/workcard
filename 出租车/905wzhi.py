@@ -54,16 +54,6 @@ def countdown(t):
 
 
 class login:
-    # def __init__(self):
-    #
-    #     sbhaos = [
-    #         '014569856655'
-    #     ]
-    #     for sbhao in sbhaos:
-    #         self.sbhao = sbhao
-    #         self.ww1()
-    #         # continue
-    #     # sys.exit()
 
     def __init__(self):
         conf_ini = os.path.dirname(os.path.dirname(__file__)) + "\\conf\\config.ini"

@@ -21,7 +21,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='终结版本',
+    name='非凡版本',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

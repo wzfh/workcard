@@ -1,24 +1,27 @@
+import math
+import random
+import re
 import threading
 import time
-import random
-import math
-from tkinter.colorchooser import askcolor
 from socket import *
 from tkinter import *
+from tkinter.colorchooser import askcolor
 from tkinter.ttk import *
+
 # coding=utf-8
 import ttkbootstrap as ttk
-import re
+
 LOG_LINE_NUM = 0
 init_window = ttk.Window()  # 实例化出一个父窗口
 
-s=ttk.Style() #实例化Style
+s = ttk.Style()  # 实例化Style
 s.theme_use("superhero")
 
 menubar = Menu(init_window, tearoff=False)
 
 now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
 now_time1 = time.strftime('%H%M%S', time.localtime())
+
 
 def copy(editor, event=None):
     editor.event_generate("<<Copy>>")
@@ -28,17 +31,18 @@ def paste(editor, event=None):
     editor.event_generate('<<Paste>>')
 
 
-
-
 def rightKey(event, editor):
     menubar.delete(0, END)
     menubar.add_command(label='复制', command=lambda: copy(editor))
     menubar.add_command(label='粘贴', command=lambda: paste(editor))
     menubar.post(event.x_root, event.y_root)
 
+
 def get_xor(data):
     result = re.sub(r"(?<=\w)(?=(?:\w\w)+$)", " ", data)
     return result
+
+
 def get_bcc(inputStr: str) -> str:
     bcc = 0
     for i in inputStr.split(' '):
@@ -46,7 +50,8 @@ def get_bcc(inputStr: str) -> str:
 
     return f'{bcc:x}'
 
-def get_longitude(base_log=None,radius=None):
+
+def get_longitude(base_log=None, radius=None):
     radius_in_degrees = radius / 111300
     u = float(random.uniform(0.0, 1.0))
     v = float(random.uniform(0.0, 1.0))
@@ -67,6 +72,8 @@ def get_latitude(base_lat=None, radius=None):
     x = w * math.cos(t)
     latitude = x + base_lat
     return str(latitude)[:9]
+
+
 def shebeihao2Vip(sSim):
     if sSim is None or sSim == "":
         return None
@@ -125,15 +132,16 @@ def shebeihao2Vip(sSim):
     except Exception as e:
         print("设备号转伪ip失败！原因：%s" % e)
         return None
+
+
 class MY_GUI():
 
     def __init__(self, init_window_name):
 
         self.init_window_name = init_window_name
 
-
-    def wzhi(self,su):
-        count=0
+    def wzhi(self, su):
+        count = 0
         for i in range(int(su)):
             try:
                 print(count)
@@ -181,19 +189,14 @@ class MY_GUI():
         self.result_data_Text1.insert(1.0, "总计发送成功位置数据条数:{}\n".format(str(count)))
         showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
 
-
-
-
     def sb_hao(self):
         sb = self.sbei_Text.get().strip()
-        sb1=shebeihao2Vip(sb)
+        sb1 = shebeihao2Vip(sb)
         return sb1
-
 
     def wd(self):
         wd = self.wd_Text.get().strip()
         return wd
-
 
     def jd(self):
         jd = self.jd_Text.get().strip()
@@ -208,26 +211,26 @@ class MY_GUI():
         return ip
 
     def port(self):
-        port=self.port_Text.get().strip()
+        port = self.port_Text.get().strip()
         return port
 
     def sdu(self):
-        sdu=self.sdu_Text.get().strip()
+        sdu = self.sdu_Text.get().strip()
         return sdu
 
     def fx(self):
-        fx=self.fx_Text.get().strip()
+        fx = self.fx_Text.get().strip()
         return fx
 
     def times(self):
-        times=self.times_Text.get().strip()
+        times = self.times_Text.get().strip()
         return times
 
     def thread_it(self, func, *args):
         """ 将函数打包进线程 """
         self.myThread = threading.Thread(target=func, args=args)
-        self.myThread .setDaemon(True)  # 主线程退出就直接让子线程跟随退出,不论是否运行完成。
-        self.myThread .start()
+        self.myThread.setDaemon(True)  # 主线程退出就直接让子线程跟随退出,不论是否运行完成。
+        self.myThread.start()
 
     def button_mode(self):
         global is_on
@@ -264,21 +267,22 @@ class MY_GUI():
         theme_selection = Toplevel(self.init_window_name)
         theme_selection.title("选择主题")
         theme_selection.geometry('450x70+10+10')
-        label=Label(theme_selection, text="主题选择")
-        label.grid(row=0,column=0)
+        label = Label(theme_selection, text="主题选择")
+        label.grid(row=0, column=0)
         theme_cbo = ttk.Combobox(
             master=theme_selection,
             text=s.theme.name,
             values=theme_names,
             width=60, height=20,
         )
-        theme_cbo.grid(row=1,column=0)
+        theme_cbo.grid(row=1, column=0)
+
         def change_theme(event):
             theme_cbo_value = theme_cbo.get()
             s.theme_use(theme_cbo_value)
             theme_cbo.selection_clear()
-        theme_cbo.bind('<<ComboboxSelected>>', change_theme)
 
+        theme_cbo.bind('<<ComboboxSelected>>', change_theme)
 
     def tm(self):
         def confirm():
@@ -286,6 +290,7 @@ class MY_GUI():
             if value:
                 value = int(value) * float("0.1")
                 self.init_window_name.attributes('-alpha', value)  # 设置窗口透明度
+
         input_dialog = Toplevel(self.init_window_name)
         input_dialog.title("窗口透明度设置")
         input_dialog.geometry('380x80+10+10')
@@ -298,19 +303,17 @@ class MY_GUI():
         confirm_button = Button(input_dialog, text="确认", command=confirm)
         confirm_button.grid(row=2, column=0)
 
-
     def qo_login(self):
         src = self.init_data_Text1.get().strip()
         print(src)
         if src == '1':
-            sbb1=self.sb_hao()
+            sbb1 = self.sb_hao()
             if not sbb1:
                 self.result_data_Text1.delete(1.0, END)
                 self.result_data_Text1.insert(1.0, "请输入伪ip设备号")
             else:
                 self.result_data_Text1.delete(1.0, END)
                 self.result_data_Text1.insert(END, self.wzhi(self.su()))
-
 
     def qo_send(self):
         src = self.data_Text.get()
@@ -325,7 +328,7 @@ class MY_GUI():
             self.result_data_Text1.insert(1.0, "请输入自定义数据")
         else:
             s = socket(AF_INET, SOCK_DGRAM)
-            s.connect((f'{self.ip()}', int(self.port())))#生产
+            s.connect((f'{self.ip()}', int(self.port())))  # 生产
             s.send(bytes().fromhex(t))
             send = s.recv(1024).hex()
             print(send.upper())
@@ -334,10 +337,6 @@ class MY_GUI():
             self.result_data_Text1.delete(1.0, END)
             self.result_data_Text1.insert(1.0, f"{t}\n\n")
             self.result_data_Text1.insert(END, f"服务器应答：{send.upper()}\n")
-
-
-
-
 
     # 设置窗口
     def set_init_window(self):
@@ -358,35 +357,35 @@ class MY_GUI():
         self.init_window_name.bind("<Button-3>", self.show_menu)
 
         self.ip_Text_label = Label(self.init_window_name, text="服务器ip")
-        self.ip_Text_label.grid(row=2, column=0,columnspan=10,sticky=N)
-        items = ("47.107.222.141", "47.119.168.112","120.79.176.183")
-        self.ip_Text = Combobox(self.init_window_name, width=50, height=2,values=items)
+        self.ip_Text_label.grid(row=2, column=0, columnspan=10, sticky=N)
+        items = ("47.107.222.141", "47.119.168.112", "120.79.176.183")
+        self.ip_Text = Combobox(self.init_window_name, width=50, height=2, values=items)
         self.ip_Text.current(0)
         self.ip_Text.grid(row=4, column=0, columnspan=10, sticky=N)
         self.ip_Text.bind("<Button-3>", lambda x: rightKey(x, self.ip_Text))
 
         self.port_Text_label = Label(self.init_window_name, text="服务器Port")
-        self.port_Text_label.grid(row=6, column=0,columnspan=10,sticky=N)
-        items = ("6688", "6690","17800",)
+        self.port_Text_label.grid(row=6, column=0, columnspan=10, sticky=N)
+        items = ("6688", "6690", "17800",)
         self.port_Text = Combobox(self.init_window_name, width=50, height=2, values=items)
         self.port_Text.current(0)
         self.port_Text.grid(row=8, column=0, columnspan=10, sticky=N)
         self.port_Text.bind("<Button-3>", lambda x: rightKey(x, self.port_Text))
 
         self.su_Text_label = Label(self.init_window_name, text="循环发送次数")
-        self.su_Text_label.grid(row=10, column=0,columnspan=10,sticky=N)
+        self.su_Text_label.grid(row=10, column=0, columnspan=10, sticky=N)
         items = ("2", "10")
-        self.su_Text = Combobox(self.init_window_name, width=50, height=2,values=items)
+        self.su_Text = Combobox(self.init_window_name, width=50, height=2, values=items)
         self.su_Text.current(0)
-        self.su_Text.grid(row=12, column=0, columnspan=10,sticky=N)
+        self.su_Text.grid(row=12, column=0, columnspan=10, sticky=N)
 
         # 905组成数据
         self.sbei_Text_label = Label(self.init_window_name, text="2929伪ip设备8位")
-        self.sbei_Text_label.grid(row=13, column=0,columnspan=10,sticky=N)
-        items=("58D8D858","81828CA2")
-        self.sbei_Text = Combobox(self.init_window_name, width=50, height=2,values=items)
+        self.sbei_Text_label.grid(row=13, column=0, columnspan=10, sticky=N)
+        items = ("58D8D858", "81828CA2")
+        self.sbei_Text = Combobox(self.init_window_name, width=50, height=2, values=items)
         self.sbei_Text.current(0)
-        self.sbei_Text.grid(row=14, column=0,sticky=N,columnspan=10)
+        self.sbei_Text.grid(row=14, column=0, sticky=N, columnspan=10)
         self.sbei_Text.bind("<Button-3>", lambda x: rightKey(x, self.sbei_Text))
 
         # 经纬度随机
@@ -394,7 +393,7 @@ class MY_GUI():
         self.on_.grid(row=15, column=10)
 
         self.wd_Text_label = Label(self.init_window_name, text="纬度")
-        self.wd_Text_label.grid(row=15, column=0,columnspan=10,sticky=N)
+        self.wd_Text_label.grid(row=15, column=0, columnspan=10, sticky=N)
         items = ("32.33021", "23.01217")
         self.wd_Text = Combobox(self.init_window_name, width=50, height=2, values=items)
         self.wd_Text.current(1)
@@ -402,17 +401,16 @@ class MY_GUI():
         self.wd_Text.bind("<Button-3>", lambda x: rightKey(x, self.wd_Text))
 
         self.jd_Text_label = Label(self.init_window_name, text="经度")
-        self.jd_Text_label.grid(row=17, column=0,columnspan=10,sticky=N)
+        self.jd_Text_label.grid(row=17, column=0, columnspan=10, sticky=N)
         items = ("114.39846", "104.90355")
         self.jd_Text = Combobox(self.init_window_name, width=50, height=2, values=items)
         self.jd_Text.current(0)
         self.jd_Text.grid(row=18, column=0, sticky=N, columnspan=10)
         self.jd_Text.bind("<Button-3>", lambda x: rightKey(x, self.jd_Text))
 
-
         self.sdu_Text_label = Label(self.init_window_name, text="速度")
         self.sdu_Text_label.grid(row=19, column=0, columnspan=10, sticky=N)
-        items = ("10","20","30","40")
+        items = ("10", "20", "30", "40")
         self.sdu_Text = Combobox(self.init_window_name, width=50, height=12, values=items)
         self.sdu_Text.current(1)
         self.sdu_Text.grid(row=20, column=0, )
@@ -431,47 +429,43 @@ class MY_GUI():
         self.times_Text.current(0)
         self.times_Text.grid(row=20, column=11, sticky=N)
 
-
-        self.init_data_label1 = Label(self.init_window_name,text="位置数据包请按1")
-        self.init_data_label1.grid(row=23, column=0,sticky=N)
-        items=("1",)
-        self.init_data_Text1 = Combobox(self.init_window_name, width=50, height=12,values=items)
+        self.init_data_label1 = Label(self.init_window_name, text="位置数据包请按1")
+        self.init_data_label1.grid(row=23, column=0, sticky=N)
+        items = ("1",)
+        self.init_data_Text1 = Combobox(self.init_window_name, width=50, height=12, values=items)
         self.init_data_Text1.current(0)
-        self.init_data_Text1.grid(row=24, column=0,columnspan=10,sticky=N)
+        self.init_data_Text1.grid(row=24, column=0, columnspan=10, sticky=N)
         self.init_data_Text1.bind("<Button-3>", lambda x: rightKey(x, self.init_data_Text1))
-
 
         self.data_label = Label(self.init_window_name, text="自定义发送(选择服务器ip和port端口)")
         self.data_label.grid(row=25, column=0, sticky=N)
-        items=()
+        items = ()
         self.data_Text = Combobox(self.init_window_name, width=52, height=2, values=items)
-        self.data_Text.grid(row=26, column=0,  sticky=N)
+        self.data_Text.grid(row=26, column=0, sticky=N)
         self.data_Text.bind("<Button-3>", lambda x: rightKey(x, self.init_data_Text1))
 
-        self.result_Text = Button(self.init_window_name, text="发送",command=lambda: self.thread_it(self.qo_send))
-        self.result_Text.grid(row=26, column=10,)
+        self.result_Text = Button(self.init_window_name, text="发送", command=lambda: self.thread_it(self.qo_send))
+        self.result_Text.grid(row=26, column=10, )
         self.result_Text.bind("<Button-3>", lambda x: rightKey(x, self.init_data_Text1))
-
-
 
         self.result_data_label1 = Label(self.init_window_name, text="输出结果：有返回，即发送成功")
         self.result_data_label1.grid(row=2, column=11)
-        self.result_data_Text1 = Text(self.init_window_name, width=85, height=20,relief='solid' )
+        self.result_data_Text1 = Text(self.init_window_name, width=85, height=20, relief='solid')
         self.result_data_Text1.grid(row=4, column=11, rowspan=15, columnspan=15)
         self.result_data_Text1.bind("<Button-3>", lambda x: rightKey(x, self.result_data_Text1))
         # 按钮
-        self.str_trans_to_md5_button = Button(self.init_window_name, text="2929生成",width=10,
+        self.str_trans_to_md5_button = Button(self.init_window_name, text="2929生成", width=10,
                                               command=lambda: self.thread_it(self.qo_login))
         self.str_trans_to_md5_button.grid(row=12, column=10)
 
 
-
-
 from tkinter.messagebox import *
+
+
 def mess():
     # 创建askyesno()会话框
-    boo=askyesno("真的要走了吗","臣退了，这一退就是一辈子！")
-    if boo==True:
+    boo = askyesno("真的要走了吗", "臣退了，这一退就是一辈子！")
+    if boo == True:
         init_window.quit()
 
 

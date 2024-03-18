@@ -42,26 +42,16 @@ def get_latitude(base_lat=None, radius=None):
     t = 2 * math.pi * v
     x = w * math.cos(t)
     latitude = x + base_lat
-    # print(str(latitude)[:9])
     return str(latitude)[:9]
 
 
-# print(now_time[2:])
 
-紧急报警 = '00000001'
-超速报警 = '00010000'
-LED顶灯故障 = '00008000'
-进出区域路线报警 = '00100000'
-路段行驶时间不足 = '00200000'
-禁行路段行驶 = '00400000'
-车辆非法点火 = '01000000'
-车辆非法位移 = '02000000'
-所有清零报警 = '03700000'
-正常 = '00000000'
+
 def countdown(t):
     for i in range(t):
-        print("\r休眠倒计时：%d" % (t - i) + '秒', end='')
+        print("\r休眠倒计时：%02d" % (t - i) + '秒', end='')
         time.sleep(1)
+    print('\n')
 
 
 class login:

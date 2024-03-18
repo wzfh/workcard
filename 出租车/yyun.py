@@ -63,12 +63,12 @@ class login:
     def get(self):
         for i in range(1):
             wd1 = float(self.wd) * 60 / 0.0001
-            wd2 = 42.927734 * 60 / 0.0001
+            wd2 = float(self.wd) * 60 / 0.0001
             wd3 = hex(int(wd1))
             wd4 = hex(int(wd2))
 
             jd1 = float(self.jd) * 60 / 0.0001
-            jd2 = 123.545735 * 60 / 0.0001
+            jd2 = float(self.jd) * 60 / 0.0001
             jd3 = hex(int(jd1))
             jd4 = hex(int(jd2))
             print(i)
@@ -136,7 +136,5 @@ class login:
 
 
 if __name__ == '__main__':
-    # while True:
     ll = login()
-    # for j in range(100):
     ll.get()

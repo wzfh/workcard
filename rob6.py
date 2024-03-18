@@ -172,41 +172,41 @@ class MY_GUI(tk.Tk):
                         print('\n' * 1)
                         tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                         self.result_data_Text1.insert(1.0, tip_content)
+                showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
             else:
-                for i in range(1):
-                    ISU标识 = self.sb_hao().zfill(12)
-                    w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 附加
-                    a = get_xor(w)
-                    b = get_bcc(a)
-                    E = w + b.upper().zfill(2)
-                    t = 标识位 + E.replace("7E", "00") + 标识位
-                    D = get_xor(E)
-                    data = '7E ' + D + ' 7E'
-                    if data[:2] != "7E":
-                        print(f"错误：{data}")
-                        t = t[:81] + "00" + t[82:]
-                        data = get_xor(t)
-                        print("修改后data：{}".format(data))
-                        print('\n' * 1)
-                    count += 1
-                    tip_content = '\n位置数据：\n{}\n源数据：\n{}\n'.format(data, t)
+                ISU标识 = self.sb_hao().zfill(12)
+                w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 附加
+                a = get_xor(w)
+                b = get_bcc(a)
+                E = w + b.upper().zfill(2)
+                t = 标识位 + E.replace("7E", "00") + 标识位
+                D = get_xor(E)
+                data = '7E ' + D + ' 7E'
+                if data[:2] != "7E":
+                    print(f"错误：{data}")
+                    t = t[:81] + "00" + t[82:]
+                    data = get_xor(t)
+                    print("修改后data：{}".format(data))
+                    print('\n' * 1)
+                count += 1
+                tip_content = '\n位置数据：\n{}\n源数据：\n{}\n'.format(data, t)
+                self.result_data_Text1.insert(1.0, tip_content)
+                time.sleep(float(self.times()))
+                if self.ip_on() == '是':
+                    s = socket(AF_INET, SOCK_STREAM)
+                    s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
+                    s.connect((f'{self.ip()}', int(self.port())))  # 生产
+                    s.send(bytes().fromhex(data))
+                    send = s.recv(1024).hex()
+                    print(send.upper())
+                    print('\n' * 1)
+                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text1.insert(1.0, tip_content)
-                    time.sleep(float(self.times()))
-                    if self.ip_on() == '是':
-                        s = socket(AF_INET, SOCK_STREAM)
-                        s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
-                        s.connect((f'{self.ip()}', int(self.port())))  # 生产
-                        s.send(bytes().fromhex(data))
-                        send = s.recv(1024).hex()
-                        print(send.upper())
-                        print('\n' * 1)
-                        tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                        self.result_data_Text1.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text1.insert(1.0, "总计发送成功位置数据条数:{}\n\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
-        return "操作已完成"
+        return ''
 
     # 部标位置
     def wzhi部标(self, su2, plsu2):
@@ -268,45 +268,45 @@ class MY_GUI(tk.Tk):
                         print('\n' * 1)
                         tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                         self.result_data_Text2.insert(1.0, tip_content)
+                showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
             else:
-                for i in range(1):
-                    设备号 = self.sb_hao2().zfill(12)
-                    w = 消息ID + 消息体属性 + 设备号 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 高程 + 速度 + 方向 + 时间 + 附加信息ID
-                    a = get_xor(w)
+                设备号 = self.sb_hao2().zfill(12)
+                w = 消息ID + 消息体属性 + 设备号 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 高程 + 速度 + 方向 + 时间 + 附加信息ID
+                a = get_xor(w)
+                b = get_bcc(a)
+                if b.upper() == "7E":
+                    a.replace("00", "01")
                     b = get_bcc(a)
-                    if b.upper() == "7E":
-                        a.replace("00", "01")
-                        b = get_bcc(a)
-                    E = w + b.upper().zfill(2)
-                    t = 标识位 + E.replace("7E", "01") + 标识位
-                    D = get_xor(E)
-                    data = '7E ' + D + ' 7E'
-                    if data[:2] != "7E":
-                        print(f"错误：{data}")
-                        t = t[:81] + "00" + t[82:]
-                        data = get_xor(t)
-                        print("修改后data：{}".format(data))
-                        print('\n' * 1)
-                    print(data)
-                    count += 1
-                    tip_content = '\n位置数据：\n{}\n源数据：\n{}\n'.format(data, t)
+                E = w + b.upper().zfill(2)
+                t = 标识位 + E.replace("7E", "01") + 标识位
+                D = get_xor(E)
+                data = '7E ' + D + ' 7E'
+                if data[:2] != "7E":
+                    print(f"错误：{data}")
+                    t = t[:81] + "00" + t[82:]
+                    data = get_xor(t)
+                    print("修改后data：{}".format(data))
+                    print('\n' * 1)
+                print(data)
+                count += 1
+                tip_content = '\n位置数据：\n{}\n源数据：\n{}\n'.format(data, t)
+                self.result_data_Text2.insert(1.0, tip_content)
+                time.sleep(float(self.times()))
+                if self.ip_on2() == '是':
+                    s = socket(AF_INET, SOCK_STREAM)
+                    s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
+                    s.connect((f'{self.ip2()}', int(self.port2())))  # 生产
+                    s.send(bytes().fromhex(data))
+                    send = s.recv(1024).hex()
+                    print(send.upper())
+                    print('\n' * 1)
+                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text2.insert(1.0, tip_content)
-                    time.sleep(float(self.times()))
-                    if self.ip_on2() == '是':
-                        s = socket(AF_INET, SOCK_STREAM)
-                        s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
-                        s.connect((f'{self.ip2()}', int(self.port2())))  # 生产
-                        s.send(bytes().fromhex(data))
-                        send = s.recv(1024).hex()
-                        print(send.upper())
-                        print('\n' * 1)
-                        tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                        self.result_data_Text2.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text2.insert(1.0, "总计发送成功位置数据条数:{}\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
-        return "操作已完成\n\n"
+        return ""
 
     def qdao(self, su, plsu):
         global data, t
@@ -365,43 +365,44 @@ class MY_GUI(tk.Tk):
                         print('\n' * 1)
                         tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                         self.result_data_Text1.insert(1.0, tip_content)
+                showinfo("发送结果", "总计发送成功签到数据条数:  {}".format(str(count)))
             else:
-                for i in range(1):
-                    ISU标识 = self.sb_hao().zfill(12)
-                    w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 企业经营许可证号 + 驾驶员从业资格证号 + 车牌号 + 开机时间 + 附加
-                    a = get_xor(w)
-                    b = get_bcc(a)
-                    E = w + b.upper().zfill(2)
-                    t = 标识位 + E.replace("7E", "00") + 标识位
-                    D = get_xor(E)
-                    data = '7E ' + D + ' 7E'
-                    if data[:2] != "7E":
-                        print(f"错误：{data}")
-                        t = t[:81] + "00" + t[82:]
-                        data = get_xor(t)
-                        print("修改后data：{}".format(data))
-                        print('\n' * 1)
-                    print(t)
-                    print(data)
-                    count += 1
-                    tip_content = '\n签到数据：\n{}\n源数据：{}\n'.format(data, t)
+
+                ISU标识 = self.sb_hao().zfill(12)
+                w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 企业经营许可证号 + 驾驶员从业资格证号 + 车牌号 + 开机时间 + 附加
+                a = get_xor(w)
+                b = get_bcc(a)
+                E = w + b.upper().zfill(2)
+                t = 标识位 + E.replace("7E", "00") + 标识位
+                D = get_xor(E)
+                data = '7E ' + D + ' 7E'
+                if data[:2] != "7E":
+                    print(f"错误：{data}")
+                    t = t[:81] + "00" + t[82:]
+                    data = get_xor(t)
+                    print("修改后data：{}".format(data))
+                    print('\n' * 1)
+                print(t)
+                print(data)
+                count += 1
+                tip_content = '\n签到数据：\n{}\n源数据：{}\n'.format(data, t)
+                self.result_data_Text1.insert(1.0, tip_content)
+                time.sleep(float(self.times()))
+                if self.ip_on() == '是':
+                    s = socket(AF_INET, SOCK_STREAM)
+                    s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
+                    s.connect((f'{self.ip()}', int(self.port())))  # 生产
+                    s.send(bytes().fromhex(data))
+                    send = s.recv(1024).hex()
+                    print(send.upper())
+                    print('\n' * 1)
+                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text1.insert(1.0, tip_content)
-                    time.sleep(float(self.times()))
-                    if self.ip_on() == '是':
-                        s = socket(AF_INET, SOCK_STREAM)
-                        s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
-                        s.connect((f'{self.ip()}', int(self.port())))  # 生产
-                        s.send(bytes().fromhex(data))
-                        send = s.recv(1024).hex()
-                        print(send.upper())
-                        print('\n' * 1)
-                        tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                        self.result_data_Text1.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功签到数据条数:  {}".format(str(count)))
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text1.insert(1.0, "总计发送成功签到数据条数:{}\n\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功签到数据条数:  {}".format(str(count)))
-        return "操作已完成"
+        return ""
 
     def qtui(self, su, plsu):
         count = 0
@@ -477,47 +478,44 @@ class MY_GUI(tk.Tk):
                         print('\n' * 1)
                         tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                         self.result_data_Text1.insert(1.0, tip_content)
+                showinfo("发送结果", "总计发送成功签退数据条数:  {}".format(str(count)))
             else:
-                for i in range(1):
-                    ISU标识 = self.sb_hao().zfill(12)
-                    if (i % 2) == 0:
-                        签退方式 = '01'
-                    else:
-                        签退方式 = '00'
-                    w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 企业经营许可证号 + 驾驶员从业资格证号 + 车牌号 + 计价器K值 + 当班开机时间 + 当班关机时间 + 当班里程 + 当班营运里程 + 车次 + 计时时间 + 总计金额 + 卡收金额 + 卡次 + 班间里程 + 总计里程 + 总营运里程 + 单价 + 总营运次数 + 签退方式 + 附加
-                    a = get_xor(w)
-                    b = get_bcc(a)
-                    E = w + b.upper().zfill(2)
-                    t = 标识位 + E.replace("7E", "00") + 标识位
-                    D = get_xor(E)
-                    data = '7E ' + D + ' 7E'
-                    if data[:2] != "7E":
-                        print(f"错误：{data}")
-                        t = t[:81] + "00" + t[82:]
-                        data = get_xor(t)
-                        print("修改后data：{}".format(data))
-                        print('\n' * 1)
-                    print(t)
-                    print(data)
-                    count += 1
-                    tip_content = '\n签退数据：\n{}\n源数据：{}\n'.format(data, t)
+                ISU标识 = self.sb_hao().zfill(12)
+                签退方式 = '00'
+                w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 企业经营许可证号 + 驾驶员从业资格证号 + 车牌号 + 计价器K值 + 当班开机时间 + 当班关机时间 + 当班里程 + 当班营运里程 + 车次 + 计时时间 + 总计金额 + 卡收金额 + 卡次 + 班间里程 + 总计里程 + 总营运里程 + 单价 + 总营运次数 + 签退方式 + 附加
+                a = get_xor(w)
+                b = get_bcc(a)
+                E = w + b.upper().zfill(2)
+                t = 标识位 + E.replace("7E", "00") + 标识位
+                D = get_xor(E)
+                data = '7E ' + D + ' 7E'
+                if data[:2] != "7E":
+                    print(f"错误：{data}")
+                    t = t[:81] + "00" + t[82:]
+                    data = get_xor(t)
+                    print("修改后data：{}".format(data))
+                    print('\n' * 1)
+                print(t)
+                print(data)
+                count += 1
+                tip_content = '\n签退数据：\n{}\n源数据：{}\n'.format(data, t)
+                self.result_data_Text1.insert(1.0, tip_content)
+                time.sleep(float(self.times()))
+                if self.ip_on() == '是':
+                    s = socket(AF_INET, SOCK_STREAM)
+                    s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
+                    s.connect((f'{self.ip()}', int(self.port())))  # 生产
+                    s.send(bytes().fromhex(data))
+                    send = s.recv(1024).hex()
+                    print(send.upper())
+                    print('\n' * 1)
+                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text1.insert(1.0, tip_content)
-                    time.sleep(float(self.times()))
-                    if self.ip_on() == '是':
-                        s = socket(AF_INET, SOCK_STREAM)
-                        s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
-                        s.connect((f'{self.ip()}', int(self.port())))  # 生产
-                        s.send(bytes().fromhex(data))
-                        send = s.recv(1024).hex()
-                        print(send.upper())
-                        print('\n' * 1)
-                        tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                        self.result_data_Text1.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功签退数据条数:  {}".format(str(count)))
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text1.insert(1.0, "总计发送成功签退数据条数:{}\n\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功签退数据条数:  {}".format(str(count)))
-        return "操作已完成"
+        return ""
 
     def yyun(self, su, plsu):
         count = 0
@@ -605,44 +603,44 @@ class MY_GUI(tk.Tk):
                         print('\n' * 1)
                         tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                         self.result_data_Text1.insert(1.0, tip_content)
+                showinfo("发送结果", "总计发送成功营运数据条数:  {}".format(str(count)))
             else:
-                for i in range(1):
-                    ISU标识 = self.sb_hao().zfill(12)
-                    当前车次 = f'{i}'.zfill(8)
-                    w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 报警1 + 状态1 + 纬度1 + 经度1 + 速度1 + 方向1 + 时间1 + 营运ID + 评价ID + 评价选项 + 评价选项扩展 + 电召订单ID + 车牌号 + 企业经营许可证号 + 驾驶员从业资格证号 + 上车时间1 + 下车时间 + 计程公里数 + 空驶里程 + 附加费 + 等待计时时间 + 交易金额 + 当前车次 + 交易类型 + 附加
-                    a = get_xor(w)
-                    b = get_bcc(a)
-                    E = w + b.upper().zfill(2)
-                    t = 标识位 + E.replace("7E", "00") + 标识位
-                    D = get_xor(E)
-                    data = '7E ' + D + ' 7E'
-                    if data[:2] != "7E":
-                        print(f"错误：{data}")
-                        t = t[:81] + "00" + t[82:]
-                        data = get_xor(t)
-                        print("修改后data：{}".format(data))
-                        print('\n' * 1)
-                    print(t)
-                    print(data)
-                    count += 1
-                    tip_content = '\n营运数据：\n{}\n源数据：{}\n'.format(data, t)
+                ISU标识 = self.sb_hao().zfill(12)
+                当前车次 = f'{1}'.zfill(8)
+                w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 报警1 + 状态1 + 纬度1 + 经度1 + 速度1 + 方向1 + 时间1 + 营运ID + 评价ID + 评价选项 + 评价选项扩展 + 电召订单ID + 车牌号 + 企业经营许可证号 + 驾驶员从业资格证号 + 上车时间1 + 下车时间 + 计程公里数 + 空驶里程 + 附加费 + 等待计时时间 + 交易金额 + 当前车次 + 交易类型 + 附加
+                a = get_xor(w)
+                b = get_bcc(a)
+                E = w + b.upper().zfill(2)
+                t = 标识位 + E.replace("7E", "00") + 标识位
+                D = get_xor(E)
+                data = '7E ' + D + ' 7E'
+                if data[:2] != "7E":
+                    print(f"错误：{data}")
+                    t = t[:81] + "00" + t[82:]
+                    data = get_xor(t)
+                    print("修改后data：{}".format(data))
+                    print('\n' * 1)
+                print(t)
+                print(data)
+                count += 1
+                tip_content = '\n营运数据：\n{}\n源数据：{}\n'.format(data, t)
+                self.result_data_Text1.insert(1.0, tip_content)
+                time.sleep(float(self.times()))
+                if self.ip_on() == '是':
+                    s = socket(AF_INET, SOCK_STREAM)
+                    s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
+                    s.connect((f'{self.ip()}', int(self.port())))  # 生产
+                    s.send(bytes().fromhex(data))
+                    send = s.recv(1024).hex()
+                    print(send.upper())
+                    print('\n' * 1)
+                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text1.insert(1.0, tip_content)
-                    time.sleep(float(self.times()))
-                    if self.ip_on() == '是':
-                        s = socket(AF_INET, SOCK_STREAM)
-                        s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
-                        s.connect((f'{self.ip()}', int(self.port())))  # 生产
-                        s.send(bytes().fromhex(data))
-                        send = s.recv(1024).hex()
-                        print(send.upper())
-                        print('\n' * 1)
-                        tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                        self.result_data_Text1.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功营运数据条数:  {}".format(str(count)))
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text1.insert(1.0, "总计发送成功营运数据条数:{}\n\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功营运数据条数:  {}".format(str(count)))
-        return "操作已完成"
+        return ""
 
     # 抢答订单
     def qda(self, su3):
@@ -654,13 +652,8 @@ class MY_GUI(tk.Tk):
                 消息体属性 = '002F'
                 ISU标识 = self.sb_hao3()
                 流水号 = f'{1}'.zfill(4)
-                # print(i)
-                # qw=hex(int(i))
-                # 业务ID=f'{qw[2:]}'.zfill(8).upper()
                 业务ID = f'{self.yewid()}'.zfill(8).upper()
-
-                # 附加='01040000006E0202044C250400000000300103'
-
+                print(业务ID)
                 w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 业务ID
                 a = get_xor(w)
                 b = get_bcc(a)
@@ -681,13 +674,13 @@ class MY_GUI(tk.Tk):
                     print('\n' * 1)
                     tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text3.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功抢单数据条数:  {}".format(str(count)))
                 else:
                     continue
             except:
                 return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text3.insert(1.0, "总计发送成功抢单数据条数:{}\n\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功抢单数据条数:  {}".format(str(count)))
-        return "操作已完成"
+        return ""
 
     def qr(self, su3):
         count = 0
@@ -699,9 +692,6 @@ class MY_GUI(tk.Tk):
                 ISU标识 = self.sb_hao3()
                 流水号 = f'{i}'.zfill(4)
                 业务ID = f'{self.yewid()}'.zfill(8).upper()
-
-                # 附加='01040000006E0202044C250400000000300103'
-
                 w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 业务ID
                 a = get_xor(w)
                 b = get_bcc(a)
@@ -722,13 +712,13 @@ class MY_GUI(tk.Tk):
                     print('\n' * 1)
                     tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text3.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功完成订单数据条数:  {}".format(str(count)))
                 else:
                     continue
             except:
                 return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text3.insert(1.0, "总计发送成功完成订单数据条数:{}\n\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功完成订单数据条数:  {}".format(str(count)))
-        return "操作已完成"
+        return ""
 
     def qx(self, su3):
         count = 0
@@ -761,13 +751,13 @@ class MY_GUI(tk.Tk):
                     print('\n' * 1)
                     tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text3.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功取消订单数据条数:  {}".format(str(count)))
                 else:
                     continue
             except:
                 return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
             self.result_data_Text3.insert(1.0, "总计发送成功取消订单数据条数:{}\n\n".format(str(count)))
-            showinfo("发送结果", "总计发送成功取消订单数据条数:  {}".format(str(count)))
-            return "操作已完成"
+            return ""
 
     def wzhi2929(self, su4):
         count = 0
@@ -782,8 +772,6 @@ class MY_GUI(tk.Tk):
                 标识位 = '2929'
                 消息ID = '80'
                 消息体属性 = '0028'
-                # 伪ip = '58D8D858'
-                # 伪ip = '81828CA2'
                 伪ip = self.sb_hao4().zfill(8)
                 时间 = now_time[2:]
                 纬度 = str(int(wd2)).zfill(8)
@@ -814,13 +802,13 @@ class MY_GUI(tk.Tk):
                     print('\n' * 1)
                     tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                     self.result_data_Text4.insert(1.0, tip_content)
+                    showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
                 else:
                     continue
             except:
                 return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
         self.result_data_Text4.insert(1.0, "总计发送成功位置数据条数:{}\n".format(str(count)))
-        showinfo("发送结果", "总计发送成功位置数据条数:  {}".format(str(count)))
-        return "操作已完成"
+        return ""
 
     def shebeihao2Vip(self, sSim):
         if sSim is None or sSim == "":
@@ -956,8 +944,12 @@ class MY_GUI(tk.Tk):
 
     def yewid(self):
         yewid = self.yewid_Text3.get().strip()
-        yewid = hex(int(yewid))[2:]
-        return yewid
+        if not yewid:
+            self.result_data_Text3.delete(1.0, END)
+            self.result_data_Text3.insert(1.0, '请输入业务ID\n')
+        else:
+            yewid = hex(int(yewid))[2:]
+            return yewid
 
     def str_trans_to_md5(self):
         src = self.init_data1_Text5.get(1.0, END).strip()
@@ -1255,10 +1247,6 @@ class MY_GUI(tk.Tk):
 
     def button_mode2(self):
         global is_on
-        # 确定它是开启还是关闭状态
-
-        # if is_on:
-        #     self.on_.config(text="随机关闭")
         wd1 = get_latitude(base_lat=float(self.wd部标()), radius=100000)
         jd1 = get_longitude(base_log=float(self.jd部标()), radius=100000)
         self.wd_Text2.delete(0, END)
@@ -1448,167 +1436,166 @@ class MY_GUI(tk.Tk):
 
     def login5(self):
         try:
-            for i in range(1):
-                qsw = '7878'
-                bcd1 = '17'
-                bcd = hex(int(bcd1))[2:].upper()
-                xyh = '01'
-                zdid = '0' + self.sb_hao5()
-                lxsbh = '0100'
-                sqyy = '3200'
-                xxxlh = '0001'
-                cwjy = bcd + xyh + zdid + lxsbh + sqyy + xxxlh
-                cwjy1 = crc1(cwjy)[2:].zfill(4).upper()
-                tzw = '0D0A'
-                w = qsw + cwjy + cwjy1 + tzw
-                data = get_xor(w)
-                print(data)
-                tip_content = 'V3登录包数据：\n{}\n\n设备号：{}\n\n源数据：{}\n'.format(data, data[12:-30], w)
+
+            qsw = '7878'
+            bcd1 = '17'
+            bcd = hex(int(bcd1))[2:].upper()
+            xyh = '01'
+            zdid = '0' + self.sb_hao5()
+            lxsbh = '0100'
+            sqyy = '3200'
+            xxxlh = '0001'
+            cwjy = bcd + xyh + zdid + lxsbh + sqyy + xxxlh
+            cwjy1 = crc1(cwjy)[2:].zfill(4).upper()
+            tzw = '0D0A'
+            w = qsw + cwjy + cwjy1 + tzw
+            data = get_xor(w)
+            print(data)
+            tip_content = 'V3登录包数据：\n{}\n\n设备号：{}\n\n源数据：{}\n'.format(data, data[12:-30], w)
+            self.result_data_Text5.insert(1.0, tip_content)
+            if self.ip_on5() == '是':
+                s = socket(AF_INET, SOCK_STREAM)
+                s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
+                s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
+                s.send(bytes().fromhex(data))
+                send = s.recv(1024).hex()
+                print(send.upper())
+                print('\n' * 1)
+                tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                 self.result_data_Text5.insert(1.0, tip_content)
-                if self.ip_on5() == '是':
-                    s = socket(AF_INET, SOCK_STREAM)
-                    s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
-                    s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
-                    s.send(bytes().fromhex(data))
-                    send = s.recv(1024).hex()
-                    print(send.upper())
-                    print('\n' * 1)
-                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                    self.result_data_Text5.insert(1.0, tip_content)
-                    showinfo("发送结果", "发送成功")
+                showinfo("发送结果", "发送成功")
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
-        return "操作已完成"
+        return ""
 
     def dwei5(self):
         try:
-            for i in range(1):
-                qsw = '7878'
-                ti = time.strftime("%Y%m%d%H%M%S")
-                ti2 = str(ti)
-                ti3 = 2 * '' + ti2[2:]
-                ti4 = (hex(int(ti3[0:2]))[2:4]).zfill(2)
-                ti5 = (hex(int(ti3[2:4]))[2:4]).zfill(2)
-                ti6 = (hex(int(ti3[4:6]))[2:4]).zfill(2)
-                ti7 = (hex(int(ti3[6:8]) - 8)[2:4]).zfill(2)
-                ti8 = (hex(int(ti3[8:10]))[2:4]).zfill(2)
-                ti9 = (hex(int(ti3[10:12]))[2:4]).zfill(2)
-                ti10 = ti4 + ti5 + ti6 + ti7 + ti8 + ti9
-                ti10 = ti10.upper()
-                cwjy = '22' + '22' + ti10 + f'CF027AC7EB0C46584911D54C01CC00287D001FB80001000007'
-                cwjy1 = crc1(cwjy)[2:].zfill(4).upper()
-                tzw = '0D0A'
-                w = qsw + cwjy + cwjy1 + tzw
-                a = get_xor(w)
-                t = a + ''
-                print(t)
+            qsw = '7878'
+            ti = time.strftime("%Y%m%d%H%M%S")
+            ti2 = str(ti)
+            ti3 = 2 * '' + ti2[2:]
+            ti4 = (hex(int(ti3[0:2]))[2:4]).zfill(2)
+            ti5 = (hex(int(ti3[2:4]))[2:4]).zfill(2)
+            ti6 = (hex(int(ti3[4:6]))[2:4]).zfill(2)
+            ti7 = (hex(int(ti3[6:8]) - 8)[2:4]).zfill(2)
+            ti8 = (hex(int(ti3[8:10]))[2:4]).zfill(2)
+            ti9 = (hex(int(ti3[10:12]))[2:4]).zfill(2)
+            ti10 = ti4 + ti5 + ti6 + ti7 + ti8 + ti9
+            ti10 = ti10.upper()
+            cwjy = '22' + '22' + ti10 + f'CF027AC7EB0C46584911D54C01CC00287D001FB80001000007'
+            cwjy1 = crc1(cwjy)[2:].zfill(4).upper()
+            tzw = '0D0A'
+            w = qsw + cwjy + cwjy1 + tzw
+            a = get_xor(w)
+            t = a + ''
+            print(t)
 
-                tip_content = 'V3定位包数据：{}\n\n源数据：{}\n'.format(t, w)
+            tip_content = 'V3定位包数据：{}\n\n源数据：{}\n'.format(t, w)
+            self.result_data_Text5.insert(1.0, tip_content)
+            if self.ip_on5() == '是':
+                s = socket(AF_INET, SOCK_STREAM)
+                s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
+                s.send(bytes().fromhex(t))
+                send = s.recv(1024).hex()
+                print(send.upper())
+                print('\n' * 1)
+                tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                 self.result_data_Text5.insert(1.0, tip_content)
-                if self.ip_on5() == '是':
-                    s = socket(AF_INET, SOCK_STREAM)
-                    s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
-                    s.send(bytes().fromhex(t))
-                    send = s.recv(1024).hex()
-                    print(send.upper())
-                    print('\n' * 1)
-                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                    self.result_data_Text5.insert(1.0, tip_content)
+                showinfo("发送结果", "发送成功")
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
-        return "操作已完成"
+        return ""
 
     def beep5(self):
         try:
-            for i in range(1):
-                qsw = '7878'
-                bcd1 = '37'
-                bcd = hex(int(bcd1))[2:].upper()
-                xyh = '26'
-                ti = time.strftime("%Y%m%d%H%M%S")
-                ti2 = str(ti)
-                ti3 = 2 * '' + ti2[2:]
-                ti4 = (hex(int(ti3[0:2]))[2:4]).zfill(2)
-                ti5 = (hex(int(ti3[2:4]))[2:4]).zfill(2)
-                ti6 = (hex(int(ti3[4:6]))[2:4]).zfill(2)
-                ti7 = (hex(int(ti3[6:8]) - 8)[2:4]).zfill(2)
-                ti8 = (hex(int(ti3[8:10]))[2:4]).zfill(2)
-                ti9 = (hex(int(ti3[10:12]))[2:4]).zfill(2)
-                ti10 = ti4 + ti5 + ti6 + ti7 + ti8 + ti9
-                ti10 = ti10.upper()
-                gpscd = '12'
-                gpscd1 = hex(int(gpscd))[2:].upper()
-                gpsgs = '11'
-                gpsgs1 = hex(int(gpsgs))[2:].upper()
-                gps = gpscd1 + gpsgs1
-                wd = '026DDEC0'
-                jd = '0C3BFEE6'
-                sd = '25'
-                hxzt = '1400'
-                lbscd = '08'
-                mcc = '01CC'
-                mnc = '00'
-                lac = '262C'
-                cellid = '000EBA'
-                zdxxnrs = ["4C", "54", "64", "44", "74"]
-                zdxxnr = random.choice(zdxxnrs)
-                dydj = '03'
-                gsm = '03'
-                bjs = ["03", "00", "02", "04", "05", "06", "0D", "0E", "09", "01", "11", "12", "10", "0A", "0C", "0F",
-                       "40",
-                       "41", "42", "43", "44"]
-                bj = random.choice(bjs)
-                yy = '01'
-                xxxlh = '0003'
-                bjyy = bj + yy
-                cwjy = bcd + xyh + ti10 + gps + wd + jd + sd + hxzt + lbscd + mcc + mnc + lac + cellid + zdxxnr + dydj + gsm + bjyy + xxxlh
-                cwjy1 = crc1(cwjy)[2:].upper().zfill(4)
-                tzw = '0D0A'
-                w = qsw + cwjy + cwjy1 + tzw
-                a = get_xor(w)
-                t = a + ''
-                print(t)
-                tip_content = 'V3报警包数据：{}\n\n源数据：{}\n'.format(t, w)
+            qsw = '7878'
+            bcd1 = '37'
+            bcd = hex(int(bcd1))[2:].upper()
+            xyh = '26'
+            ti = time.strftime("%Y%m%d%H%M%S")
+            ti2 = str(ti)
+            ti3 = 2 * '' + ti2[2:]
+            ti4 = (hex(int(ti3[0:2]))[2:4]).zfill(2)
+            ti5 = (hex(int(ti3[2:4]))[2:4]).zfill(2)
+            ti6 = (hex(int(ti3[4:6]))[2:4]).zfill(2)
+            ti7 = (hex(int(ti3[6:8]) - 8)[2:4]).zfill(2)
+            ti8 = (hex(int(ti3[8:10]))[2:4]).zfill(2)
+            ti9 = (hex(int(ti3[10:12]))[2:4]).zfill(2)
+            ti10 = ti4 + ti5 + ti6 + ti7 + ti8 + ti9
+            ti10 = ti10.upper()
+            gpscd = '12'
+            gpscd1 = hex(int(gpscd))[2:].upper()
+            gpsgs = '11'
+            gpsgs1 = hex(int(gpsgs))[2:].upper()
+            gps = gpscd1 + gpsgs1
+            wd = '026DDEC0'
+            jd = '0C3BFEE6'
+            sd = '25'
+            hxzt = '1400'
+            lbscd = '08'
+            mcc = '01CC'
+            mnc = '00'
+            lac = '262C'
+            cellid = '000EBA'
+            zdxxnrs = ["4C", "54", "64", "44", "74"]
+            zdxxnr = random.choice(zdxxnrs)
+            dydj = '03'
+            gsm = '03'
+            bjs = ["03", "00", "02", "04", "05", "06", "0D", "0E", "09", "01", "11", "12", "10", "0A", "0C", "0F",
+                   "40",
+                   "41", "42", "43", "44"]
+            bj = random.choice(bjs)
+            yy = '01'
+            xxxlh = '0003'
+            bjyy = bj + yy
+            cwjy = bcd + xyh + ti10 + gps + wd + jd + sd + hxzt + lbscd + mcc + mnc + lac + cellid + zdxxnr + dydj + gsm + bjyy + xxxlh
+            cwjy1 = crc1(cwjy)[2:].upper().zfill(4)
+            tzw = '0D0A'
+            w = qsw + cwjy + cwjy1 + tzw
+            a = get_xor(w)
+            t = a + ''
+            print(t)
+            tip_content = 'V3报警包数据：{}\n\n源数据：{}\n'.format(t, w)
+            self.result_data_Text5.insert(1.0, tip_content)
+            if self.ip_on5() == '是':
+                s = socket(AF_INET, SOCK_STREAM)
+                s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
+                s.send(bytes().fromhex(t))
+                send = s.recv(1024).hex()
+                print(send.upper())
+                print('\n' * 1)
+                tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                 self.result_data_Text5.insert(1.0, tip_content)
-                if self.ip_on5() == '是':
-                    s = socket(AF_INET, SOCK_STREAM)
-                    s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
-                    s.send(bytes().fromhex(t))
-                    send = s.recv(1024).hex()
-                    print(send.upper())
-                    print('\n' * 1)
-                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                    self.result_data_Text5.insert(1.0, tip_content)
-
+                showinfo("发送结果", "发送成功")
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
-        return "操作已完成"
+        return ""
 
     def pant5(self):
         try:
-            for i in range(1):
-                qsw = '7878'
-                cwjy = '0A1377060300010003'
-                cwjy1 = crc1(cwjy)[2:].upper()
-                tzw = '0D0A'
-                w = qsw + cwjy + cwjy1 + tzw
-                a = get_xor(w)
-                t = a + ''
-                print(t)
-                tip_content = 'V3心跳包数据：{}\n\n源数据：{}'.format(t, w)
+            qsw = '7878'
+            cwjy = '0A1377060300010003'
+            cwjy1 = crc1(cwjy)[2:].upper()
+            tzw = '0D0A'
+            w = qsw + cwjy + cwjy1 + tzw
+            a = get_xor(w)
+            t = a + ''
+            print(t)
+            tip_content = 'V3心跳包数据：{}\n\n源数据：{}'.format(t, w)
+            self.result_data_Text5.insert(1.0, tip_content)
+            if self.ip_on5() == '是':
+                s = socket(AF_INET, SOCK_STREAM)
+                s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
+                s.send(bytes().fromhex(t))
+                send = s.recv(1024).hex()
+                print(send.upper())
+                print('\n' * 1)
+                tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
                 self.result_data_Text5.insert(1.0, tip_content)
-                if self.ip_on5() == '是':
-                    s = socket(AF_INET, SOCK_STREAM)
-                    s.connect((f'{self.ip5()}', int(self.port5())))  # 生产
-                    s.send(bytes().fromhex(t))
-                    send = s.recv(1024).hex()
-                    print(send.upper())
-                    print('\n' * 1)
-                    tip_content = '服务器应答：\n{}\n\n'.format(send.upper())
-                    self.result_data_Text5.insert(1.0, tip_content)
+                showinfo("发送结果", "发送成功")
         except:
             return "数据解析有误，查看是否数据填写错误，修改无误后，请重新点击生成数据"
-        return "操作已完成"
+        return ""
 
     def str_trans_to_md6(self):
         src = self.init_data1_Text6.get(1.0, END).strip()
@@ -1681,14 +1668,13 @@ class MY_GUI(tk.Tk):
         else:
             self.result_data1_Text6.delete(1.0, END)
             self.result_data1_Text6.insert(1.0, "请输入905原始数据")
-            return 0
+            return ''
 
     def xieyihao(self):
         data = self.str_trans_to_md5()
         data1 = get_xor(data)
         sjutji = []
 
-        # 7878110101234135484845480100320000016D3F0D0A
         if data[6:8] == '01':
             a = '01：{}\n\n'.format('登录数据包')
             b = '设备号：{}\n类型识别码：{}\n时区语言：{}\n'.format(data[8:-12][1:16], '固定为0100', data[8:-12][-4:])
@@ -1729,14 +1715,11 @@ class MY_GUI(tk.Tk):
         else:
             self.result_data1_Text5.delete(1.0, END)
             self.result_data1_Text5.insert(1.0, "请输入V3原始数据")
-            # self.write_log_to_Text5("INFO:原始数据解析 False")
             return 0
         self.result_data1_Text5.delete(1.0, END)
-        # self.result_data_Text.insert(1.0,data1)
         for line in sjutji:
             print(line)
             self.result_data1_Text5.insert(1.0, line)
-        # self.write_log_to_Text5("INFO:原始数据解析 success")
 
     def qo_login部标(self):
         src = self.init_data_Text2.get().strip()
@@ -1831,13 +1814,12 @@ class MY_GUI(tk.Tk):
     def 苏粤标生成808(self):
         设备号 = self.init_data1_Text7.get().strip()
         协议 = self.init_data2_Text7.get().strip()
-        标志位 = self.init_data4_Text7.get().strip()
         now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
         wd1 = get_latitude(base_lat=23.012173, radius=15000)
-        wd2 = float(wd1) / 0.000001
+        wd2 = float(wd1) * 1000000
         wd3 = hex(int(wd2))
         jd1 = get_longitude(base_log=114.340462, radius=10000)
-        jd2 = float(jd1) / 0.000001
+        jd2 = float(jd1) * 1000000
         jd3 = hex(int(jd2))
         纬度 = wd3[2:].zfill(8).upper()
         经度 = jd3[2:].zfill(8).upper()
@@ -1845,7 +1827,13 @@ class MY_GUI(tk.Tk):
         时间 = now_time[2:]
         标志状态 = self.标志位()
         报警事件类型 = self.主动报警()
+        if not 协议:
+            self.result_data1_Text7.delete(1.0, END)
+            self.result_data1_Text7.insert(1.0, '请选择协议')
         if 协议 == '苏标':
+            if not 报警事件类型:
+                self.result_data1_Text7.delete(1.0, END)
+                self.result_data1_Text7.insert(1.0, '请选择报警类型')
             附加信息65 = f'652F00000001{标志状态}{报警事件类型}010500000000100000{纬度}{经度}{时间}000030303030303030{时间}000100'
             data = f'0200004D0{设备号}00010000000000000000{纬度}{经度}0000{速度}000C{时间}' + 附加信息65
             a = get_xor(data)
@@ -1861,6 +1849,9 @@ class MY_GUI(tk.Tk):
             self.result_data1_Text7.insert(1.0, f'\n\n{data1}')
             self.result_data1_Text7.insert(1.0, t, '\n')
         else:
+            if not 报警事件类型:
+                self.result_data1_Text7.delete(1.0, END)
+                self.result_data1_Text7.insert(1.0, '请选择报警类型')
             协议版本号 = '01'
             a = 设备号.zfill(20)
             终端ID = f'{a}'.zfill(60)
@@ -1904,6 +1895,7 @@ class MY_GUI(tk.Tk):
             self.result_data_Text1.delete(1.0, END)
             self.result_data_Text1.insert(1.0, f"{src}\n\n")
             self.result_data_Text1.insert(END, f"服务器应答：{send.upper()}\n")
+            showinfo("发送结果", "发送成功")
 
     def qo_send2(self):
         src = self.data_Text2.get()
@@ -1927,6 +1919,7 @@ class MY_GUI(tk.Tk):
             self.result_data_Text2.delete(1.0, END)
             self.result_data_Text2.insert(1.0, f"{t}\n\n")
             self.result_data_Text2.insert(END, f"服务器应答：{send.upper()}\n\n")
+            showinfo("发送结果", "发送成功")
 
     def qo_send3(self):
         src = self.data_Text3.get(1.0, END).strip()
@@ -1944,6 +1937,7 @@ class MY_GUI(tk.Tk):
             self.result_data_Text3.delete(1.0, END)
             self.result_data_Text3.insert(1.0, f"{src}\n\n")
             self.result_data_Text3.insert(END, f"服务器应答：{send.upper()}\n\n")
+            showinfo("发送结果", "发送成功")
 
     def qo_send4(self):
         src = self.data_Text4.get(1.0, END).strip()
@@ -1961,6 +1955,7 @@ class MY_GUI(tk.Tk):
             self.result_data_Text4.delete(1.0, END)
             self.result_data_Text4.insert(1.0, f"{src}\n\n")
             self.result_data_Text4.insert(END, f"服务器应答：{send.upper()}\n\n")
+            showinfo("发送结果", "发送成功")
 
     def qdo_808jiexq(self):
         import subprocess
@@ -2453,15 +2448,13 @@ class MY_GUI(tk.Tk):
 
         self.result_Text4 = Button(pane4, text="发送", command=lambda: self.thread_it(self.qo_send4))
         self.result_Text4.grid(row=24, column=10, )
-        # self.result_Text4.bind("<Button-3>", lambda x: rightKey(x, self.init_data_Text4))
 
         self.result_data_label4 = Label(pane4, text="输出结果：有返回，即发送成功")
         self.result_data_label4.grid(row=2, column=11)
         self.result_data_Text4 = Text(pane4, width=85, height=20, relief='solid')
         self.result_data_Text4.grid(row=4, column=11, rowspan=15, columnspan=15)
-        # self.result_data_Text4.bind("<Button-3>", lambda x: rightKey(x, self.result_data_Text4))
         # 按钮
-        self.str_trans_to_md5_button4 = Button(pane4, text="2929生成", width=10,
+        self.str_trans_to_md5_button4 = Button(pane4, text="2929发送", width=10,
                                                command=lambda: self.thread_it(self.qo_login2929))
         self.str_trans_to_md5_button4.grid(row=12, column=10)
 
@@ -2488,14 +2481,14 @@ class MY_GUI(tk.Tk):
         self.ip_Text_label5.grid(row=4, column=0, columnspan=1)
         items = ("47.52.50.49", "47.107.222.141", "120.79.176.183")
         self.ip_Text5 = Combobox(pane5, width=32, height=3, values=items)
-        self.ip_Text5.current(1)
+        self.ip_Text5.current(0)
         self.ip_Text5.grid(row=5, column=0, columnspan=1, sticky=N)
 
         self.port_Text_label5 = Label(pane5, text="\n服务器Port")
         self.port_Text_label5.grid(row=4, column=1, columnspan=1)
-        items = ("17700", "16695", "17800")
+        items = ("6695", "16695", "17800")
         self.port_Text5 = Combobox(pane5, width=32, height=3, values=items)
-        self.port_Text5.current(1)
+        self.port_Text5.current(0)
         self.port_Text5.grid(row=5, column=1, columnspan=1, sticky=N)
 
         self.ip_on_Label = Label(pane5, text="\n发服务器")
