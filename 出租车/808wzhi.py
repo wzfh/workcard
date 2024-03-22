@@ -58,7 +58,7 @@ class login:
     def get(self):
         count = 0
 
-        for i in range(1):
+        for i in range(61):
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = self.wd
             # wds = ['23.012171', '23.012271', '23.012371', '23.012471', '23.012571', '23.012671', '23.012771',
@@ -93,7 +93,7 @@ class login:
             # '013652585555', '013526985544', '015326548554', '013526855522',
             #        '013526855521', '013526855544', '013526855532', '545465454556', '545465454559', '013534985577',
             #        '013525874455', '015869596655']
-            设备号 = self.sbei
+            设备号 = '0' + self.sbei
             print(f"设备号:{设备号}")
 
             流水号 = f'{i}'.zfill(4)
@@ -129,11 +129,11 @@ class login:
             经度 = jd3[2:].zfill(8).upper()
             print(f'纬度:{纬度}' + ' ' + f'经度：{经度}')
             高程 = '0001'
-            sdu = ['2A', '0A', '5C', '3D']
-            速度 = f'00{random.choice(sdu)}'
+            # sdu = ['5C']
+            速度 = f'0000'
             方向 = '000C'
             时间 = now_time[2:]
-            里程s = ['1A', '5E', '4F']
+            里程s = ['5A', '5E', '5F']
             附加里程 = f'0104000000{random.choice(里程s)}'
             油量 = ['5208', '044C', '04B0']
             附加油量 = f'0202{random.choice(油量)}'
@@ -171,7 +171,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            countdown(10)
+            countdown(1)
 
 
 def countdown(t):
@@ -181,6 +181,6 @@ def countdown(t):
 
 
 if __name__ == '__main__':
-    while True:
+    # while True:
         ll = login()
         ll.get()

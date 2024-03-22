@@ -273,7 +273,7 @@ def job2():
     time.sleep(2)
     os.system('adb shell /data/local/tmp/atx-agent server -d')
     # time.sleep(2)
-    # os.system('adb shell /data/local/tmp/atx-agent server -d --stop')
+    os.system('adb shell /data/local/tmp/atx-agent server -d --stop')
     time.sleep(2)
     print('打开蓝牙')
     os.system('adb shell svc bluetooth enable')

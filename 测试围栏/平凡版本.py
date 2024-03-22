@@ -13,6 +13,7 @@ from tkinter.colorchooser import askcolor
 from tkinter.ttk import *
 
 import ttkbootstrap as ttk
+from configobj import ConfigObj
 from pygame import mixer
 
 from V3ku import *
@@ -120,6 +121,18 @@ class MY_GUI(tk.Tk):
 
     def __init__(self, init_window_name):
         self.init_window_name = init_window_name
+        conf_ini = os.path.dirname(os.path.dirname(__file__)) + "\\conf\\config.ini"
+        config = ConfigObj(conf_ini, encoding='UTF-8')
+        self.conf_wg = config['ces']['出租车_cswg']
+        self.conf_905wg_port = config['ces']['出租车_cs905wg_port']
+        self.conf_808wg_port = config['ces']['出租车_cs808wg_port']
+        self.conf_wd = config['address']['茂名市WD']
+        self.conf_jd = config['address']['茂名市JD']
+        self.conf_wd1 = config['address']['规划WD']
+        self.conf_jd1 = config['address']['规划JD']
+        self.sbei905 = config['sbei']['905sbei']
+        self.sbei808 = config['sbei']['808sbei']
+        self.conf_驾驶员从业资格证号 = config['驾驶员从业资格证号']['欧先生']
 
     def wzhi905(self, su, plsu):
         global data, t
@@ -521,12 +534,12 @@ class MY_GUI(tk.Tk):
         count = 0
         try:
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
-            wd1 = 21.745670 * 60 / 0.0001
+            wd1 = float(self.conf_wd) * 60 / 0.0001
             wd2 = float(self.wd()) * 60 / 0.0001
             wd3 = hex(int(wd1))
             wd4 = hex(int(wd2))
 
-            jd1 = 110.728972 * 60 / 0.0001
+            jd1 = float(self.conf_jd) * 60 / 0.0001
             jd2 = float(self.jd()) * 60 / 0.0001
             jd3 = hex(int(jd1))
             jd4 = hex(int(jd2))
@@ -1255,7 +1268,7 @@ class MY_GUI(tk.Tk):
     def getMon(self, items):
         inits = self.init_data_Text1.get()
         if inits == "2" or inits == "3" or inits == "4":
-            items = ("534E3132333435363738393132333435363739", "534E3132333435363738393132333435363738")
+            items = ("534E3132333435363738393132333435363739", f"{self.conf_驾驶员从业资格证号}")
         else:
             pass
         self.driver_Text["values"] = items
@@ -1997,14 +2010,14 @@ class MY_GUI(tk.Tk):
 
         self.ip_Text_label = Label(pane1, text="服务器ip")
         self.ip_Text_label.grid(row=0, columnspan=2, sticky=N)
-        items = ("120.79.74.223", "47.119.168.112", "120.79.176.183")
+        items = (f"{self.conf_wg}", "47.119.168.112", "120.79.176.183")
         self.ip_Text = Combobox(pane1, width=50, height=2, values=items)
         self.ip_Text.current(0)
         self.ip_Text.grid(row=1, column=0, sticky=W)
         #
         self.port_Text_label = Label(pane1, text="服务器Port")
         self.port_Text_label.grid(row=2, columnspan=2, sticky=N)
-        items = ("17202", "17700", "17800")
+        items = (f"{self.conf_905wg_port}", "17700", "17800")
         self.port_Text = Combobox(pane1, width=50, height=2, values=items)
         self.port_Text.current(0)
         self.port_Text.grid(row=3, column=0, sticky=W)
@@ -2026,7 +2039,7 @@ class MY_GUI(tk.Tk):
         #         # 905组成数据
         self.sbei_Text_label = Label(pane1, text="设备号(905设备号12位)")
         self.sbei_Text_label.grid(row=6, column=0)
-        items = ("015875226034", "101356000000", "101351000000")
+        items = (f"{self.sbei905}", "101356000000", "101351000000")
         self.sbei_Text = Combobox(pane1, width=50, height=2, values=items)
         self.sbei_Text.current(0)
         self.sbei_Text.grid(row=7, column=0, sticky=N, columnspan=10)
@@ -2139,14 +2152,14 @@ class MY_GUI(tk.Tk):
         self.ip_Text_label2 = Label(pane2, text="服务器ip")
         self.ip_Text_label2.grid(row=0, columnspan=2, sticky=N)
 
-        items = ("120.79.74.223", "47.119.168.112", "120.79.176.183")
+        items = (f"{self.conf_wg}", "47.119.168.112", "120.79.176.183")
         self.ip_Text2 = Combobox(pane2, width=50, height=2, values=items)
         self.ip_Text2.current(0)
         self.ip_Text2.grid(row=1, column=0, sticky=W)
         #
         self.port_Text_label2 = Label(pane2, text="服务器Port")
         self.port_Text_label2.grid(row=2, columnspan=2, sticky=N)
-        items = ("17201", "17700", "17800", "7788")
+        items = (f"{self.conf_808wg_port}", "17700", "17800", "7788")
         self.port_Text2 = Combobox(pane2, width=50, height=2, values=items)
         self.port_Text2.current(0)
         self.port_Text2.grid(row=3, column=0, sticky=W)
@@ -2169,7 +2182,7 @@ class MY_GUI(tk.Tk):
         # # 905组成数据
         self.sbei_Text_label2 = Label(pane2, text="808部标设备号11位")
         self.sbei_Text_label2.grid(row=6, column=0, columnspan=1, sticky=N)
-        items = ("13534912299", "10356000000", "10351000000")
+        items = (f"{self.sbei808}", "10356000000", "10351000000")
         self.sbei_Text2 = Combobox(pane2, width=50, height=2, values=items)
         self.sbei_Text2.current(0)
         self.sbei_Text2.grid(row=7, column=0, sticky=N, columnspan=1)
@@ -2300,7 +2313,7 @@ class MY_GUI(tk.Tk):
         # 905组成数据
         self.sbei_Text_label3 = Label(pane3, text="设备号(905设备号12位)")
         self.sbei_Text_label3.grid(row=6, column=0)
-        items = ("015875226034", "101351000000")
+        items = ("101356000000", "101351000000")
         self.sbei_Text3 = Combobox(pane3, width=50, height=2, values=items)
         self.sbei_Text3.current(0)
         self.sbei_Text3.grid(row=7, column=0, sticky=N, columnspan=10)
@@ -2376,7 +2389,7 @@ class MY_GUI(tk.Tk):
         # 2929组成数据
         self.sbei_Text_label4 = Label(pane4, text="2929伪ip设备")
         self.sbei_Text_label4.grid(row=13, column=0, columnspan=10, sticky=N)
-        items = ("13534912299", "13526985566")
+        items = ("13526985566", "13526985566")
         self.sbei_Text4 = Combobox(pane4, width=50, height=2, values=items)
         self.sbei_Text4.current(0)
         self.sbei_Text4.grid(row=14, column=0, sticky=N, columnspan=10)
@@ -2730,4 +2743,4 @@ def gui4_start():
 
 if __name__ == '__main__':
     gui4_start()
-    count_runs()
+    # count_runs()

@@ -1,5 +1,6 @@
 # coding=utf-8
 import os
+import random
 import re
 import time
 from socket import *
@@ -55,6 +56,8 @@ class login:
         self.wg_port = config['ces']['出租车_cs905wg_port']
         self.wd = config['address']['茂名市WD']
         self.jd = config['address']['茂名市JD']
+        self.wd1 = config['address']['规划WD']
+        self.jd1 = config['address']['规划JD']
         self.baojing = config['905baojing']
         self.ztai = config['905ztai']
         self.sbei = config['sbei']['905sbei']
@@ -63,12 +66,12 @@ class login:
     def get(self):
         for i in range(1):
             wd1 = float(self.wd) * 60 / 0.0001
-            wd2 = float(self.wd) * 60 / 0.0001
+            wd2 = float(self.wd1) * 60 / 0.0001
             wd3 = hex(int(wd1))
             wd4 = hex(int(wd2))
 
             jd1 = float(self.jd) * 60 / 0.0001
-            jd2 = float(self.jd) * 60 / 0.0001
+            jd2 = float(self.jd1) * 60 / 0.0001
             jd3 = hex(int(jd1))
             jd4 = hex(int(jd2))
             print(i)
@@ -104,15 +107,16 @@ class login:
             驾驶员从业资格证号 = self.驾驶员从业资格证号
             上车时间 = 时间[:10]
             print(f'上车时间：{上车时间}')
-            上车时间1 = 时间[:10].replace(f'{上车时间}', f'{int(上车时间) - 5}')
+            # 上车时间1 = 时间[:10].replace(f'{上车时间}', f'{int(上车时间) - 5}')
+            上车时间1 = 时间[:8] + '00'
             print('ww:' + 上车时间1)
             下车时间 = 上车时间[6:]
             print('ww:' + 下车时间)
-            计程公里数 = '000920'
-            空驶里程 = '0091'
-            附加费 = '000830'
-            等待计时时间 = '0220'
-            交易金额 = '008500'
+            计程公里数 = f'0000{random.randint(12, 20)}'
+            空驶里程 = f'00{random.randint(12, 20)}'
+            附加费 = f'0000{random.randint(12, 20)}'
+            等待计时时间 = f'0{random.randint(12, 20)}0'
+            交易金额 = f'000{random.randint(12, 20)}0'
             当前车次 = f'{i}'.zfill(8)
             交易类型 = '00'  # 0x00:现金交易：0x01:M1卡交易：0x03：CPU卡交易：0x09:其他
             附加 = '01040000008E0202044C250400000000300103'
