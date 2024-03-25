@@ -14,7 +14,6 @@ from tkinter.ttk import *
 
 import ttkbootstrap as ttk
 from configobj import ConfigObj
-from pygame import mixer
 
 from V3ku import *
 from 出租车.V905ku import 报警标志, 车辆状态, 经纬度, 速度, 签退方式, 报警标志1, 车辆状态1, 经纬度1, 速度1, 评价选项, \
@@ -106,7 +105,6 @@ def get_latitude(base_lat=None, radius=None):
 
 is_on = True
 from tkinter.messagebox import *
-from PIL import Image, ImageTk, ImageSequence
 import fnmatch
 
 current_directory = os.getcwd()
@@ -121,7 +119,7 @@ class MY_GUI(tk.Tk):
 
     def __init__(self, init_window_name):
         self.init_window_name = init_window_name
-        conf_ini = os.path.dirname(os.path.dirname(__file__)) + "\\conf\\config.ini"
+        conf_ini = current_directory + "\\conf\\config.ini"
         config = ConfigObj(conf_ini, encoding='UTF-8')
         self.conf_wg = config['ces']['出租车_cswg']
         self.conf_905wg_port = config['ces']['出租车_cs905wg_port']
@@ -1975,7 +1973,6 @@ class MY_GUI(tk.Tk):
 
     # 设置窗口
     def set_init_window(self):
-        import os
         # 指定要创建的路径
         # path = r"C:\音乐"
         # # 检查路径是否存在
@@ -1989,9 +1986,8 @@ class MY_GUI(tk.Tk):
         # subprocess.Popen(r"C:\音乐\update.bat")
 
         # 905解析数据
-        self.init_window_name.title("测试版本  作者 : 姚子奇")
+        self.init_window_name.title("平凡版本  作者 : 姚子奇")
         self.init_window_name.geometry('1100x618+450+200')
-        # self.init_window_name.geometry('1100x655+450+200')
 
         note = Notebook(self.init_window_name)
         pane1 = Frame()
@@ -2313,7 +2309,7 @@ class MY_GUI(tk.Tk):
         # 905组成数据
         self.sbei_Text_label3 = Label(pane3, text="设备号(905设备号12位)")
         self.sbei_Text_label3.grid(row=6, column=0)
-        items = ("101356000000", "101351000000")
+        items = (f"{self.sbei905}", "101351000000")
         self.sbei_Text3 = Combobox(pane3, width=50, height=2, values=items)
         self.sbei_Text3.current(0)
         self.sbei_Text3.grid(row=7, column=0, sticky=N, columnspan=10)
@@ -2389,7 +2385,7 @@ class MY_GUI(tk.Tk):
         # 2929组成数据
         self.sbei_Text_label4 = Label(pane4, text="2929伪ip设备")
         self.sbei_Text_label4.grid(row=13, column=0, columnspan=10, sticky=N)
-        items = ("13526985566", "13526985566")
+        items = (f"{self.sbei808}", "13526985566")
         self.sbei_Text4 = Combobox(pane4, width=50, height=2, values=items)
         self.sbei_Text4.current(0)
         self.sbei_Text4.grid(row=14, column=0, sticky=N, columnspan=10)
@@ -2562,7 +2558,7 @@ class MY_GUI(tk.Tk):
 
         self.init_data1_label7 = Label(pane7, text="设备号：")
         self.init_data1_label7.grid(row=0, column=0, )
-        items = ("13829622585", "15263526699")
+        items = (f"{self.sbei808}", "15263526699")
         self.init_data1_Text7 = Combobox(pane7, width=50, height=20, values=items)
         self.init_data1_Text7.current(0)
         self.init_data1_Text7.grid(row=0, column=1, columnspan=2, sticky=W)
@@ -2596,67 +2592,67 @@ class MY_GUI(tk.Tk):
                                                 command=lambda: self.thread_it(self.苏粤标生成808))  # 调用内部方法  加()为直接调用
         self.str1_trans_to_md5_button7.grid(row=1, column=11, sticky=W)
 
-        def play_animation():
-            # 打开GIF图像文件
-            giffilename = []
-            for filename in os.listdir(current_directory):
-                # 如果文件名与MP3模式匹配，则打印文件名
-                if fnmatch.fnmatch(filename, gif_pattern):
-                    giffilename.append(filename)
-            print(giffilename)
-            image = Image.open(giffilename[2])
-            image1 = Image.open(giffilename[0])
-            frames = []
-            frames1 = []
-            for frame in ImageSequence.Iterator(image):
-                frames.append(ImageTk.PhotoImage(frame))
-            for frame in ImageSequence.Iterator(image1):
-                frames1.append(ImageTk.PhotoImage(frame))
-
-            # 创建一个标签显示GIF图像
-            label = tk.Label(pane3, image=frames[0])
-            label.grid(row=22, column=11, rowspan=10)
-
-            label1 = tk.Label(pane3, image=frames[0])
-            label1.grid(row=22, column=12, rowspan=10)
-
-            label2 = tk.Label(pane3, image=frames[0])
-            label2.grid(row=22, column=13, rowspan=10)
-
-            label3 = tk.Label(pane4, image=frames1[0])
-            label3.grid(row=21, column=11, rowspan=10)
-
-            label4 = tk.Label(pane4, image=frames1[0])
-            label4.grid(row=21, column=12, rowspan=10)
-            #
-            label5 = tk.Label(pane4, image=frames1[0])
-            label5.grid(row=21, column=13, rowspan=10)
-
-            # 播放动画
-            def update_frame(frame_index):
-                # 更新标签的图像
-                label.configure(image=frames[frame_index])
-                label1.configure(image=frames[frame_index])
-                label2.configure(image=frames[frame_index])
-
-                label3.configure(image=frames1[frame_index])
-                label4.configure(image=frames1[frame_index])
-                label5.configure(image=frames1[frame_index])
-
-                # 获取下一帧的索引
-                next_frame_index = (frame_index + 1) % len(frames)
-                next_frame_index1 = (frame_index + 1) % len(frames1)
-
-                # 在固定的时间间隔后调用更新函数
-                pane3.after(50, update_frame, next_frame_index)
-                # pane3.after(100, update_frame, next_frame_index1)
-
-            # 开始动画
-            update_frame(1)
+        # def play_animation():
+        #     # 打开GIF图像文件
+        #     giffilename = []
+        #     for filename in os.listdir(current_directory):
+        #         # 如果文件名与MP3模式匹配，则打印文件名
+        #         if fnmatch.fnmatch(filename, gif_pattern):
+        #             giffilename.append(filename)
+        #     print(giffilename)
+        #     image = Image.open(giffilename[2])
+        #     image1 = Image.open(giffilename[0])
+        #     frames = []
+        #     frames1 = []
+        #     for frame in ImageSequence.Iterator(image):
+        #         frames.append(ImageTk.PhotoImage(frame))
+        #     for frame in ImageSequence.Iterator(image1):
+        #         frames1.append(ImageTk.PhotoImage(frame))
+        #
+        #     # 创建一个标签显示GIF图像
+        #     label = tk.Label(pane3, image=frames[0])
+        #     label.grid(row=22, column=11, rowspan=10)
+        #
+        #     label1 = tk.Label(pane3, image=frames[0])
+        #     label1.grid(row=22, column=12, rowspan=10)
+        #
+        #     label2 = tk.Label(pane3, image=frames[0])
+        #     label2.grid(row=22, column=13, rowspan=10)
+        #
+        #     label3 = tk.Label(pane4, image=frames1[0])
+        #     label3.grid(row=21, column=11, rowspan=10)
+        #
+        #     label4 = tk.Label(pane4, image=frames1[0])
+        #     label4.grid(row=21, column=12, rowspan=10)
+        #     #
+        #     label5 = tk.Label(pane4, image=frames1[0])
+        #     label5.grid(row=21, column=13, rowspan=10)
+        #
+        #     # 播放动画
+        #     def update_frame(frame_index):
+        #         # 更新标签的图像
+        #         label.configure(image=frames[frame_index])
+        #         label1.configure(image=frames[frame_index])
+        #         label2.configure(image=frames[frame_index])
+        #
+        #         label3.configure(image=frames1[frame_index])
+        #         label4.configure(image=frames1[frame_index])
+        #         label5.configure(image=frames1[frame_index])
+        #
+        #         # 获取下一帧的索引
+        #         next_frame_index = (frame_index + 1) % len(frames)
+        #         next_frame_index1 = (frame_index + 1) % len(frames1)
+        #
+        #         # 在固定的时间间隔后调用更新函数
+        #         pane3.after(50, update_frame, next_frame_index)
+        #         # pane3.after(100, update_frame, next_frame_index1)
+        #
+        #     # 开始动画
+        #     update_frame(1)
 
         # play_animation()
-        note.add(pane1, text='出租车905TCP发送')
         note.add(pane2, text='部标808TCP发送')
+        note.add(pane1, text='出租车905TCP发送')
         note.add(pane3, text='抢答回复订单')
         note.add(pane4, text='2929协议UDP发送')
         note.add(pane5, text='V3协议解析生成')
@@ -2670,20 +2666,16 @@ class MY_GUI(tk.Tk):
 #     boo = askyesno("真的要走了吗", "臣退了，这一退就是一辈子！")
 #     if boo == True:
 #         init_window.quit()
-def play_audio(filename):
-    mixer.init()
-    mixer.music.load(filename)
-    mixer.music.play(4)
+# def play_audio(filename):
+#     mixer.init()
+#     mixer.music.load(filename)
+#     mixer.music.play(4)
 
 
 def countdown(t):
     for i in range(t):
-        if i < 10:
-            print("\r休眠倒计时：%d" % (t - i) + '秒', end='')
-            time.sleep(1)
-        else:
-            print("\r休眠倒计时：%d" % (t - i) + '秒', end='')
-            time.sleep(1)
+        print("\r休眠倒计时：%02d" % (t - i) + '秒', end='')
+        time.sleep(1)
 
 
 def count_runs():

@@ -114,7 +114,7 @@ def click(text1):
     click_text(d, '打卡')
     print('\n找到打卡页面')
     countdown(30)
-    if d(text="不在打卡范围内").exists():
+    if d(text="不在打卡范围内").exists(timeout=2):
         count = 0
         while True:
             print('\n' + str(count))
@@ -123,14 +123,14 @@ def click(text1):
             click_text(d, '打卡')
             print('点击打卡页面按钮')
             print('找到打卡页面')
-            d(text=f"{text1}").exists()
+            d(text=f"{text1}").exists(timeout=2)
             countdown(70)
             MY().截图()
             count += 1
             if MY().识别图片() != '不在打卡范围内':
                 break
             continue
-    if d(text="下班·正常").exists() or d(text="下班自动打卡·正常").exists():
+    if d(text="下班·正常").exists(timeout=2) or d(text="下班自动打卡·正常").exists(timeout=2):
         print('\n已打下班卡')
         MY().截图()
         body1 = MY().识别图片()
@@ -152,7 +152,7 @@ def click(text1):
             smtp.sendmail(sender_email, recipient_email, msg.as_string())
         print('退出程序')
         os._exit(0)
-    elif d(text='今日打卡已完成，好好休息').exists():
+    elif d(text='今日打卡已完成，好好休息').exists(timeout=2):
         print('今日打卡已完成，好好休息')
         MY().截图()
         body1 = MY().识别图片()
@@ -174,7 +174,7 @@ def click(text1):
             smtp.sendmail(sender_email, recipient_email, msg.as_string())
         print('退出程序')
         os._exit(0)
-    elif d(text="你已在打卡范围内").exists():
+    elif d(text="你已在打卡范围内").exists(timeout=2):
         print('\n你已在打卡范围内')
         countdown(5)
         if MY().识别图片1() == '下班打卡':
@@ -224,6 +224,7 @@ def click(text1):
             print('退出程序')
             os._exit(0)
     else:
+        print('失败')
         os._exit(0)
     # # 添加附件
     # with open(f"{MY().file_path}", "rb") as attachment:
