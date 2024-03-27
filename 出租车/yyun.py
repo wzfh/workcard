@@ -79,7 +79,7 @@ class login:
             标识位 = '7E'
             消息ID = '0B05'
             消息体属性 = '0073'
-            ISU标识 = self.sbei  # 10位
+            ISU标识 = self.sbei
             流水号 = f'0001'
             报警 = self.baojing['紧急报警']
             状态 = self.ztai['ACC开']
@@ -112,11 +112,11 @@ class login:
             print('ww:' + 上车时间1)
             下车时间 = 上车时间[6:]
             print('ww:' + 下车时间)
-            计程公里数 = f'0000{random.randint(12, 20)}'
-            空驶里程 = f'00{random.randint(12, 20)}'
-            附加费 = f'0000{random.randint(12, 20)}'
-            等待计时时间 = f'0{random.randint(12, 20)}0'
-            交易金额 = f'000{random.randint(12, 20)}0'
+            计程公里数 = f'0000{random.randint(10, 12)}'
+            空驶里程 = f'00{random.randint(10, 12)}'
+            附加费 = f'0000{random.randint(10, 12)}'
+            等待计时时间 = f'0{random.randint(10, 12)}0'
+            交易金额 = f'000{random.randint(10, 12)}0'
             当前车次 = f'{i}'.zfill(8)
             交易类型 = '00'  # 0x00:现金交易：0x01:M1卡交易：0x03：CPU卡交易：0x09:其他
             附加 = '01040000008E0202044C250400000000300103'

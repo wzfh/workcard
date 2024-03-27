@@ -58,7 +58,7 @@ class login:
     def get(self):
         count = 0
 
-        for i in range(61):
+        for i in range(1):
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = self.wd
             # wds = ['23.012171', '23.012271', '23.012371', '23.012471', '23.012571', '23.012671', '23.012771',
@@ -129,12 +129,10 @@ class login:
             经度 = jd3[2:].zfill(8).upper()
             print(f'纬度:{纬度}' + ' ' + f'经度：{经度}')
             高程 = '0001'
-            # sdu = ['5C']
             速度 = f'0000'
             方向 = '000C'
             时间 = now_time[2:]
-            里程s = ['5A', '5E', '5F']
-            附加里程 = f'0104000000{random.choice(里程s)}'
+            附加里程 = f'0104000000{random.randint(10, 15)}'
             油量 = ['5208', '044C', '04B0']
             附加油量 = f'0202{random.choice(油量)}'
             附加信息ID = '250400000000300103'

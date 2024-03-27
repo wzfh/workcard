@@ -146,8 +146,7 @@ class login:
             速度 = '00E3'
             方向 = '01'
             时间 = now_time[2:]
-            里程s = ['1A', '5E', '4F']
-            附加里程 = f'0104000000{random.choice(里程s)}'
+            附加里程 = f'0104000000{random.randint(10, 15)}'
             油量 = ['5208', '044C', '04B0']
             附加油量 = f'0202{random.choice(油量)}'
             w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 附加里程 + 附加油量
@@ -176,6 +175,5 @@ class login:
 
 
 if __name__ == '__main__':
-    while True:
         ll = login()
         ll.ww1()

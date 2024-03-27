@@ -1,14 +1,10 @@
 import csv
+import math
 import os
+import random
 import re
-import sys
 import time
 from socket import *
-
-
-
-import random
-import math
 
 
 def get_longitude(base_log=None, radius=None):
@@ -82,30 +78,18 @@ def countdown(t):
 
 class login:
     def __init__(self):
-        path = os.path.dirname(__file__)
-        file_path = path + r'/13.csv'
-        fCase = open(file_path, 'r', encoding='gbk')
-        datas = csv.reader(fCase)
-        data1 = []
-        o = 0
-        for line in datas:
-            data1.append(line)
-        for nob1 in range(0, 100):
-            t = data1[nob1]
-            o += 1
-            self.sbhao = f'0{t[0]}'
-            print(self.sbhao)
-            self.ww1()
+
+        self.ww1()
         # sbhaos = [
-            # "015875226032",
-            # "015875226033",
-            # "015875226034",
-            # "015875226035",
-            # "015875226036",
-            # '013433663399',
-            # "015875226037",
-            # "015875226038",
-            # "015875226039",
+        # "015875226032",
+        # "015875226033",
+        # "015875226034",
+        # "015875226035",
+        # "015875226036",
+        # '013433663399',
+        # "015875226037",
+        # "015875226038",
+        # "015875226039",
             # "015875226040",
             # "015875226041",
             # "015875226042",
@@ -132,22 +116,22 @@ class login:
     def ww1(self):
         try:
 
-            path = os.path.dirname(__file__)
-            file_path = path + '/12.csv'
+            path = os.getcwd()
+            file_path = path + '/conf/12.csv'
             fCase = open(file_path, 'r', encoding='gbk')
             datas = csv.reader(fCase)
             data1 = []
             o = 0
             for line in datas:
                 data1.append(line)
-            for nob1 in range(0, 864):
+            for nob1 in range(0, 205):
                 t = data1[nob1]
                 o += 1
                 print('发送第%d条' % o)
                 now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
                 消息ID = '0200'
                 消息体属性 = '002F'
-                设备号 = self.sbhao
+                设备号 = "013658596655"
                 print(f'设备号:{设备号}')
                 流水号 = f'{0}'.zfill(4)
                 baojlxs = [
@@ -159,22 +143,16 @@ class login:
                 报警 = f'{紧急报警}'
                 状态 = '00000003'
                 wd2 = float(t[0]) * 1000000
-                print(wd2)
                 wd3 = hex(int(wd2))
                 纬度 = wd3[2:].zfill(8).upper()
                 jd2 = float(t[1]) * 1000000
-                print(jd2)
                 jd3 = hex(int(jd2))
                 经度 = jd3[2:].zfill(8).upper()
-                高程 = '0000'
-                sdu=['2A','0A','5C','3D']
-                速度 = f'00{random.choice(sdu)}'
-                fx = ['1C','2A', '0A', '5C', '3D']
-                方向 = f'00{random.choice(fx)}'
+                高程 = f'00{random.randint(12, 20)}'
+                速度 = f'00{random.randint(12, 20)}'
+                方向 = f'00{random.randint(12, 20)}'
                 时间 = now_time[2:]
-                里程s = ['1A', '5E','4F']
-                里程 = random.choice(里程s)
-                附加里程 = f'0104000000{里程}'
+                附加里程 = f'0104000000{random.randint(12, 20)}'
                 附加信息ID = '0202044C250400000000300103'
                 w = 消息ID + 消息体属性 + 设备号 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 高程 + 速度 + 方向 + 时间 + 附加里程 + 附加信息ID
                 a = get_xor(w)
@@ -197,13 +175,13 @@ class login:
 
                 s = socket(AF_INET, SOCK_STREAM)
 
-                # s.connect(('120.79.74.223', 17201))  # 测试
-                s.connect(('120.79.192.231', 7788))  # 测试
+                s.connect(('120.79.74.223', 17201))  # 测试
+                # s.connect(('120.79.192.231', 7788))  # 测试
                 s.send(bytes().fromhex(data))
                 send = s.recv(1024).hex()
                 print('服务器应答：' + send.upper())
                 print('\n' * 1)
-                countdown(1)
+                countdown(3)
         except:
             pass
 
