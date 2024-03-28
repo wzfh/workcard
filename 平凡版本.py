@@ -145,13 +145,13 @@ class MY_GUI(tk.Tk):
             标识位 = '7E'
             消息ID = '0200'
             消息体属性 = '002F'
-            流水号 = f'{random.randint(12, 15)}'.zfill(4)
+            流水号 = f'{random.randint(12, 20)}'.zfill(4)
             报警 = self.sb_bj()
             状态 = self.sb_ztai()
             纬度 = wd2[2:].zfill(8).upper()
             经度 = jd2[2:].zfill(8).upper()
             速度 = self.sdu()[2:].zfill(4).upper()
-            方向 = f'{random.randint(12, 15)}'
+            方向 = f'{random.randint(12, 20)}'
             时间 = now_time[2:]
             附加 = '0104000000020202044C250400000000300103'
             if self.sb_on() == '是':
@@ -235,14 +235,14 @@ class MY_GUI(tk.Tk):
             标识位 = '7E'
             消息ID = '0200'
             消息体属性 = '002F'
-            流水号 = f'{random.randint(12, 15)}'.zfill(4)
+            流水号 = f'{random.randint(12, 20)}'.zfill(4)
             报警 = self.sb_bj2()
             状态 = self.sb_ztai2()
             纬度 = wd3[2:].zfill(8).upper()
             经度 = jd3[2:].zfill(8).upper()
-            高程 = f'00{random.randint(12, 15)}'
+            高程 = f'00{random.randint(12, 20)}'
             速度 = self.sdu2()[2:].zfill(4).upper()
-            方向 = f'00{random.randint(12, 15)}'
+            方向 = f'00{random.randint(12, 20)}'
             时间 = now_time[2:]
             附加信息ID = '01040000000B0202044C250400000000300103'
             if self.sb_on2() == '是':
@@ -345,11 +345,11 @@ class MY_GUI(tk.Tk):
             jd2 = float(t[1]) * 1000000
             jd3 = hex(int(jd2))
             经度 = jd3[2:].zfill(8).upper()
-            高程 = f'00{random.randint(12, 15)}'
-            速度 = f'00{random.randint(12, 15)}'
-            方向 = f'00{random.randint(12, 15)}'
+            高程 = f'00{random.randint(12, 20)}'
+            速度 = f'00{random.randint(12, 20)}'
+            方向 = f'00{random.randint(12, 20)}'
             时间 = now_time[2:]
-            附加里程 = f'0104000000{random.randint(12, 15)}'
+            附加里程 = f'0104000000{random.randint(12, 20)}'
             附加信息ID = '0202044C250400000000300103'
             w = 消息ID + 消息体属性 + 设备号 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 高程 + 速度 + 方向 + 时间 + 附加里程 + 附加信息ID
             a = get_xor(w)
@@ -379,6 +379,67 @@ class MY_GUI(tk.Tk):
             self.result_data_Text8.insert(1.0, tip_content)
             time.sleep(2)
         self.result_data_Text8.insert(1.0, "\n完成")
+        showinfo("发送结果", "发送成功")
+
+    def 轨迹905(self):
+        file_path = os.getcwd() + '/conf/12.csv'
+        fCase = open(file_path, 'r', encoding='gbk')
+        datas = csv.reader(fCase)
+        data1 = []
+        o = 0
+        for line in datas:
+            data1.append(line)
+        for nob1 in range(0, int(self.count905_8())):
+            t = data1[nob1]
+            o += 1
+            now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+            标识位 = '7E'
+            消息ID = '0200'
+            消息体属性 = '0023'
+            ISU标识 = f'{self.sb905_hao8()}'
+            流水号 = f'{0}'.zfill(4)
+            报警 = f'00000001'
+            状态 = '00000003'
+            wd2 = float(t[0]) * 60 / 0.0001
+            wd3 = hex(int(wd2))
+            纬度 = wd3[2:].zfill(8).upper()
+            jd2 = float(t[1]) * 60 / 0.0001
+            jd3 = hex(int(jd2))
+            经度 = jd3[2:].zfill(8).upper()
+            速度 = f'00{random.randint(10, 15)}'
+            方向 = f'{random.randint(10, 15)}'
+            时间 = now_time[2:]
+            附加里程 = f'0104000000{random.randint(10, 15)}'
+            油量 = ['5208', '044C', '04B0']
+            附加油量 = f'0202{random.choice(油量)}'
+            w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 附加里程 + 附加油量
+            a = get_xor(w)
+            b = get_bcc(a).zfill(2)
+            E = w + b.upper()
+            t = 标识位 + E.replace("7E", "00") + 标识位
+            D = get_xor(E)
+            data = '7E ' + D + ' 7E'
+            if data[:2] != "7E":
+                print(f"错误：{data}")
+                print('\n' * 1)
+                t = t[:81] + "00" + t[82:]
+                data = get_xor(t)
+                print("修改后data：{}".format(data))
+                print('\n' * 1)
+            print(t)
+            print(data)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
+            s.connect((f'{self.ip8()}', int(self.port905_8())))  # 生产
+            s.send(bytes().fromhex(data))
+            send = s.recv(1024).hex()
+            print(send.upper())
+            print('\n' * 1)
+            tip_content = '\n位置数据：\n{}\n源数据：\n{}\n 服务器应答：\n{}\n'.format(data, t, send.upper())
+            self.result905_Text8.insert(1.0, tip_content)
+            time.sleep(2)
+        self.result905_Text8.insert(1.0, "\n完成")
+        showinfo("发送结果", "发送成功")
 
     def qdao(self, su, plsu):
         global data, t
@@ -392,13 +453,13 @@ class MY_GUI(tk.Tk):
             标识位 = '7E'
             消息ID = '0B03'
             消息体属性 = '0043'
-            流水号 = f'00{random.randint(12, 15)}'
+            流水号 = f'00{random.randint(12, 20)}'
             报警 = self.sb_bj()
             状态 = self.sb_ztai()
             纬度 = wd2[2:].zfill(8).upper()
             经度 = jd2[2:].zfill(8).upper()
             速度 = self.sdu()[2:].zfill(4).upper()
-            方向 = f'{random.randint(12, 15)}'
+            方向 = f'{random.randint(12, 20)}'
             时间 = now_time[2:]
             企业经营许可证号 = '534E3132333435363738390000000000'  # SN123456789
             驾驶员从业资格证号 = self.driver()  # SN12345678912345678
@@ -487,31 +548,31 @@ class MY_GUI(tk.Tk):
             标识位 = '7E'
             消息ID = '0B04'
             消息体属性 = '0043'
-            流水号 = f'00{random.randint(12, 15)}'
+            流水号 = f'00{random.randint(12, 20)}'
             报警 = self.sb_bj()
             状态 = self.sb_ztai()
             纬度 = wd2[2:].zfill(8).upper()
             经度 = jd2[2:].zfill(8).upper()
             速度 = self.sdu()[2:].zfill(4).upper()
-            方向 = f'{random.randint(12, 15)}'
+            方向 = f'{random.randint(12, 20)}'
             时间 = now_time[2:]
             企业经营许可证号 = '534E3132333435363738390000000000'  # SN123456789
             驾驶员从业资格证号 = self.driver()  # SN12345678912345678
             车牌号 = '534E31323435'  # SN1235
-            计价器K值 = f'00{random.randint(12, 15)}'  # 计价12
+            计价器K值 = f'00{random.randint(12, 20)}'  # 计价12
             当班开机时间 = now_time[:12]
             当班关机时间 = now_time[:12]
-            当班里程 = f'000{random.randint(12, 15)}0'  # 格式为XXXXX.X(km)
-            当班营运里程 = f'000{random.randint(12, 15)}0'  # 格式为XXXXX.X(km)
-            车次 = f'00{random.randint(12, 15)}'  # 车次12
+            当班里程 = f'000{random.randint(30, 36)}0'  # 格式为XXXXX.X(km)
+            当班营运里程 = f'000{random.randint(30, 36)}0'  # 格式为XXXXX.X(km)
+            车次 = f'00{random.randint(12, 20)}'  # 车次12
             计时时间 = now_time1
-            总计金额 = f'000{random.randint(12, 15)}0'
-            卡收金额 = f'000{random.randint(12, 15)}0'
-            卡次 = f'00{random.randint(12, 15)}'
-            班间里程 = f'0{random.randint(12, 15)}0'
-            总计里程 = f'00000{random.randint(12, 15)}0'
-            总营运里程 = f'00000{random.randint(12, 15)}0'
-            单价 = f'{random.randint(12, 15)}00'  # 12.00块
+            总计金额 = f'000{random.randint(12, 20)}0'
+            卡收金额 = f'000{random.randint(12, 20)}0'
+            卡次 = f'00{random.randint(12, 20)}'
+            班间里程 = f'0{random.randint(30, 36)}0'
+            总计里程 = f'00000{random.randint(30, 36)}0'
+            总营运里程 = f'00000{random.randint(30, 36)}0'
+            单价 = f'{random.randint(12, 20)}00'  # 12.00块
             总营运次数 = '0000001A'  # 高位在前就是在后面
             附加 = '01040000006E0202044C250400000000300103'
             if self.sb_on() == '是':
@@ -605,13 +666,13 @@ class MY_GUI(tk.Tk):
             标识位 = '7E'
             消息ID = '0B05'
             消息体属性 = '0073'
-            流水号 = f'00{random.randint(12, 15)}'
+            流水号 = f'00{random.randint(12, 20)}'
             报警 = self.sb_bj()
             状态 = self.sb_ztai()
             纬度 = wd3[2:].zfill(8).upper()
             经度 = jd3[2:].zfill(8).upper()
             速度 = self.sdu()[2:].zfill(4).upper()
-            方向 = f'{random.randint(12, 15)}'
+            方向 = f'{random.randint(12, 20)}'
             时间 = now_time[2:]
 
             报警1 = self.sb_bj()
@@ -619,7 +680,7 @@ class MY_GUI(tk.Tk):
             纬度1 = wd4[2:].zfill(8).upper()
             经度1 = jd4[2:].zfill(8).upper()
             速度1 = self.sdu()[2:].zfill(4).upper()
-            方向1 = f'{random.randint(12, 15)}'
+            方向1 = f'{random.randint(12, 20)}'
             时间1 = now_time[2:]
 
             营运ID = '3590AA28'  # 001101  0110  01000  01010 101000 101000
@@ -632,12 +693,13 @@ class MY_GUI(tk.Tk):
             驾驶员从业资格证号 = self.driver()  # SN12345678912345679
             上车时间 = 时间[:10]
             上车时间1 = 时间[:8] + '00'
-            下车时间 = 上车时间[6:]
-            计程公里数 = f'000{random.randint(12, 15)}0'
-            空驶里程 = f'00{random.randint(12, 15)}'
-            附加费 = f'000{random.randint(12, 15)}0'
-            等待计时时间 = f'0{random.randint(12, 15)}0'
-            交易金额 = f'000{random.randint(12, 15)}0'
+            上车 = 时间[6:8].replace(f"{int(时间[6:8])}", f"{int(时间[6:8]) + 1}")
+            下车时间 = 上车 + 上车时间[8:]
+            计程公里数 = f'000{random.randint(30, 36)}0'
+            空驶里程 = f'0{random.randint(12, 30)}0'
+            附加费 = f'000{random.randint(12, 20)}0'
+            等待计时时间 = f'0{random.randint(12, 20)}0'
+            交易金额 = f'000{random.randint(12, 20)}0'
             交易类型 = '09'  # 0x00:现金交易：0x01:M1卡交易：0x03：CPU卡交易：0x09:其他
             附加 = '01040000006E0202044C250400000000300103'
             if self.sb_on() == '是':
@@ -1158,8 +1220,16 @@ class MY_GUI(tk.Tk):
         sb = self.sbei_Text8.get().strip()
         return sb
 
+    def sb905_hao8(self):
+        sb = self.sbei905_Text8.get().strip()
+        return sb
+
     def count8(self):
         sb = self.count_Text8.get().strip()
+        return int(sb)
+
+    def count905_8(self):
+        sb = self.count905_Text8.get().strip()
         return int(sb)
 
     def 标志位(self):
@@ -1316,6 +1386,10 @@ class MY_GUI(tk.Tk):
 
     def port8(self):
         port = self.port_Text8.get().strip()
+        return port
+
+    def port905_8(self):
+        port = self.port905_Text8.get().strip()
         return port
 
     def sdu2(self):
@@ -2063,7 +2137,7 @@ class MY_GUI(tk.Tk):
         # subprocess.Popen(r"C:\音乐\update.bat")
 
         # 905解析数据
-        self.init_window_name.title("平凡版本  作者 : 姚子奇")
+        self.init_window_name.title("配置版本  作者 : 姚子奇")
         self.init_window_name.geometry('1100x618+450+200')
 
         note = Notebook(self.init_window_name)
@@ -2426,7 +2500,7 @@ class MY_GUI(tk.Tk):
         self.result_data_label3.grid(row=0, column=11)
 
         #         # self.init_data_Text3.bind("<Button-3>", lambda x: rightKey(x, self.init_data_Text3))
-        self.result_data_Text3 = Text(pane3, width=85, height=30, relief='solid')
+        self.result_data_Text3 = Text(pane3, width=85, height=22, relief='solid')
         self.result_data_Text3.grid(row=1, column=11, rowspan=30, columnspan=15)
         #         # self.result_data_Text3.bind("<Button-3>", lambda x: rightKey(x, self.result_data_Text3))
         # 按钮
@@ -2638,36 +2712,36 @@ class MY_GUI(tk.Tk):
         items = (f"{self.sbei808}", "15263526699")
         self.init_data1_Text7 = Combobox(pane7, width=50, height=20, values=items)
         self.init_data1_Text7.current(0)
-        self.init_data1_Text7.grid(row=0, column=1, columnspan=2, sticky=W)
+        self.init_data1_Text7.grid(row=0, column=1, columnspan=2, sticky=N)
 
         self.init_data2_label7 = Label(pane7, text="协议:")
         self.init_data2_label7.grid(row=1, column=0)
         items = ("苏标", "粤标")
         self.init_data2_Text7 = Combobox(pane7, width=50, height=20, values=items)
-        self.init_data2_Text7.grid(row=1, column=1, columnspan=2, sticky=W)
+        self.init_data2_Text7.grid(row=1, column=1, columnspan=2, sticky=N)
         self.init_data2_Text7.bind("<<ComboboxSelected>>", self.getMon1)
 
         self.init_data3_label7 = Label(pane7, text="主动报警:")
         self.init_data3_label7.grid(row=2, column=0)
         items = ()
         self.init_data3_Text7 = Combobox(pane7, width=50, height=20, values=items)
-        self.init_data3_Text7.grid(row=2, column=1, columnspan=2, sticky=W)
+        self.init_data3_Text7.grid(row=2, column=1, columnspan=2, sticky=N)
 
         self.init_data4_label7 = Label(pane7, text="标志位:")
         self.init_data4_label7.grid(row=3, column=0)
         items = ("开始", "结束")
         self.init_data4_Text7 = Combobox(pane7, width=50, height=20, values=items)
         self.init_data4_Text7.current(0)
-        self.init_data4_Text7.grid(row=3, column=1, columnspan=2, sticky=W)
+        self.init_data4_Text7.grid(row=3, column=1, columnspan=2, sticky=N)
 
         self.result_data_label7 = Label(pane7, text="解析结果:")
         self.result_data_label7.grid(row=4, column=0, rowspan=2)
-        self.result_data1_Text7 = Text(pane7, width=67, height=18, relief='solid')  # 处理结果展示
-        self.result_data1_Text7.grid(row=4, column=1, sticky=W)
+        self.result_data1_Text7 = Text(pane7, width=51, height=18, relief='solid')  # 处理结果展示
+        self.result_data1_Text7.grid(row=4, column=1, columnspan=2, sticky=N)
         # # 按钮
         self.str1_trans_to_md5_button7 = Button(pane7, text="苏粤标生成", width=10,
                                                 command=lambda: self.thread_it(self.苏粤标生成808))  # 调用内部方法  加()为直接调用
-        self.str1_trans_to_md5_button7.grid(row=1, column=11, sticky=W)
+        self.str1_trans_to_md5_button7.grid(row=4, column=11, sticky=N)
 
         pane8 = Frame()
         self.ip_Text_label8 = Label(pane8, text="服务器ip")
@@ -2687,27 +2761,54 @@ class MY_GUI(tk.Tk):
 
         # # 905组成数据
         self.sbei_Text_label8 = Label(pane8, text="808部标设备号11位")
-        self.sbei_Text_label8.grid(row=6, column=0, columnspan=1, sticky=N)
+        self.sbei_Text_label8.grid(row=4, column=0, columnspan=1, sticky=N)
         items = (f"{self.sbei808}", "10356000000", "10351000000")
         self.sbei_Text8 = Combobox(pane8, width=50, height=2, values=items)
         self.sbei_Text8.current(0)
-        self.sbei_Text8.grid(row=7, column=0, sticky=N, columnspan=1)
+        self.sbei_Text8.grid(row=5, column=0, sticky=N)
 
-        self.count_label8 = Label(pane8, text="条数")
-        self.count_label8.grid(row=8, column=0, columnspan=1, sticky=N)
+        self.count_label8 = Label(pane8, text="conf文件夹内csv条数")
+        self.count_label8.grid(row=6, column=0, columnspan=1, sticky=N)
         items = ('205')
         self.count_Text8 = Combobox(pane8, width=50, height=2, values=items)
         self.count_Text8.current(0)
-        self.count_Text8.grid(row=9, column=0, sticky=N, columnspan=1)
+        self.count_Text8.grid(row=7, column=0, sticky=N, columnspan=1)
 
         self.result_data_label8 = Label(pane8, text="输出结果：有返回，即发送成功")
         self.result_data_label8.grid(row=0, column=11)
-        self.result_data_Text8 = Text(pane8, width=85, height=20, relief='solid')
-        self.result_data_Text8.grid(row=1, column=11, rowspan=13, columnspan=15)
+        self.result_data_Text8 = Text(pane8, width=85, height=11, relief='solid')
+        self.result_data_Text8.grid(row=1, column=11, rowspan=7, columnspan=15, sticky=N)
 
-        self.str_trans_to_md5_button8 = Button(pane8, text="专用808生成", width=10,
+        self.str_trans_to_md5_button8 = Button(pane8, text="808轨迹专用", width=10,
                                                command=lambda: self.thread_it(self.轨迹808))  # 调用内部方法  加()为直接调用
-        self.str_trans_to_md5_button8.grid(row=5, column=10)
+        self.str_trans_to_md5_button8.grid(row=7, column=10, sticky=N)
+        # 905轨迹
+        self.port905_label8 = Label(pane8, text="\n\n\n\n905服务器Port")
+        self.port905_label8.grid(row=9, columnspan=2, sticky=N)
+        items = (f"{self.conf_905wg_port}", "17700", "17800", "7788")
+        self.port905_Text8 = Combobox(pane8, width=50, height=2, values=items)
+        self.port905_Text8.current(0)
+        self.port905_Text8.grid(row=10, column=0, sticky=W)
+        self.sbei905_label8 = Label(pane8, text="905部标设备号12位")
+        self.sbei905_label8.grid(row=11, column=0, columnspan=1, sticky=N)
+        items = (f"{self.sbei905}", "10356000000", "10351000000")
+        self.sbei905_Text8 = Combobox(pane8, width=50, height=2, values=items)
+        self.sbei905_Text8.current(0)
+        self.sbei905_Text8.grid(row=12, column=0, sticky=N)
+
+        self.count905_label8 = Label(pane8, text="conf文件夹内csv条数")
+        self.count905_label8.grid(row=13, column=0, columnspan=1, sticky=N)
+        items = ('205')
+        self.count905_Text8 = Combobox(pane8, width=50, height=2, values=items)
+        self.count905_Text8.current(0)
+        self.count905_Text8.grid(row=14, column=0, sticky=N, columnspan=1)
+        self.result905_label8 = Label(pane8, text="\n\n\n\n输出结果：有返回，即发送成功")
+        self.result905_label8.grid(row=9, column=11)
+        self.result905_Text8 = Text(pane8, width=85, height=7, relief='solid')
+        self.result905_Text8.grid(row=10, column=11, rowspan=90, columnspan=15, sticky=N)
+        self.str_905_button8 = Button(pane8, text="905轨迹专用", width=10,
+                                      command=lambda: self.thread_it(self.轨迹905))  # 调用内部方法  加()为直接调用
+        self.str_905_button8.grid(row=14, column=10, sticky=N)
 
         # def play_animation():
         #     # 打开GIF图像文件
@@ -2775,7 +2876,7 @@ class MY_GUI(tk.Tk):
         note.add(pane5, text='V3协议解析生成')
         note.add(pane6, text='905协议解析')
         note.add(pane7, text='苏标粤标生成')
-        note.add(pane8, text='808轨迹  ')
+        note.add(pane8, text='轨迹专用发送')
         note.grid()
 
 

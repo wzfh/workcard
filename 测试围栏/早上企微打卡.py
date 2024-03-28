@@ -108,14 +108,14 @@ def click(text1):
     d.app_start("com.tencent.wework")  # 启动应用
     print("\n企业微信应用启动成功")
     countdown(5)
-    d(text="工作台").click()
+    d(text="工作台").click_exists(timeout=30.0)
     print('\n找到工作台')
     countdown(2)
     d.swipe(930, 1480, 980, 480)
     click_text(d, '打卡')
     print('\n找到打卡页面')
-    countdown(30)
-    if d(text="不在打卡范围内").exists(timeout=2) or d(text="正在搜索蓝牙考勤机信号..").exists(timeout=2):
+    if d(text="不在打卡范围内").click_exists(timeout=30.0) or d(text="正在搜索蓝牙考勤机信号..").click_exists(
+            timeout=30.0):
         count = 0
         while True:
             print('\n' + str(count))
@@ -124,14 +124,15 @@ def click(text1):
             click_text(d, '打卡')
             print('点击打卡页面按钮')
             print('找到打卡页面')
-            d(text=f"{text1}").exists(timeout=2)
-            countdown(80)
+            d(text=f"{text1}").click_exists(timeout=80.0)
             MY().截图()
             count += 1
             if MY().识别图片() != '不在打卡范围内':
                 break
+            elif d(text="下班打卡").click_exists(timeout=30.0):
+                os._exit(0)
             continue
-    if d(text="上班·正常").exists(timeout=2) or d(text="上班自动打卡·正常").exists(timeout=2):
+    if d(text="上班·正常").click_exists(timeout=30.0) or d(text="上班自动打卡·正常").click_exists(timeout=30.0):
         print('\n已打上班卡')
         MY().截图()
         body1 = MY().识别图片()
@@ -157,7 +158,7 @@ def click(text1):
         os.system('adb shell settings put secure location_mode 0')
         print('退出程序')
         os._exit(0)
-    elif d(text='今日打卡已完成，好好休息').exists(timeout=2):
+    elif d(text='今日打卡已完成，好好休息').click_exists(timeout=30.0):
         print('今日打卡已完成，好好休息')
         MY().截图()
         body1 = MY().识别图片()
@@ -184,9 +185,8 @@ def click(text1):
         print('退出程序')
         os._exit(0)
     elif MY().识别图片() == '你已在打卡范围':
-        countdown(5)
         if MY().识别图片1() == '上班打卡':
-            d(text="上班打卡").click()
+            d(text="上班打卡").click_exists(timeout=30.0)
             MY().截图()
             body1 = MY().识别图片()
             d.app_stop("com.tencent.mm")
@@ -196,7 +196,6 @@ def click(text1):
             os.system('adb shell input keyevent 26')
             body = f"{body1}"
             msg['Subject'] = f'{time.strftime("%H点%M分")}{body}'
-            # msg.attach(MIMEText(body, 'plain'))
             with open(f"{MY().file_path}", "rb") as attachment:
                 part = MIMEApplication(attachment.read(), _subtype='png')
                 part.add_header('Content-Disposition', 'attachment', filename=MY().file_path)
@@ -236,24 +235,9 @@ def click(text1):
             print('退出程序')
             os._exit(0)
     else:
+        print('?')
         os._exit(0)
-        # MY().截图()
-        # body1 = MY().识别图片()
-        # d.app_stop("com.tencent.mm")
-        # d.app_stop("com.tencent.wework")
-        # os.system('adb shell svc bluetooth disable')
-        # os.system('adb shell settings put secure location_mode 0')
-        # os.system('adb shell input keyevent 26')
-        # body = f"{body1}"
-        # msg['Subject'] = f'{time.strftime("%H点%M分")}{body}'
-        # with open(f"{MY().file_path}", "rb") as attachment:
-        #     part = MIMEApplication(attachment.read(), _subtype='png')
-        #     part.add_header('Content-Disposition', 'attachment', filename=MY().file_path)
-        #     msg.attach(part)
-        # # 发送邮件
-        # with smtplib.SMTP_SSL('smtp.qq.com', 465) as smtp:
-        #     smtp.login(sender_email, sender_password)
-        #     smtp.sendmail(sender_email, recipient_email, msg.as_string())
+
     # # 添加附件
     # with open(f"{MY().file_path}", "rb") as attachment:
     #     part = MIMEApplication(attachment.read(), _subtype='png')

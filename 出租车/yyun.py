@@ -21,8 +21,6 @@ def get_xor(data):
     return result
 
 
-
-
 紧急报警 = '00000001'
 进出区域路线报警 = '00100000'
 路段行驶时间不足 = '00200000'
@@ -107,13 +105,13 @@ class login:
             驾驶员从业资格证号 = self.驾驶员从业资格证号
             上车时间 = 时间[:10]
             print(f'上车时间：{上车时间}')
-            # 上车时间1 = 时间[:10].replace(f'{上车时间}', f'{int(上车时间) - 5}')
+            上车 = 时间[6:8].replace(f"{int(时间[6:8])}", f"{int(时间[6:8]) + 1}")
             上车时间1 = 时间[:8] + '00'
             print('ww:' + 上车时间1)
-            下车时间 = 上车时间[6:]
+            下车时间 = 上车 + 上车时间[8:]
             print('ww:' + 下车时间)
-            计程公里数 = f'0000{random.randint(10, 12)}'
-            空驶里程 = f'00{random.randint(10, 12)}'
+            计程公里数 = f'000{random.randint(30, 36)}0'
+            空驶里程 = f'0{random.randint(12, 20)}0'
             附加费 = f'0000{random.randint(10, 12)}'
             等待计时时间 = f'0{random.randint(10, 12)}0'
             交易金额 = f'000{random.randint(10, 12)}0'
@@ -128,7 +126,7 @@ class login:
             data = get_xor(t)
             print(t)
             print(data)
-
+            #
             s = socket(AF_INET, SOCK_STREAM)
             s.connect((self.wg, int(self.wg_port)))
 
