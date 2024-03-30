@@ -34,6 +34,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    ac_admin=True,
+    uac_admin=True,
     icon=['favicon.ico']
 )

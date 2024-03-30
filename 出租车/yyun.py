@@ -3,7 +3,6 @@ import os
 import random
 import re
 import time
-from socket import *
 
 from configobj import ConfigObj
 
@@ -105,7 +104,8 @@ class login:
             驾驶员从业资格证号 = self.驾驶员从业资格证号
             上车时间 = 时间[:10]
             print(f'上车时间：{上车时间}')
-            上车 = 时间[6:8].replace(f"{int(时间[6:8])}", f"{int(时间[6:8]) + 1}")
+            上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
+            print(上车)
             上车时间1 = 时间[:8] + '00'
             print('ww:' + 上车时间1)
             下车时间 = 上车 + 上车时间[8:]
@@ -127,14 +127,14 @@ class login:
             print(t)
             print(data)
             #
-            s = socket(AF_INET, SOCK_STREAM)
-            s.connect((self.wg, int(self.wg_port)))
-
-            s.send(bytes().fromhex(t))
-            send = s.recv(1024).hex()
-            print(send.upper())
-            print('\n' * 1)
-            time.sleep(1)
+            # s = socket(AF_INET, SOCK_STREAM)
+            # s.connect((self.wg, int(self.wg_port)))
+            #
+            # s.send(bytes().fromhex(t))
+            # send = s.recv(1024).hex()
+            # print(send.upper())
+            # print('\n' * 1)
+            # time.sleep(1)
 
 
 if __name__ == '__main__':

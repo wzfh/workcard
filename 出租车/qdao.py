@@ -2,7 +2,6 @@
 import os
 import re
 import time
-from socket import *
 
 from configobj import ConfigObj
 
@@ -93,13 +92,13 @@ class login:
             print(data)
             count += 1
 
-            s = socket(AF_INET, SOCK_STREAM)
-            s.connect((self.wg, int(self.wg_port)))
-            s.send(bytes().fromhex(data))
-            send = s.recv(1024).hex()
-            print(send.upper())
-            print('\n' * 1)
-            time.sleep(1)
+            # s = socket(AF_INET, SOCK_STREAM)
+            # s.connect((self.wg, int(self.wg_port)))
+            # s.send(bytes().fromhex(data))
+            # send = s.recv(1024).hex()
+            # print(send.upper())
+            # print('\n' * 1)
+            # time.sleep(1)
 
 
 

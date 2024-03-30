@@ -114,7 +114,7 @@ def click(text1):
     click_text(d, '打卡')
     print('\n找到打卡页面')
     countdown(30)
-    if d(text="不在打卡范围内").exists(timeout=2):
+    if d(text="不在打卡范围内").exists(timeout=2) or d(text="正在搜索蓝牙考勤机信号...").exists(timeout=2):
         count = 0
         while True:
             print('\n' + str(count))
@@ -123,7 +123,7 @@ def click(text1):
             click_text(d, '打卡')
             print('点击打卡页面按钮')
             print('找到打卡页面')
-            d(text=f"{text1}").exists(timeout=2)
+            d(text=f"{text1}").click_exists(timeout=10.0)
             countdown(70)
             MY().截图()
             count += 1
@@ -178,7 +178,7 @@ def click(text1):
         print('\n你已在打卡范围内')
         countdown(5)
         if MY().识别图片1() == '下班打卡':
-            d(text="下班打卡").click()
+            d(text="下班打卡").click_exists(timeout=10.0)
             MY().截图()
             body1 = MY().识别图片()
             d.app_stop("com.tencent.mm")
@@ -224,8 +224,15 @@ def click(text1):
             print('退出程序')
             os._exit(0)
     else:
-        print('失败')
-        os._exit(0)
+        time.sleep(2)
+        os.system(r'adb push C:\Users\rjcsyb2\Desktop\atx-agent_0.10.0_linux_armv7/atx-agent /data/local/tmp')
+        time.sleep(2)
+        os.system('adb shell chmod 755 /data/local/tmp/atx-agent')
+        time.sleep(2)
+        os.system('adb shell /data/local/tmp/atx-agent server -d')
+        time.sleep(2)
+        os.system('adb shell /data/local/tmp/atx-agent server -d --stop')
+        time.sleep(2)
     # # 添加附件
     # with open(f"{MY().file_path}", "rb") as attachment:
     #     part = MIMEApplication(attachment.read(), _subtype='png')
@@ -255,12 +262,9 @@ def job2():
     os.system('adb shell settings put secure location_mode 1')
     print('打开定位')
     for i in range(10):
-        try:
             print(f'循环次数：{i + 1}')
             click("下班打卡")
             countdown(5)
-        except:
-            continue
     d.app_stop("com.tencent.mm")
     print('\n关闭微信')
     d.app_stop("com.tencent.wework")

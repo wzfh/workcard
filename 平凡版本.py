@@ -693,7 +693,7 @@ class MY_GUI(tk.Tk):
             驾驶员从业资格证号 = self.driver()  # SN12345678912345679
             上车时间 = 时间[:10]
             上车时间1 = 时间[:8] + '00'
-            上车 = 时间[6:8].replace(f"{int(时间[6:8])}", f"{int(时间[6:8]) + 1}")
+            上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
             下车时间 = 上车 + 上车时间[8:]
             计程公里数 = f'000{random.randint(30, 36)}0'
             空驶里程 = f'0{random.randint(12, 30)}0'
@@ -2438,7 +2438,7 @@ class MY_GUI(tk.Tk):
 
         self.ip_Text_label3 = Label(pane3, text="服务器ip")
         self.ip_Text_label3.grid(row=0, column=0)
-        items = ("47.119.168.112", "120.79.74.223")
+        items = (f"{self.conf_wg}", "47.119.168.112", "120.79.74.223")
         self.ip_Text3 = Combobox(pane3, width=50, height=2, values=items)
         self.ip_Text3.current(0)
         self.ip_Text3.grid(row=1, column=0, columnspan=10, sticky=N)
