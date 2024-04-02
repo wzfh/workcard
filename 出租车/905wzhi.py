@@ -75,7 +75,7 @@ class login:
         o = 0
         for line in datas:
             data1.append(line)
-        for nob1 in range(0, 1):
+        for nob1 in range(0, 205):
             t = data1[nob1]
             o += 1
             print('发送第%d条' % o)
@@ -93,38 +93,40 @@ class login:
             消息体属性 = '0023'
             ISU标识 = self.sbei  # 10位
             流水号 = f'{1}'.zfill(4)
-            # baojing = [self.baojing['紧急报警'],
-            #            self.baojing['危险预警'],
-            #            self.baojing['定位模块故障'],
-            #            self.baojing['定位天线开路'],
-            #            self.baojing['定位天线短路'],
-            #            self.baojing['终端主电源欠压'],
-            #            self.baojing['终端主电源掉电'],
-            #            self.baojing['液晶LCD显示故障'],
-            #            self.baojing['语音模块TTS故障'],
-            #            self.baojing['摄像头故障'],
-            #            self.baojing['超速报警'],
-            #            self.baojing['疲劳驾驶'],
-            #            self.baojing['当天累计驾驶超时'],
-            #            self.baojing['超时停车'],
-            #            self.baojing['车速传感器故障'],
-            #            self.baojing['录音设备故障'],
-            #            self.baojing['计价器故障'],
-            #            self.baojing['服务评价器故障'],
-            #            self.baojing['LED广告屏故障'],
-            #            self.baojing['液晶LED显示屏故障'],
-            #            self.baojing['安全访问模块故障'],
-            #            self.baojing['LED顶灯故障'],
-            #            self.baojing['计价器实时时钟'],
-            #            self.baojing['进出区域路线报警'],
-            #            self.baojing['路段行驶时间不足'],
-            #            self.baojing['禁行路段行驶'],
-            #            self.baojing['车辆非法点火'],
-            #            self.baojing['车辆非法位移'],
-            #            self.baojing['所有清零报警'],
-            #            self.baojing['紧急报警和超速报警'],
-            #            self.baojing['正常']]
-            报警 = self.baojing['紧急报警']
+            baojing = [
+                self.baojing['紧急报警'],
+                self.baojing['危险预警'],
+                self.baojing['定位模块故障'],
+                self.baojing['定位天线开路'],
+                self.baojing['定位天线短路'],
+                self.baojing['终端主电源欠压'],
+                self.baojing['终端主电源掉电'],
+                self.baojing['液晶LCD显示故障'],
+                self.baojing['语音模块TTS故障'],
+                self.baojing['摄像头故障'],
+                self.baojing['超速报警'],
+                self.baojing['疲劳驾驶'],
+                self.baojing['当天累计驾驶超时'],
+                self.baojing['超时停车'],
+                self.baojing['车速传感器故障'],
+                self.baojing['录音设备故障'],
+                self.baojing['计价器故障'],
+                self.baojing['服务评价器故障'],
+                self.baojing['LED广告屏故障'],
+                self.baojing['液晶LED显示屏故障'],
+                self.baojing['安全访问模块故障'],
+                self.baojing['LED顶灯故障'],
+                self.baojing['计价器实时时钟'],
+                self.baojing['进出区域路线报警'],
+                self.baojing['路段行驶时间不足'],
+                self.baojing['禁行路段行驶'],
+                self.baojing['车辆非法点火'],
+                self.baojing['车辆非法位移'],
+                self.baojing['所有清零报警'],
+                self.baojing['紧急报警和超速报警'],
+                self.baojing['正常']
+            ]
+            报警 = random.choice(baojing)
             # ztai = [self.ztai['未卫星定位'],
             #         self.ztai['南纬'],
             #         self.ztai['西经'],
@@ -171,7 +173,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            countdown(10)
+            countdown(5)
 
 
 if __name__ == '__main__':

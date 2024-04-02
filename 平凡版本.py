@@ -131,6 +131,8 @@ class MY_GUI(tk.Tk):
         self.conf_jd1 = config['address']['规划JD']
         self.sbei905 = config['sbei']['905sbei']
         self.sbei808 = config['sbei']['808sbei']
+        self.baojing = config['905baojing']
+        self.baojing808 = config['808baojing']
         self.conf_驾驶员从业资格证号 = config['驾驶员从业资格证号']['欧先生']
 
     def wzhi905(self, su, plsu):
@@ -337,7 +339,20 @@ class MY_GUI(tk.Tk):
             设备号 = "0" + f'{self.sb_hao8()}'
             print(f'设备号:{设备号}')
             流水号 = f'{0}'.zfill(4)
-            报警 = f'00000001'
+            baojlxs = [
+                self.baojing808['紧急报警'], self.baojing808['超速报警'], self.baojing808['疲劳驾驶'],
+                self.baojing808['LED顶灯故障'],
+                self.baojing808['进出区域路线报警'],
+                self.baojing808['路段行驶时间不足'], self.baojing808['禁行路段行驶'], self.baojing808['车辆非法点火'],
+                self.baojing808['车辆非法位移'], self.baojing808['所有清零报警'],
+                self.baojing808['正常'], self.baojing808['危险预警'], self.baojing808['模块故障'],
+                self.baojing808['模块开路'],
+                self.baojing808['终端欠压'], self.baojing808['终端掉电'],
+                self.baojing808['终端LCD故障'],
+                self.baojing808['TTS故障'], self.baojing808['摄像头故障'], self.baojing808['当天累计驾驶时长'],
+                self.baojing808['超时停车']
+            ]
+            报警 = random.choice(baojlxs)
             状态 = '00000003'
             wd2 = float(t[0]) * 1000000
             wd3 = hex(int(wd2))
@@ -377,7 +392,7 @@ class MY_GUI(tk.Tk):
             print('\n' * 1)
             tip_content = '\n位置数据：\n{}\n源数据：\n{}\n 服务器应答：\n{}\n'.format(data, t, send.upper())
             self.result_data_Text8.insert(1.0, tip_content)
-            time.sleep(2)
+            time.sleep(4)
         self.result_data_Text8.insert(1.0, "\n完成")
         showinfo("发送结果", "发送成功")
 
@@ -393,18 +408,51 @@ class MY_GUI(tk.Tk):
             t = data1[nob1]
             o += 1
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+            wd2 = float(t[0]) * 60 / 0.0001
+            wd3 = hex(int(wd2))
+            jd2 = float(t[1]) * 60 / 0.0001
+            jd3 = hex(int(jd2))
             标识位 = '7E'
             消息ID = '0200'
             消息体属性 = '0023'
-            ISU标识 = f'{self.sb905_hao8()}'
-            流水号 = f'{0}'.zfill(4)
-            报警 = f'00000001'
-            状态 = '00000003'
-            wd2 = float(t[0]) * 60 / 0.0001
-            wd3 = hex(int(wd2))
+            ISU标识 = self.sbei905  # 10位
+            流水号 = f'{1}'.zfill(4)
+            baojing = [
+                self.baojing['紧急报警'],
+                self.baojing['危险预警'],
+                self.baojing['定位模块故障'],
+                self.baojing['定位天线开路'],
+                self.baojing['定位天线短路'],
+                self.baojing['终端主电源欠压'],
+                self.baojing['终端主电源掉电'],
+                self.baojing['液晶LCD显示故障'],
+                self.baojing['语音模块TTS故障'],
+                self.baojing['摄像头故障'],
+                self.baojing['超速报警'],
+                self.baojing['疲劳驾驶'],
+                self.baojing['当天累计驾驶超时'],
+                self.baojing['超时停车'],
+                self.baojing['车速传感器故障'],
+                self.baojing['录音设备故障'],
+                self.baojing['计价器故障'],
+                self.baojing['服务评价器故障'],
+                self.baojing['LED广告屏故障'],
+                self.baojing['液晶LED显示屏故障'],
+                self.baojing['安全访问模块故障'],
+                self.baojing['LED顶灯故障'],
+                self.baojing['计价器实时时钟'],
+                self.baojing['进出区域路线报警'],
+                self.baojing['路段行驶时间不足'],
+                self.baojing['禁行路段行驶'],
+                self.baojing['车辆非法点火'],
+                self.baojing['车辆非法位移'],
+                self.baojing['所有清零报警'],
+                self.baojing['紧急报警和超速报警'],
+                self.baojing['正常']
+            ]
+            报警 = random.choice(baojing)
+            状态 = '00000300'
             纬度 = wd3[2:].zfill(8).upper()
-            jd2 = float(t[1]) * 60 / 0.0001
-            jd3 = hex(int(jd2))
             经度 = jd3[2:].zfill(8).upper()
             速度 = f'00{random.randint(10, 15)}'
             方向 = f'{random.randint(10, 15)}'
@@ -429,15 +477,14 @@ class MY_GUI(tk.Tk):
             print(t)
             print(data)
             s = socket(AF_INET, SOCK_STREAM)
-            s.setsockopt(SOL_SOCKET, SO_KEEPALIVE, 1)
-            s.connect((f'{self.ip8()}', int(self.port905_8())))  # 生产
+            s.connect((self.conf_wg, int(self.conf_905wg_port)))  # 测试
             s.send(bytes().fromhex(data))
             send = s.recv(1024).hex()
-            print(send.upper())
+            print('服务器应答：' + send.upper())
             print('\n' * 1)
             tip_content = '\n位置数据：\n{}\n源数据：\n{}\n 服务器应答：\n{}\n'.format(data, t, send.upper())
             self.result905_Text8.insert(1.0, tip_content)
-            time.sleep(2)
+            time.sleep(4)
         self.result905_Text8.insert(1.0, "\n完成")
         showinfo("发送结果", "发送成功")
 
@@ -2119,7 +2166,7 @@ class MY_GUI(tk.Tk):
 
     def qdo_808jiexq(self):
         import subprocess
-        exe_path = r"C:\Users\rjcsyb2\Desktop\BSJ-协议解析器\BSJ_dataParser.exe"
+        exe_path = os.getcwd() + "\\BSJ-协议解析器\\BSJ_dataParser.exe"
         subprocess.run(exe_path)
 
     # 设置窗口

@@ -18,10 +18,6 @@ import schedule as schedule
 from configobj import ConfigObj
 
 
-def countdown(t):
-    for i in range(t):
-        print("\r休眠倒计时：%02d" % (t - i) + '秒', end='')
-        time.sleep(1)
 
 
 def get_longitude(base_log=None, radius=None):
@@ -77,13 +73,20 @@ class login:
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             时间 = now_time[2:]
             上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
+            时间1 = now_time[2:8] + 上车 + 时间[:][8:]
+            print(时间1)
+            print(时间1[:10] + "01")
+            下车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 2))
+            print(下车 + 时间[:10][8:])
+            print(时间1[:10] + "00")
             numbers = [
                 # 人证匹配签到
-                f'0B0300430158752260340020000000000000030000C7166903F5C10700C814{now_time[2:]}534E3132333435363738390000000000534E3132333435363738393132333435363738534E3132343520240330095701040000006E0202044C250400000000300103',
+                f'0B0300430158752260340020000000000000030000C7166903F5C10700C814{时间}534E3132333435363738390000000000534E3132333435363738393132333435363738534E3132343520240330095701040000006E0202044C250400000000300103',
+                # # #超时运营报警
+                f'0B0500730158752260340001000000010000010000C640B903F7CAAC001301{时间1}000000000000004000C7166903F5C1070031042403300951483590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{时间1[:8] + "01"}{下车 + 时间[:10][8:]}000{random.randint(30, 36)}001500000110110000{random.randint(10, 12)}0000000000001040000008E0202044C250400000000300103',
                 # 人证不匹配报警
                 f'0B0300430158752260340017000000000000030000C7166903F5C10700C820{now_time[2:]}534E3132333435363738390000000000534E3132333435363738393132333435363739534E3132343520240329193401040000006E0202044C250400000000300103',
-                # 跨区域运营报警
-                f'0B0500730158752260340001000000010000010000C640B903F7CAAC001301{now_time[2:]}000000000000004000C7166903F5C1070031042403300951483590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{now_time[2:][:8] + "00"}{上车 + 时间[:10][8:]}000{random.randint(30, 36)}001500000110110000{random.randint(10, 12)}0000000000001040000008E0202044C250400000000300103',
+
             ]
             标识位 = '7E'
             for w in numbers:
@@ -110,12 +113,16 @@ class login:
                 send = s.recv(1024).hex()
                 print('服务器应答：' + send.upper())
                 print('\n' * 1)
-                countdown(60)
+
 
     def send_data(self):
+        # countdown(1)
         now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
         标识位 = '7E'
-        w = f'0B0500730158752260340001000000010000010000C640B903F7CAAC001301{now_time[2:]}000000000000004000C7166903F5C1070031042403300951483590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E31323334353637383931323334353637382403300900105100036001500000110110000120000000000001040000008E0202044C250400000000300103'
+        时间 = now_time[2:]
+        print(时间)
+        上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
+        w = f'0B0500730158752260340001000000010000010000C640B903F7CAAC001301{now_time[2:]}000000000000004000C7166903F5C1070031042403300951483590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{now_time[2:][:8] + "00"}{上车 + 时间[:10][8:]}000{random.randint(30, 36)}001500000110110000{random.randint(10, 12)}0000000000001040000008E0202044C250400000000300103',
         a = get_xor(w)
         b = get_bcc(a)
         E = w + b.upper().zfill(2)
@@ -129,28 +136,31 @@ class login:
             print('\n' * 1)
         print(t)
         print(data)
-        s = socket(AF_INET, SOCK_STREAM)
-        s.settimeout(10)  # 设置超时时间
+        # s = socket(AF_INET, SOCK_STREAM)
+        # s.settimeout(10)  # 设置超时时间
 
-        s.connect((self.wg, int(self.wg_port)))  # 测试
-        s.send(bytes().fromhex(data))
-        send = s.recv(1024).hex()
-        print('服务器应答：' + send.upper())
-        print('\n' * 1)
+        # s.connect((self.wg, int(self.wg_port)))  # 测试
+        # s.send(bytes().fromhex(data))
+        # send = s.recv(1024).hex()
+        # print('服务器应答：' + send.upper())
+        # print('\n' * 1)
 
 
-def countdown(t):
-    for i in range(t):
-        print("\r休眠倒计时：%d" % (t - i) + '秒', end='')
+import time
+
+
+def countdown(hours):
+    seconds = hours * 3600
+    while seconds > 0:
+        print(f"\r{seconds // 3600}小时{seconds % 3600 // 60}分钟{seconds % 60}秒", end='')
         time.sleep(1)
+        seconds -= 1
+    print("倒计时结束！")
 
 
 if __name__ == '__main__':
-    while True:
-        ll = login()
-        ll.get()
-        schedule.every(1).hours.do(ll.send_data)
-
-        while True:
-            schedule.run_pending()
-            time.sleep(1)
+    pass
+    # while True:
+    #     ll = login()
+    #     ll.get()
+    # ll.send_data()

@@ -23,4 +23,17 @@ def crc1(data):
 # print(res)
 
 
-crc1('11010135349122991526010032000001')
+import time
+
+
+def countdown(hours):
+    seconds = hours * 3600
+    while seconds > 0:
+        print(f"\r{seconds // 3600}小时{seconds % 3600 // 60}分钟{seconds % 60}秒", end='')
+        time.sleep(1)
+        seconds -= 1
+    print("倒计时结束！")
+
+
+# 调用倒计时函数，传入需要倒计时的小时数
+countdown(1)
