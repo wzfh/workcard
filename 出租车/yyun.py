@@ -3,6 +3,7 @@ import os
 import random
 import re
 import time
+from socket import socket, AF_INET, SOCK_STREAM
 
 from configobj import ConfigObj
 
@@ -61,6 +62,8 @@ class login:
         self.驾驶员从业资格证号 = config['驾驶员从业资格证号']['欧先生']
 
     def get(self):
+        hex_list = [hex(ord(char))[2:].upper() for char in self.驾驶员从业资格证号]
+        驾驶员从业资格证号1 = ''.join(hex_list)
         for i in range(1):
             wd1 = float(self.wd) * 60 / 0.0001
             wd2 = float(self.wd1) * 60 / 0.0001
@@ -101,7 +104,7 @@ class login:
             电召订单ID = '1'.zfill(8)
             车牌号 = '534E31323535'  # SN1255
             企业经营许可证号 = '534E3132333435363738393100000000'  # SN1234567891
-            驾驶员从业资格证号 = self.驾驶员从业资格证号
+            驾驶员从业资格证号 = 驾驶员从业资格证号1
             上车时间 = 时间[:10]
             print(f'上车时间：{上车时间}')
             上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
@@ -110,12 +113,12 @@ class login:
             print('ww:' + 上车时间1)
             下车时间 = 上车 + 上车时间[8:]
             print('ww:' + 下车时间)
-            计程公里数 = f'000{random.randint(30, 36)}0'
-            空驶里程 = f'0{random.randint(12, 20)}0'
+            计程公里数 = f'000{random.randint(52, 56)}0'
+            空驶里程 = f'0{random.randint(52, 56)}0'
             附加费 = f'0000{random.randint(10, 12)}'
             等待计时时间 = f'0{random.randint(10, 12)}0'
             交易金额 = f'000{random.randint(10, 12)}0'
-            当前车次 = f'{i}'.zfill(8)
+            当前车次 = f'{2}'.zfill(8)
             交易类型 = '00'  # 0x00:现金交易：0x01:M1卡交易：0x03：CPU卡交易：0x09:其他
             附加 = '01040000008E0202044C250400000000300103'
 
@@ -127,14 +130,14 @@ class login:
             print(t)
             print(data)
             #
-            # s = socket(AF_INET, SOCK_STREAM)
-            # s.connect((self.wg, int(self.wg_port)))
-            #
-            # s.send(bytes().fromhex(t))
-            # send = s.recv(1024).hex()
-            # print(send.upper())
-            # print('\n' * 1)
-            # time.sleep(1)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((self.wg, int(self.wg_port)))
+
+            s.send(bytes().fromhex(t))
+            send = s.recv(1024).hex()
+            print(send.upper())
+            print('\n' * 1)
+            time.sleep(1)
 
 
 if __name__ == '__main__':

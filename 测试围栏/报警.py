@@ -49,30 +49,23 @@ class login:
         config = ConfigObj(conf_ini, encoding='UTF-8')
         self.wg = config['ces']['出租车_cswg']
         self.wg_port = config['ces']['出租车_cs808wg_port']
+        self.wg905_port = config['ces']['出租车_cs905wg_port']
         self.wd = config['address']['茂名市WD']
         self.jd = config['address']['茂名市JD']
         self.baojing = config['808baojing']
         self.ztai = config['808ztai']
         self.sbei = config['sbei']['808sbei']
+        self.sbei905 = config['sbei']['905sbei']
 
+    # 808报警
     def get(self):
         count = 0
-
         for i in range(1):
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = self.wd
-            # wds = ['23.012171', '23.012271', '23.012371', '23.012471', '23.012571', '23.012671', '23.012771',
-            #        '23.012871']
-            # wd = random.choice(wds)
-            # wd1 = get_latitude(base_lat=float(wd), radius=15000)
             wd2 = float(wd1) * 1000000
-            print(int(wd2))
             wd3 = hex(int(wd2))
             jd1 = self.jd
-            # jds = ['114.341461', '114.342461', '114.343461', '114.344461', '114.345461', '114.346461', '114.347461',
-            #        '114.348461']
-            # jd = random.choice(jds)
-            # jd1 = get_longitude(base_log=float(jd), radius=10000)
             jd2 = float(jd1) * 1000000
             jd3 = hex(int(jd2))
             标识位 = '7E'
@@ -157,6 +150,7 @@ class login:
             print('\n' * 1)
             countdown(4)
 
+    #粤标报警
     def get1(self):
 
         for i in range(1):
@@ -210,8 +204,8 @@ class login:
             print('\n' * 1)
             countdown(4)
 
+    #苏标报警
     def get2(self):
-
         for i in range(1):
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = self.wd
@@ -258,6 +252,78 @@ class login:
             print('\n' * 1)
             time.sleep(4)
 
+    # 人证不匹配报警
+    def get3(self):
+        now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+        时间 = now_time[2:]
+        标识位 = '7E'
+        nums = [
+            f'0B030043{self.sbei905}0015000000000000030000C7166903F5C10700C819{时间}534E3132333435363738390000000000534E3132333435363738393132333435363739534E3132343520240403141701040000006E0202044C250400000000300103'
+        ]
+        for w in nums:
+            a = get_xor(w)
+            b = get_bcc(a)
+            if b.upper() == "7E":
+                a.replace("00", "01")
+                b = get_bcc(a)
+            E = w + b.upper().zfill(2)
+            t = '7E' + E.replace("7E", "01") + '7E'
+            D = get_xor(E)
+            data = 标识位 + D + f' {标识位}'
+            if data[:2] != "7E":
+                print(f"错误：{data}")
+                t = t[:81] + "00" + t[82:]
+                data = get_xor(t)
+                print("修改后data：{}".format(data))
+                print('\n' * 1)
+            print(data)
+            print(t)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((self.wg, int(self.wg905_port)))  # 测试
+            s.send(bytes().fromhex(data))
+            send = s.recv(1024).hex()
+            print('服务器应答：' + send.upper())
+            print('\n' * 1)
+            countdown(4)
+
+    # 绕路报警
+    def get4(self):
+        now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+        时间 = now_time[2:]
+        上车时间 = 时间[:10]
+        上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
+        上车时间1 = 时间[:8] + '00'
+        print('ww:' + 上车时间1)
+        下车时间 = 上车 + 上车时间[8:]
+        标识位 = '7E'
+        nums = [
+            f'0B050073{self.sbei905}0001000000010000010000C640B903F7CAAC001301{时间}000000000000004000C7166903F5C107003104{时间}3590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}000{random.randint(52, 56)}005200000120120000100000000020301040000008E0202044C250400000000300103'
+        ]
+        for w in nums:
+            a = get_xor(w)
+            b = get_bcc(a)
+            if b.upper() == "7E":
+                a.replace("00", "01")
+                b = get_bcc(a)
+            E = w + b.upper().zfill(2)
+            t = '7E' + E.replace("7E", "01") + '7E'
+            D = get_xor(E)
+            data = 标识位 + D + f' {标识位}'
+            if data[:2] != "7E":
+                print(f"错误：{data}")
+                t = t[:81] + "00" + t[82:]
+                data = get_xor(t)
+                print("修改后data：{}".format(data))
+                print('\n' * 1)
+            print(data)
+            print(t)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((self.wg, int(self.wg905_port)))  # 测试
+            s.send(bytes().fromhex(data))
+            send = s.recv(1024).hex()
+            print('服务器应答：' + send.upper())
+            print('\n' * 1)
+            countdown(4)
 
 def countdown(t):
     for i in range(t):
@@ -266,8 +332,10 @@ def countdown(t):
 
 
 if __name__ == '__main__':
+    # while True:
     ll = login()
-    while True:
-        ll.get()
-        ll.get1()
-        ll.get2()
+    ll.get()
+    ll.get1()
+    ll.get2()
+    ll.get3()
+    ll.get4()
