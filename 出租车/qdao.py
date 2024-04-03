@@ -16,7 +16,8 @@ def get_xor(data):
     result = re.sub(r"(?<=\w)(?=(?:\w\w)+$)", " ", data)
     return result
 
-
+def char_to_hex(char):
+    return hex(ord(char))[2:]
 # print(now_time[2:])
 # wd1 = 23.330217 * 60 / 0.0001
 # # print(wd1)
@@ -49,8 +50,13 @@ class login:
         self.sbei = config['sbei']['905sbei']
         self.驾驶员从业资格证号 = config['驾驶员从业资格证号']['欧先生']
 
+
     def get(self, nob, noc):
         count = 0
+        dervers = []
+        for der in self.驾驶员从业资格证号:
+            dervers.append(char_to_hex(der).upper())
+        驾驶员从业资格证号 = ''.join(dervers)
         for i in range(1):
             wd1 = float(self.wd) * 60 / 0.0001
             wd2 = hex(int(wd1))
@@ -71,7 +77,7 @@ class login:
             方向 = '00'
             时间 = now_time[2:]
             企业经营许可证号 = '534E3132333435363738393100000000'  # SN1234567891
-            驾驶员从业资格证号 = self.驾驶员从业资格证号
+            驾驶员从业资格证号 = 驾驶员从业资格证号.zfill(38)
             车牌号 = '534E31323535'  # SN1255
             开机时间 = now_time[:12]
             附加 = '01040000006E0202044C250400000000300103'

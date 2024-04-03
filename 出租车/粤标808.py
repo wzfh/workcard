@@ -66,16 +66,15 @@ class login:
         self.ztai = config['808ztai']
         self.sbei = config['sbei']['808sbei']
 
-    def get(self):
+    def get1(self):
 
         for i in range(1):
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
-            wd1 = get_latitude(base_lat=23.012173, radius=15000)
-            print(wd1)
+            wd1 = self.wd
             wd2 = float(wd1) * 1000000
+            print(int(wd2))
             wd3 = hex(int(wd2))
-            jd1 = get_longitude(base_log=114.340462, radius=10000)
-            print(jd1)
+            jd1 = self.jd
             jd2 = float(jd1) * 1000000
             jd3 = hex(int(jd2))
             print(jd3[2:].zfill(8).upper())
@@ -86,8 +85,9 @@ class login:
             经度 = jd3[2:].zfill(8).upper()
             速度 = '000B'
             时间 = now_time[2:]
-            标志状态 = '01'
-            baojlxs = ["01", "02", "03", "04", "05", "06", "07","0C" ]
+            bz = ["01", "02"]
+            标志状态 = random.choice(bz)
+            baojlxs = ["01", "02", "03", "04", "05", "06", "07", "0C"]
             报警事件类型 = random.choice(baojlxs)
             终端ID = f'{a}'.zfill(60)
             报警标识号 = f'{终端ID}{时间}00000000'
@@ -122,11 +122,10 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            countdown(10)
-
+            countdown(4)
 
 
 if __name__ == '__main__':
     ll = login()
     while True:
-        ll.get()
+        ll.get1()

@@ -31,6 +31,10 @@ now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
 now_time1 = time.strftime('%H%M%S', time.localtime())
 
 
+def char_to_hex(char):
+    return hex(ord(char))[2:]
+
+
 def copy(editor, event=None):
     editor.event_generate("<<Copy>>")
 
@@ -117,7 +121,6 @@ gif_pattern = '*.gif'
 
 
 class MY_GUI(tk.Tk):
-
     def __init__(self, init_window_name):
         self.init_window_name = init_window_name
         conf_ini = current_directory + "\\conf\\config.ini"
@@ -133,7 +136,7 @@ class MY_GUI(tk.Tk):
         self.sbei808 = config['sbei']['808sbei']
         self.baojing = config['905baojing']
         self.baojing808 = config['808baojing']
-        self.conf_驾驶员从业资格证号 = config['驾驶员从业资格证号']['欧先生']
+        self.conf_驾驶员从业资格证号 = config['驾驶员从业资格证号']
 
     def wzhi905(self, su, plsu):
         global data, t
@@ -488,9 +491,12 @@ class MY_GUI(tk.Tk):
         self.result905_Text8.insert(1.0, "\n完成")
         showinfo("发送结果", "发送成功")
 
+
     def qdao(self, su, plsu):
-        global data, t
+        global data, t, 驾驶员从业资格证号1
         count = 0
+        hex_list = [hex(ord(char))[2:].upper() for char in self.driver()]
+        驾驶员从业资格证号1 = ''.join(hex_list)
         try:
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = float(self.wd()) * 60 / 0.0001
@@ -509,7 +515,7 @@ class MY_GUI(tk.Tk):
             方向 = f'{random.randint(12, 20)}'
             时间 = now_time[2:]
             企业经营许可证号 = '534E3132333435363738390000000000'  # SN123456789
-            驾驶员从业资格证号 = self.driver()  # SN12345678912345678
+            驾驶员从业资格证号 = 驾驶员从业资格证号1.zfill(38)  # SN12345678912345678
             车牌号 = '534E31323435'  # SN1234
             开机时间 = now_time[:12]
             附加 = '01040000006E0202044C250400000000300103'
@@ -604,7 +610,7 @@ class MY_GUI(tk.Tk):
             方向 = f'{random.randint(12, 20)}'
             时间 = now_time[2:]
             企业经营许可证号 = '534E3132333435363738390000000000'  # SN123456789
-            驾驶员从业资格证号 = self.driver()  # SN12345678912345678
+            驾驶员从业资格证号 = 驾驶员从业资格证号1.zfill(38)  # SN12345678912345678
             车牌号 = '534E31323435'  # SN1235
             计价器K值 = f'00{random.randint(12, 20)}'  # 计价12
             当班开机时间 = now_time[:12]
@@ -737,7 +743,7 @@ class MY_GUI(tk.Tk):
             电召订单ID = '000'.zfill(8)
             车牌号 = '534E31323535'  # SN1255
             企业经营许可证号 = '534E3132333435363738393100000000'  # SN1234567891
-            驾驶员从业资格证号 = self.driver()  # SN12345678912345679
+            驾驶员从业资格证号 = 驾驶员从业资格证号1.zfill(38)  # SN12345678912345679
             上车时间 = 时间[:10]
             上车时间1 = 时间[:8] + '00'
             上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
@@ -1464,7 +1470,7 @@ class MY_GUI(tk.Tk):
     def getMon(self, items):
         inits = self.init_data_Text1.get()
         if inits == "2" or inits == "3" or inits == "4":
-            items = ("534E3132333435363738393132333435363739", f"{self.conf_驾驶员从业资格证号}")
+            items = (f"{self.conf_驾驶员从业资格证号['高先生']}", f"{self.conf_驾驶员从业资格证号['欧先生']}")
         else:
             pass
         self.driver_Text["values"] = items
@@ -1808,6 +1814,16 @@ class MY_GUI(tk.Tk):
         src = self.init_data1_Text6.get(1.0, END).strip()
         return src
 
+    # 16进制转字符
+    def hex_to_str(self, hex_data):
+        # 将16进制数据按照每两位进行分割
+        hex_list = [hex_data[i:i + 2] for i in range(0, len(hex_data), 2)]
+        # 使用unhexlify函数将每个16进制数转换为对应的字符
+        char_list = [binascii.unhexlify(h) for h in hex_list]
+        # 将所有的字符拼接起来，得到最终的结果
+        result = ''.join([c.decode() for c in char_list])
+        return result
+
     def 解析905(self):
         data = self.str_trans_to_md6()
         if data[2:6] == '0200':
@@ -1823,8 +1839,8 @@ class MY_GUI(tk.Tk):
                                            f'签到数据包：{data[2:6]}\n设备号：{data[10:22]}\n{报警标志(data)},\n{车辆状态(data)},\n      {经纬度(data)}'
                                            f'\n      {速度(data)},\n      方向：{data[62:64]}'
                                            f'\n      时间：20{data[64:76][:2]}年{data[64:76][2:4]}月{data[64:76][4:6]}日 {data[64:76][6:8]}时{data[64:76][8:10]}分{data[64:76][10:12]}秒'
-                                           f'\n      企业经营许可证号：{data[76:108]}\n   驾驶员从业资格证号：{data[108:146]}'
-                                           f'\n      车牌号：{data[146:158]}'
+                                           f'\n      企业经营许可证号：{self.hex_to_str(data[76:108])}\n   驾驶员从业资格证号：{self.hex_to_str(data[108:146])}'
+                                           f'\n      车牌号：{self.hex_to_str(data[146:158])}'
                                            f'\n    开机时间：{data[158:170][:4]}年{data[158:170][4:6]}月{data[158:170][6:8]}日 {data[158:170][8:10]}时{data[158:170][10:12]}分'
                                            f'\n      附加信息（未解）{data[170:-4]}')
         elif data[2:6] == '0B04':
@@ -1833,8 +1849,8 @@ class MY_GUI(tk.Tk):
                                            f'签退数据包:{data[2:6]}\n设备号：{data[10:22]}\n{报警标志(data)},\n{车辆状态(data)},\n      {经纬度(data)}'
                                            f'\n      {速度(data)},\n      方向：{data[62:64]}'
                                            f'\n      时间：20{data[64:76][:2]}年{data[64:76][2:4]}月{data[64:76][4:6]}日 {data[64:76][6:8]}时{data[64:76][8:10]}分{data[64:76][10:12]}秒'
-                                           f'\n      企业经营许可证号：{data[76:108]}\n   驾驶员从业资格证号：{data[108:146]}'
-                                           f'\n    车牌号：{data[146:158]}'
+                                           f'\n      企业经营许可证号：{self.hex_to_str(data[76:108])}\n   驾驶员从业资格证号：{self.hex_to_str(data[108:146])}'
+                                           f'\n    车牌号：{self.hex_to_str(data[146:158])}'
                                            f'\n计价器K值：{int(data[158:162])}'
                                            f'\n当班开机时间：{data[162:174][:4]}年{data[162:174][4:6]}月{data[162:174][6:8]}日 {data[162:174][8:10]}时{data[162:174][10:12]}分'
                                            f'\n当班关机时间：{data[174:186][:4]}年{data[174:186][4:6]}月{data[174:186][6:8]}日 {data[174:186][8:10]}时{data[174:186][10:12]}分'
@@ -1863,9 +1879,9 @@ class MY_GUI(tk.Tk):
                                            f'\n      时间：20{data[114:126][:2]}年{data[114:126][2:4]}月{data[114:126][4:6]}日 {data[114:126][6:8]}时{data[114:126][8:10]}分{data[114:126][10:12]}秒'
                                            f'\n      营运ID：{data[126:134]}   评价ID：{data[134:142]}  评价选项：{评价选项(data)}'
                                            f'\n      评价选项扩展：{data[144:148]}\n      电召订单ID：{电召订单ID(data)}'
-                                           f'\n      车牌号：{data[156:168]}'
-                                           f'\n企业经营许可证号：{data[168:200]}'
-                                           f'\n驾驶员从业资格证号：{data[200:238]}'
+                                           f'\n      车牌号：{self.hex_to_str(data[156:168])}'
+                                           f'\n企业经营许可证号：{self.hex_to_str(data[168:200])}'
+                                           f'\n驾驶员从业资格证号：{self.hex_to_str(data[200:238])}'
                                            f'\n上车时间：20{data[238:248][:2]}年{data[238:248][2:4]}月{data[238:248][4:6]}日 {data[238:248][6:8]}时{data[238:248][8:10]}分'
                                            f'\n下车时间：{data[248:252][:2]}时{data[248:252][2:4]}分'
                                            f'\n计程公里数：{int(data[252:258]) * 0.1}  空驶里程：{int(data[258:262]) * 0.1}  附加费：{int(data[262:268]) * 0.1}'
