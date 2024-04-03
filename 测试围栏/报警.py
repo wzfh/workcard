@@ -78,21 +78,6 @@ class login:
             标识位 = '7E'
             消息ID = '0200'
             油耗消息体属性 = '002F'
-            # 消息体属性 = '002B'
-            # if i < 10:
-            #     设备号 = f'01600000010{i}'
-            # elif 9<i<100:
-            #     设备号 = f'0160000001{i}'
-            # elif 199<i<1000:
-            #     设备号 = f'016000000{i}'
-            # elif 99 < i < 1000:
-            #     设备号 = '0'+f'11130000{i}'
-            # elif 999 < i < 10000:
-            #     设备号 = '0'+f'1113000{i}'
-
-            # '013652585555', '013526985544', '015326548554', '013526855522',
-            #        '013526855521', '013526855544', '013526855532', '545465454556', '545465454559', '013534985577',
-            #        '013525874455', '015869596655']
             设备号 = '0' + self.sbei
             print(f"设备号:{设备号}")
 
@@ -186,7 +171,6 @@ class login:
             print(jd3[2:].zfill(8).upper())
             协议版本号 = '01'
             a = f'{self.sbei}'.zfill(20)
-            状态 = '00000001'
             纬度 = wd3[2:].zfill(8).upper()
             经度 = jd3[2:].zfill(8).upper()
             速度 = '000B'
@@ -197,14 +181,11 @@ class login:
             报警事件类型 = random.choice(baojlxs)
             终端ID = f'{a}'.zfill(60)
             报警标识号 = f'{终端ID}{时间}00000000'
-            附加信息64 = f'643600000001{标志状态}{报警事件类型}011020000000100000{经度}{纬度}{时间}{报警标识号}'
             附加信息65 = f'653600000001{标志状态}{报警事件类型}010500000000100000{纬度}{经度}{时间}{报警标识号}'
             长度 = '4063'
-
             data = f'0200{长度}{协议版本号}{a}00010000000000000000{纬度}{经度}0000{速度}000C{时间}' + 附加信息65
             a = get_xor(data)
             b = get_bcc(a)
-            # print(附加信息67)
             if b.upper() == "7E":
                 a.replace("00", "01")
                 b = get_bcc(a)
@@ -218,7 +199,6 @@ class login:
                 print("修改后data：{}".format(data))
                 print('\n' * 1)
             print(data)
-            # print(t)
 
             s = socket(AF_INET, SOCK_STREAM)
             s.settimeout(10)  # 设置超时时间
@@ -236,12 +216,10 @@ class login:
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = self.wd
             wd2 = float(wd1) * 1000000
-            print(int(wd2))
             wd3 = hex(int(wd2))
             jd1 = self.jd
             jd2 = float(jd1) * 1000000
             jd3 = hex(int(jd2))
-            状态 = '00000001'
             纬度 = wd3[2:].zfill(8).upper()
             经度 = jd3[2:].zfill(8).upper()
             速度 = '0010'
@@ -255,7 +233,6 @@ class login:
             data = f'0200004D0{self.sbei}00010000000000000000{纬度}{经度}0000{速度}000C{时间}' + 附加信息65
             a = get_xor(data)
             b = get_bcc(a)
-            # print(附加信息67)
             if b.upper() == "7E":
                 a.replace("00", "01")
                 b = get_bcc(a)
