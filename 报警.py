@@ -4,6 +4,7 @@ import random
 import re
 import time
 from socket import *
+from tkinter.messagebox import showinfo
 
 from configobj import ConfigObj
 
@@ -43,9 +44,13 @@ def get_xor(data):
     return result
 
 
+current_directory = os.getcwd()
+print(current_directory)
+
+
 class login:
     def __init__(self):
-        conf_ini = os.path.dirname(os.path.dirname(__file__)) + "\\conf\\config.ini"
+        conf_ini = current_directory + "\\conf\\config.ini"
         config = ConfigObj(conf_ini, encoding='UTF-8')
         self.wg = config['ces']['出租车_cswg']
         self.wg_port = config['ces']['出租车_cs808wg_port']
@@ -53,7 +58,9 @@ class login:
         self.wd = config['address']['茂名市WD']
         self.jd = config['address']['茂名市JD']
         self.baojing = config['808baojing']
+        self.baojing905 = config['905baojing']
         self.ztai = config['808ztai']
+        self.ztai905 = config['905ztai']
         self.sbei = config['sbei']['808sbei']
         self.sbei905 = config['sbei']['905sbei']
 
@@ -107,9 +114,9 @@ class login:
             纬度 = wd3[2:].zfill(8).upper()
             经度 = jd3[2:].zfill(8).upper()
             print(f'纬度:{纬度}' + ' ' + f'经度：{经度}')
-            高程 = '0001'
-            速度 = f'0000'
-            方向 = '000C'
+            高程 = f'00{random.randint(10, 15)}'
+            速度 = f'00{random.randint(10, 15)}'
+            方向 = f'00{random.randint(10, 15)}'
             时间 = now_time[2:]
             附加里程 = f'0104000000{random.randint(10, 15)}'
             油量 = ['5208', '044C', '04B0']
@@ -119,7 +126,6 @@ class login:
             # 附加信息 = f'00000001'
             # print(附加信息)
             # 附加='01040000006E0202044C250400000000300103'
-
             w = 消息ID + 油耗消息体属性 + 设备号 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 高程 + 速度 + 方向 + 时间 + 附加里程 + 附加油量 + 附加信息ID
             a = get_xor(w)
             b = get_bcc(a)
@@ -128,8 +134,7 @@ class login:
                 b = get_bcc(a)
             E = w + b.upper().zfill(2)
             t = '7E' + E.replace("7E", "01") + '7E'
-            D = get_xor(E)
-            data = 标识位 + D + f' {标识位}'
+            data = get_xor(t)
             if data[:2] != "7E":
                 print(f"错误：{data}")
                 t = t[:81] + "00" + t[82:]
@@ -149,6 +154,7 @@ class login:
             print('服务器应答：' + send.upper())
             print('\n' * 1)
             countdown(4)
+            showinfo("发送结果", '服务器应答：' + send.upper())
 
     #粤标报警
     def get1(self):
@@ -202,6 +208,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
+            showinfo("发送结果", '服务器应答：' + send.upper())
             countdown(4)
 
     #苏标报警
@@ -232,8 +239,7 @@ class login:
                 b = get_bcc(a)
             E = data + b.upper().zfill(2)
             t = '7E' + E.replace("7E", "01") + '7E'
-            D = get_xor(E)
-            data = '7E ' + D + ' 7E'
+            data = get_xor(t)
             if data[:2] != "7E":
                 print(f"错误：{data}")
                 t = t[:81] + "00" + t[82:]
@@ -250,13 +256,58 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            time.sleep(4)
+            showinfo("发送结果", '服务器应答：' + send.upper())
+            countdown(4)
+
+    def ww1(self):
+        now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+        wd2 = float(self.wd) * 60 / 0.0001
+        wd3 = hex(int(wd2))
+        jd2 = float(self.jd) * 60 / 0.0001
+        jd3 = hex(int(jd2))
+        标识位 = '7E'
+        消息ID = '0200'
+        消息体属性 = '0023'
+        ISU标识 = self.sbei905  # 10位
+        流水号 = f'{1}'.zfill(4)
+        报警 = self.baojing905['超时停车']
+        状态 = self.ztai905['ACC开和载客']
+        纬度 = wd3[2:].zfill(8).upper()
+        经度 = jd3[2:].zfill(8).upper()
+        速度 = '00E3'
+        方向 = '01'
+        时间 = now_time[2:]
+        附加里程 = f'0104000000{random.randint(10, 15)}'
+        油量 = ['5208', '044C', '04B0']
+        附加油量 = f'0202{random.choice(油量)}'
+        w = 消息ID + 消息体属性 + ISU标识 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 速度 + 方向 + 时间 + 附加里程 + 附加油量
+        a = get_xor(w)
+        b = get_bcc(a).zfill(2)
+        E = w + b.upper()
+        t = 标识位 + E.replace("7E", "00") + 标识位
+        data = get_xor(t)
+        if data[:2] != "7E":
+            print(f"错误：{data}")
+            print('\n' * 1)
+            t = t[:81] + "00" + t[82:]
+            data = get_xor(t)
+            print("修改后data：{}".format(data))
+            print('\n' * 1)
+        print(t)
+        print(data)
+        s = socket(AF_INET, SOCK_STREAM)
+        s.connect((self.wg, int(self.wg905_port)))  # 测试
+        s.send(bytes().fromhex(data))
+        send = s.recv(1024).hex()
+        print('服务器应答：' + send.upper())
+        print('\n' * 1)
+        showinfo("发送结果", '服务器应答：' + send.upper())
+        countdown(4)
 
     # 人证不匹配报警
     def get3(self):
         now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
         时间 = now_time[2:]
-        标识位 = '7E'
         nums = [
             f'0B030043{self.sbei905}0015000000000000030000C7166903F5C10700C819{时间}534E3132333435363738390000000000534E3132333435363738393132333435363739534E3132343520240403141701040000006E0202044C250400000000300103'
         ]
@@ -268,8 +319,7 @@ class login:
                 b = get_bcc(a)
             E = w + b.upper().zfill(2)
             t = '7E' + E.replace("7E", "01") + '7E'
-            D = get_xor(E)
-            data = 标识位 + D + f' {标识位}'
+            data = get_xor(t)
             if data[:2] != "7E":
                 print(f"错误：{data}")
                 t = t[:81] + "00" + t[82:]
@@ -284,6 +334,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
+            showinfo("发送结果", '服务器应答：' + send.upper())
             countdown(4)
 
     # 绕路报警
@@ -293,9 +344,7 @@ class login:
         上车时间 = 时间[:10]
         上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
         上车时间1 = 时间[:8] + '00'
-        print('ww:' + 上车时间1)
         下车时间 = 上车 + 上车时间[8:]
-        标识位 = '7E'
         nums = [
             f'0B050073{self.sbei905}0001000000010000010000C640B903F7CAAC001301{时间}000000000000004000C7166903F5C107003104{时间}3590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}000{random.randint(52, 56)}005200000120120000100000000020301040000008E0202044C250400000000300103'
         ]
@@ -307,8 +356,7 @@ class login:
                 b = get_bcc(a)
             E = w + b.upper().zfill(2)
             t = '7E' + E.replace("7E", "01") + '7E'
-            D = get_xor(E)
-            data = 标识位 + D + f' {标识位}'
+            data = get_xor(t)
             if data[:2] != "7E":
                 print(f"错误：{data}")
                 t = t[:81] + "00" + t[82:]
@@ -323,6 +371,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
+            showinfo("发送结果", '服务器应答：' + send.upper())
             countdown(4)
 
 def countdown(t):
@@ -337,5 +386,6 @@ if __name__ == '__main__':
     ll.get()
     ll.get1()
     ll.get2()
+    ll.ww1()
     ll.get3()
     ll.get4()

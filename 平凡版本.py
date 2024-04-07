@@ -1,24 +1,18 @@
 # coding=utf-8
 import binascii
-import csv
-import math
 import os
-import random
-import re
 import threading
-import time
 import tkinter as tk
-from socket import *
 from tkinter import *
 from tkinter.colorchooser import askcolor
 from tkinter.ttk import *
 
 import ttkbootstrap as ttk
-from configobj import ConfigObj
 
 from V3ku import *
 from 出租车.V905ku import 报警标志, 车辆状态, 经纬度, 速度, 签退方式, 报警标志1, 车辆状态1, 经纬度1, 速度1, 评价选项, \
     电召订单ID, 交易类型
+from 报警 import *
 
 LOG_LINE_NUM = 0
 init_window = ttk.Window()  # 实例化出一个父窗口
@@ -2873,6 +2867,23 @@ class MY_GUI(tk.Tk):
                                       command=lambda: self.thread_it(self.轨迹905))  # 调用内部方法  加()为直接调用
         self.str_905_button8.grid(row=14, column=10, sticky=N)
 
+        pane9 = Frame()
+        self.str_905_button9 = Button(pane9, text="808普通报警", width=15,
+                                      command=lambda: self.thread_it(login().get))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=1, column=1, sticky=N)
+        self.str_905_button9 = Button(pane9, text="808粤标报警·", width=15,
+                                      command=lambda: self.thread_it(login().get1))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=2, column=1, sticky=N)
+        self.str_905_button9 = Button(pane9, text="808苏标报警·", width=15,
+                                      command=lambda: self.thread_it(login().get2))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=3, column=1, sticky=N)
+        self.str_905_button9 = Button(pane9, text="905人证不匹配报警·", width=15,
+                                      command=lambda: self.thread_it(login().get3))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=4, column=1, sticky=N)
+        self.str_905_button9 = Button(pane9, text="905绕路报警·", width=15,
+                                      command=lambda: self.thread_it(login().get4))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=5, column=1, sticky=N)
+
         # def play_animation():
         #     # 打开GIF图像文件
         #     giffilename = []
@@ -2940,6 +2951,7 @@ class MY_GUI(tk.Tk):
         note.add(pane6, text='905协议解析')
         note.add(pane7, text='苏标粤标生成')
         note.add(pane8, text='轨迹专用发送')
+        note.add(pane9, text='报警专用发送')
         note.grid()
 
 
