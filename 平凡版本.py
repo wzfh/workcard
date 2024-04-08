@@ -1,5 +1,6 @@
 # coding=utf-8
 import binascii
+import csv
 import os
 import threading
 import tkinter as tk
@@ -152,7 +153,7 @@ class MY_GUI(tk.Tk):
             速度 = self.sdu()[2:].zfill(4).upper()
             方向 = f'{random.randint(12, 20)}'
             时间 = now_time[2:]
-            附加 = '0104000000020202044C250400000000300103'
+            附加 = f'0104000000{self.lic1().zfill(2)}0202044C250400000000300103'
             if self.sb_on() == '是':
                 for i in range(int(su), int(plsu)):
                     ISU标识 = self.sb_hao().zfill(12)[:12 - len(f'{i}')] + f'{i}'
@@ -243,7 +244,7 @@ class MY_GUI(tk.Tk):
             速度 = self.sdu2()[2:].zfill(4).upper()
             方向 = f'00{random.randint(12, 20)}'
             时间 = now_time[2:]
-            附加信息ID = '01040000000B0202044C250400000000300103'
+            附加信息ID = f'0104000000{self.lic().zfill(2)}0202044C250400000000300103'
             if self.sb_on2() == '是':
                 for i in range(int(su2), int(plsu2)):
                     设备号 = self.sb_hao2().zfill(12)[:12 - len(f'{i}')] + f'{i}'
@@ -361,7 +362,7 @@ class MY_GUI(tk.Tk):
             速度 = f'00{random.randint(12, 20)}'
             方向 = f'00{random.randint(12, 20)}'
             时间 = now_time[2:]
-            附加里程 = f'0104000000{random.randint(12, 20)}'
+            附加里程 = f'0104000000{random.randint(10, 20)}'
             附加信息ID = '0202044C250400000000300103'
             w = 消息ID + 消息体属性 + 设备号 + 流水号 + 报警 + 状态 + 纬度 + 经度 + 高程 + 速度 + 方向 + 时间 + 附加里程 + 附加信息ID
             a = get_xor(w)
@@ -1144,6 +1145,40 @@ class MY_GUI(tk.Tk):
         sb = self.sbei_Text.get().strip()
         return sb
 
+    def baoget(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get())
+
+    def baoget1(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get1())
+
+    def baoget2(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get2())
+
+    def baoget3(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get3())
+
+    def baoget4(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get4())
+
+    def baojhe(self):
+        self.result905_Text9.delete(1.0, END)
+        while True:
+            self.result905_Text9.insert(1.0, login().get())
+            countdown(4)
+            self.result905_Text9.insert(1.0, login().get1())
+            countdown(4)
+            self.result905_Text9.insert(1.0, login().get2())
+            countdown(4)
+            self.result905_Text9.insert(1.0, login().get3())
+            countdown(4)
+            self.result905_Text9.insert(1.0, login().get4())
+            countdown(4)
+
     def sb_bj(self):
         sb = self.baoji_Text.get()
         if sb == "紧急报警":
@@ -1443,6 +1478,16 @@ class MY_GUI(tk.Tk):
         sdu = self.sdu_Text2.get().strip()
         sdu1 = hex(int(sdu) * 10)
         return sdu1
+
+    def lic(self):
+        lic = self.lic_Text.get().strip()
+        hex_num = hex(int(float(lic) * 10))
+        return hex_num[2:].upper()
+
+    def lic1(self):
+        lic = self.lic_Text1.get().strip()
+        hex_num = hex(int(float(lic) * 10))
+        return hex_num[2:].upper()
 
     def times2(self):
         times = self.times_Text2.get().strip()
@@ -2310,11 +2355,19 @@ class MY_GUI(tk.Tk):
         self.init_data_Text1.bind("<<ComboboxSelected>>", self.getMon)
         #
         self.sdu_Text_label = Label(pane1, text="速度")
-        self.sdu_Text_label.grid(row=16, column=11)
+        self.sdu_Text_label.grid(row=16, column=11, sticky=W)
         items = ("10", "20", "30", "40")
-        self.sdu_Text = Combobox(pane1, width=60, height=20, values=items)
+        self.sdu_Text = Combobox(pane1, width=27, height=2, values=items)
         self.sdu_Text.current(1)
-        self.sdu_Text.grid(row=17, column=11)
+        self.sdu_Text.grid(row=17, column=11, sticky=W)
+
+        self.lic_Text1_label = Label(pane1, text="里程")
+        self.lic_Text1_label.grid(row=16, column=11, sticky=E)
+        items = ("12", "23")
+        self.lic_Text1 = Combobox(pane1, width=27, height=2, values=items)
+        self.lic_Text1.current(0)
+        self.lic_Text1.grid(row=17, column=11, sticky=E)
+
         #
         self.driver_Text_label = Label(pane1, text="驾驶员行驶证")
         self.driver_Text_label.grid(row=16, column=0)
@@ -2438,11 +2491,18 @@ class MY_GUI(tk.Tk):
         self.baoji_Text2.grid(row=13, column=0, sticky=N, columnspan=1)
 
         self.sdu_Text_label2 = Label(pane2, text="速度")
-        self.sdu_Text_label2.grid(row=14, column=0, columnspan=1, sticky=N)
+        self.sdu_Text_label2.grid(row=14, columnspan=2, sticky=W)
         items = ("10", "20", "30", "40")
-        self.sdu_Text2 = Combobox(pane2, width=50, height=12, values=items)
+        self.sdu_Text2 = Combobox(pane2, width=22, height=20, values=items)
         self.sdu_Text2.current(1)
-        self.sdu_Text2.grid(row=15, column=0, )
+        self.sdu_Text2.grid(row=15, column=0, sticky=W)
+        #
+        self.lic_Text_label = Label(pane2, text="里程")
+        self.lic_Text_label.grid(row=14, columnspan=2, sticky=E)
+        items = ("12", "23")
+        self.lic_Text = Combobox(pane2, width=22, height=2, values=items)
+        self.lic_Text.current(0)
+        self.lic_Text.grid(row=15, column=0, sticky=E)
         #
         self.times_Text_label2 = Label(pane2, text="发送停顿时间")
         self.times_Text_label2.grid(row=14, column=11)
@@ -2869,20 +2929,29 @@ class MY_GUI(tk.Tk):
 
         pane9 = Frame()
         self.str_905_button9 = Button(pane9, text="808普通报警", width=15,
-                                      command=lambda: self.thread_it(login().get))  # 调用内部方法  加()为直接调用
+                                      command=lambda: self.thread_it(self.baoget))  # 调用内部方法  加()为直接调用
+
         self.str_905_button9.grid(row=1, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="808粤标报警·", width=15,
-                                      command=lambda: self.thread_it(login().get1))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="808粤标报警", width=15,
+                                      command=lambda: self.thread_it(self.baoget1()))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=2, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="808苏标报警·", width=15,
-                                      command=lambda: self.thread_it(login().get2))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="808苏标报警", width=15,
+                                      command=lambda: self.thread_it(self.baoget2()))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=3, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="905人证不匹配报警·", width=15,
-                                      command=lambda: self.thread_it(login().get3))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="905人证不匹配报警", width=15,
+                                      command=lambda: self.thread_it(self.baoget3()))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=4, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="905绕路报警·", width=15,
-                                      command=lambda: self.thread_it(login().get4))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="905绕路报警", width=15,
+                                      command=lambda: self.thread_it(self.baoget4()))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=5, column=1, sticky=N)
+
+        self.str_905_button9 = Button(pane9, text="循环报警", width=15,
+                                      command=lambda: self.thread_it(self.baojhe))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=6, column=1, sticky=N)
+        self.result905_label9 = Label(pane9, text="\n\n\n\n输出结果：有返回，即发送成功")
+        self.result905_label9.grid(row=9, column=11)
+        self.result905_Text9 = Text(pane9, width=85, height=7, relief='solid')
+        self.result905_Text9.grid(row=10, column=11, rowspan=90, columnspan=15, sticky=N)
 
         # def play_animation():
         #     # 打开GIF图像文件
@@ -3027,6 +3096,27 @@ def gui4_start():
     init_window.mainloop()
 
 
+def check_ipv4():
+    # 执行ipconfig命令
+    result = os.popen('ipconfig').read()
+    # print(result)
+    conf_ini = current_directory + "\\conf\\config.ini"
+    config = ConfigObj(conf_ini, encoding='UTF-8')
+    ip = config['ipv4']['ipv4']
+    # 判断IPv4地址是否为'192.168.10.1'
+    if ip in result:
+        return True
+    else:
+        return False
+
+
 if __name__ == '__main__':
-    gui4_start()
+    if check_ipv4():
+        gui4_start()
+    else:
+        import sys
+
+        sys.exit()  # 结束程序并可以提供一个退出码
+
+    # gui4_start()
     # count_runs()

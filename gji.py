@@ -124,14 +124,14 @@ class login:
             o = 0
             for line in datas:
                 data1.append(line)
-            for nob1 in range(0, 205):
+            for nob1 in range(0, 5):
                 t = data1[nob1]
                 o += 1
                 print('发送第%d条' % o)
                 now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
                 消息ID = '0200'
                 消息体属性 = '002F'
-                设备号 = "013658596655"
+                设备号 = "090123480036"
                 print(f'设备号:{设备号}')
                 流水号 = f'{0}'.zfill(4)
                 baojlxs = [
@@ -175,7 +175,7 @@ class login:
 
                 s = socket(AF_INET, SOCK_STREAM)
 
-                s.connect(('120.79.74.223', 17201))  # 测试
+                s.connect(('120.77.26.175', 7788))  # 测试
                 # s.connect(('120.79.192.231', 7788))  # 测试
                 s.send(bytes().fromhex(data))
                 send = s.recv(1024).hex()

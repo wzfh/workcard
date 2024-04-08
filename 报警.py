@@ -4,7 +4,6 @@ import random
 import re
 import time
 from socket import *
-from tkinter.messagebox import showinfo
 
 from configobj import ConfigObj
 
@@ -153,10 +152,9 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            countdown(4)
-            showinfo("发送结果", '服务器应答：' + send.upper())
+            return '\n808普通报警应答：' + send.upper()
 
-    #粤标报警
+    # 粤标报警
     def get1(self):
 
         for i in range(1):
@@ -208,8 +206,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            showinfo("发送结果", '服务器应答：' + send.upper())
-            countdown(4)
+            return '\n粤标报警应答：' + send.upper()
 
     #苏标报警
     def get2(self):
@@ -256,8 +253,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            showinfo("发送结果", '服务器应答：' + send.upper())
-            countdown(4)
+            return '\n苏标报警应答：' + send.upper()
 
     def ww1(self):
         now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
@@ -301,8 +297,7 @@ class login:
         send = s.recv(1024).hex()
         print('服务器应答：' + send.upper())
         print('\n' * 1)
-        showinfo("发送结果", '服务器应答：' + send.upper())
-        countdown(4)
+        return '\n服务器应答：' + send.upper()
 
     # 人证不匹配报警
     def get3(self):
@@ -334,8 +329,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            showinfo("发送结果", '服务器应答：' + send.upper())
-            countdown(4)
+            return '\n人证不匹配报警应答：' + send.upper()
 
     # 绕路报警
     def get4(self):
@@ -371,8 +365,8 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            showinfo("发送结果", '服务器应答：' + send.upper())
-            countdown(4)
+            return '\n绕路报警应答：' + send.upper()
+
 
 def countdown(t):
     for i in range(t):

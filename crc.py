@@ -115,3 +115,23 @@ def shebeihao2Vip(sSim):
 #
 # # subprocess.Popen(exe1)
 # subprocess.run(exe)
+import os
+
+
+def check_ipv4():
+    # 执行ipconfig命令
+    result = os.popen('ipconfig').read()
+    # print(result)
+
+    # 判断IPv4地址是否为'192.168.10.1'
+    if '192.168.130.201' in result:
+        return True
+    else:
+        return False
+
+
+if __name__ == '__main__':
+    if check_ipv4():
+        print("IPv4地址为'192.168.130.201'")
+    else:
+        print("IPv4地址不是'192.168.130.201")
