@@ -3099,12 +3099,18 @@ def gui4_start():
 def check_ipv4():
     # 执行ipconfig命令
     result = os.popen('ipconfig').read()
-    # print(result)
+    pattern = r'\d+\.\d+\.\d+\.\d+'
+    ipv4_list = re.findall(pattern, result)
+    print(ipv4_list)
     conf_ini = current_directory + "\\conf\\config.ini"
     config = ConfigObj(conf_ini, encoding='UTF-8')
     ip = config['ipv4']['ipv4']
+    res = ip.split(",")
+    print(res)
+    set_a = set(ipv4_list)
+    set_b = set(res)
     # 判断IPv4地址是否为'192.168.10.1'
-    if ip in result:
+    if bool(set_a & set_b):
         return True
     else:
         return False
@@ -3115,7 +3121,6 @@ if __name__ == '__main__':
         gui4_start()
     else:
         import sys
-
         sys.exit()  # 结束程序并可以提供一个退出码
 
     # gui4_start()
