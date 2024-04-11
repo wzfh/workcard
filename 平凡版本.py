@@ -488,7 +488,6 @@ class MY_GUI(tk.Tk):
 
 
     def qdao(self, su, plsu):
-        global data, t, 驾驶员从业资格证号1
         count = 0
         hex_list = [hex(ord(char))[2:].upper() for char in self.driver()]
         驾驶员从业资格证号1 = ''.join(hex_list)
@@ -587,6 +586,8 @@ class MY_GUI(tk.Tk):
 
     def qtui(self, su, plsu):
         count = 0
+        hex_list = [hex(ord(char))[2:].upper() for char in self.driver()]
+        驾驶员从业资格证号1 = ''.join(hex_list)
         try:
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = float(self.wd()) * 60 / 0.0001
@@ -700,6 +701,8 @@ class MY_GUI(tk.Tk):
 
     def yyun(self, su, plsu):
         count = 0
+        hex_list = [hex(ord(char))[2:].upper() for char in self.driver()]
+        驾驶员从业资格证号1 = ''.join(hex_list)
         try:
             now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
             wd1 = float(self.conf_wd) * 60 / 0.0001
@@ -1165,9 +1168,24 @@ class MY_GUI(tk.Tk):
         self.result905_Text9.delete(1.0, END)
         self.result905_Text9.insert(1.0, login().get4())
 
+    def baoget5(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get5())
+
+    def baoget6(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get6())
+
+    def baoget7(self):
+        self.result905_Text9.delete(1.0, END)
+        self.result905_Text9.insert(1.0, login().get7())
+
     def baojhe(self):
         self.result905_Text9.delete(1.0, END)
-        while True:
+        count = 0
+        max_count = 1
+        while count < max_count:
+            count += 1
             self.result905_Text9.insert(1.0, login().get())
             countdown(4)
             self.result905_Text9.insert(1.0, login().get1())
@@ -1178,6 +1196,13 @@ class MY_GUI(tk.Tk):
             countdown(4)
             self.result905_Text9.insert(1.0, login().get4())
             countdown(4)
+            self.result905_Text9.insert(1.0, login().get5())
+            countdown(4)
+            self.result905_Text9.insert(1.0, login().get6())
+            countdown(4)
+            self.result905_Text9.insert(1.0, login().get7())
+            countdown(4)
+        showinfo("发送结果", "发送成功")
 
     def sb_bj(self):
         sb = self.baoji_Text.get()
@@ -2696,14 +2721,14 @@ class MY_GUI(tk.Tk):
         self.fx_Text_label = Label(pane4, text="方向")
         self.fx_Text_label.grid(row=21, column=11)
         items = ("10", "20", "30", "40")
-        self.fx_Text = Combobox(pane4, width=69, height=20, values=items)
+        self.fx_Text = Combobox(pane4, width=60, height=20, values=items)
         self.fx_Text.current(1)
         self.fx_Text.grid(row=22, column=11, sticky=N, columnspan=3)
 
         self.times_Text_label = Label(pane4, text="发送停顿时间")
         self.times_Text_label.grid(row=19, column=11)
         items = ("1", "0.5", "1.5", "2")
-        self.times_Text4 = Combobox(pane4, width=69, height=20, values=items)
+        self.times_Text4 = Combobox(pane4, width=60, height=20, values=items)
         self.times_Text4.current(0)
         self.times_Text4.grid(row=20, column=11, sticky=N, columnspan=3)
 
@@ -2928,30 +2953,38 @@ class MY_GUI(tk.Tk):
         self.str_905_button8.grid(row=14, column=10, sticky=N)
 
         pane9 = Frame()
-        self.str_905_button9 = Button(pane9, text="808普通报警", width=15,
+        self.str_905_button9 = Button(pane9, text="808普通报警", width=35,
                                       command=lambda: self.thread_it(self.baoget))  # 调用内部方法  加()为直接调用
-
-        self.str_905_button9.grid(row=1, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="808粤标报警", width=15,
-                                      command=lambda: self.thread_it(self.baoget1()))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=2, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="808苏标报警", width=15,
-                                      command=lambda: self.thread_it(self.baoget2()))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="808粤标报警", width=35,
+                                      command=lambda: self.thread_it(self.baoget1))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=3, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="905人证不匹配报警", width=15,
-                                      command=lambda: self.thread_it(self.baoget3()))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="808苏标报警", width=35,
+                                      command=lambda: self.thread_it(self.baoget2))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=4, column=1, sticky=N)
-        self.str_905_button9 = Button(pane9, text="905绕路报警", width=15,
-                                      command=lambda: self.thread_it(self.baoget4()))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="905人证不匹配报警", width=35,
+                                      command=lambda: self.thread_it(self.baoget3))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=5, column=1, sticky=N)
-
-        self.str_905_button9 = Button(pane9, text="循环报警", width=15,
-                                      command=lambda: self.thread_it(self.baojhe))  # 调用内部方法  加()为直接调用
+        self.str_905_button9 = Button(pane9, text="905绕路报警", width=35,
+                                      command=lambda: self.thread_it(self.baoget4))  # 调用内部方法  加()为直接调用
         self.str_905_button9.grid(row=6, column=1, sticky=N)
-        self.result905_label9 = Label(pane9, text="\n\n\n\n输出结果：有返回，即发送成功")
-        self.result905_label9.grid(row=9, column=11)
-        self.result905_Text9 = Text(pane9, width=85, height=7, relief='solid')
-        self.result905_Text9.grid(row=10, column=11, rowspan=90, columnspan=15, sticky=N)
+        self.str_905_button9 = Button(pane9, text="905驾驶员没有从业资格证", width=35,
+                                      command=lambda: self.thread_it(self.baoget5))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=7, column=1, sticky=N)
+        self.str_905_button9 = Button(pane9, text="905跨区域营运预警", width=35,
+                                      command=lambda: self.thread_it(self.baoget6))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=8, column=1, sticky=N)
+        self.str_905_button9 = Button(pane9, text="905车辆未办理网络预约出租车营运证预警", width=35,
+                                      command=lambda: self.thread_it(self.baoget7))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=8, column=1, sticky=N)
+
+        self.str_905_button9 = Button(pane9, text="循环报警", width=35,
+                                      command=lambda: self.thread_it(self.baojhe))  # 调用内部方法  加()为直接调用
+        self.str_905_button9.grid(row=9, column=1, sticky=N)
+        self.result905_label9 = Label(pane9, text="输出结果：有返回，即发送成功")
+        self.result905_label9.grid(row=1, column=2, sticky=N)
+        self.result905_Text9 = Text(pane9, width=85, height=14, relief='solid')
+        self.result905_Text9.grid(row=2, column=2, rowspan=30, sticky=N)
 
         # def play_animation():
         #     # 打开GIF图像文件
@@ -3014,11 +3047,11 @@ class MY_GUI(tk.Tk):
         # play_animation()
         note.add(pane2, text='部标808TCP发送')
         note.add(pane1, text='出租车905TCP发送')
-        note.add(pane3, text='抢答回复订单')
-        note.add(pane4, text='2929协议UDP发送')
-        note.add(pane5, text='V3协议解析生成')
+        note.add(pane3, text='抢答905订单发送')
+        note.add(pane4, text='29协议UDP发送')
+        note.add(pane5, text='V3协议解析发送')
         note.add(pane6, text='905协议解析')
-        note.add(pane7, text='苏标粤标生成')
+        note.add(pane7, text='苏粤标生成')
         note.add(pane8, text='轨迹专用发送')
         note.add(pane9, text='报警专用发送')
         note.grid()

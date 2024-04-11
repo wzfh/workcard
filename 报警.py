@@ -304,8 +304,7 @@ class login:
         now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
         时间 = now_time[2:]
         nums = [
-            f'0B030043{self.sbei905}0015000000000000030000C7166903F5C10700C819{时间}534E3132333435363738390000000000534E3132333435363738393132333435363739534E3132343520240403141701040000006E0202044C250400000000300103'
-        ]
+            f'0B030043{self.sbei905}0015000000000000030000C7166903F5C10700C819{时间}534E3132333435363738390000000000534E3132333435363738393132333435363739534E3132343520240403141701040000006E0202044C250400000000300103']
         for w in nums:
             a = get_xor(w)
             b = get_bcc(a)
@@ -329,7 +328,7 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            return '\n人证不匹配报警应答：' + send.upper()
+            return '\n人证不匹配预警应答：' + send.upper()
 
     # 绕路报警
     def get4(self):
@@ -340,7 +339,7 @@ class login:
         上车时间1 = 时间[:8] + '00'
         下车时间 = 上车 + 上车时间[8:]
         nums = [
-            f'0B050073{self.sbei905}0001000000010000010000C640B903F7CAAC001301{时间}000000000000004000C7166903F5C107003104{时间}3590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}000{random.randint(52, 56)}005200000120120000100000000020301040000008E0202044C250400000000300103'
+            f'0B050073{self.sbei905}0018000000000000030000C640B903F7CAAC00C817{时间}000000000000030000C7138E03F5BF7C00C817{时间}3590AA283590AA2801000000000000534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}000{random.randint(52, 56)}001800001600150000160000000020301040000006E0202044C250400000000300103'
         ]
         for w in nums:
             a = get_xor(w)
@@ -365,9 +364,116 @@ class login:
             send = s.recv(1024).hex()
             print('服务器应答：' + send.upper())
             print('\n' * 1)
-            return '\n绕路报警应答：' + send.upper()
+            return '\n绕路预警应答：' + send.upper()
 
+    # 驾驶员没有从业资格证
+    def get5(self):
+        now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+        时间 = now_time[2:]
+        上车时间 = 时间[:10]
+        上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
+        上车时间1 = 时间[:8] + '00'
+        下车时间 = 上车 + 上车时间[8:]
+        nums = [
+            f'0B0500730158752260350020000000000000030000C640B903F7CAAC00C812{时间}000000000000030000C7136503F5BFD000C819{时间}3590AA283590AA2801000000000000534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}00031002500001400180000190000000020301040000006E0202044C250400000000300103',
+            # f'0B0500730153698544110015000000000000030000C640B903F7CAAC00C814{时间}000000000000030000C715BE03F5BF3800C818{时间}3590AA283590AA2801000000000000534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}00031002100001700160000170000000020301040000006E0202044C250400000000300103'
+        ]
+        for w in nums:
+            a = get_xor(w)
+            b = get_bcc(a)
+            if b.upper() == "7E":
+                a.replace("00", "01")
+                b = get_bcc(a)
+            E = w + b.upper().zfill(2)
+            t = '7E' + E.replace("7E", "01") + '7E'
+            data = get_xor(t)
+            if data[:2] != "7E":
+                print(f"错误：{data}")
+                t = t[:81] + "00" + t[82:]
+                data = get_xor(t)
+                print("修改后data：{}".format(data))
+                print('\n' * 1)
+            print(data)
+            print(t)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((self.wg, int(self.wg905_port)))  # 测试
+            s.send(bytes().fromhex(data))
+            send = s.recv(1024).hex()
+            print('服务器应答：' + send.upper())
+            print('\n' * 1)
+            return '\n驾驶员没有从业资格证预警应答：' + send.upper()
 
+    # 跨区域预警
+    def get6(self):
+        now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+        时间 = now_time[2:]
+        上车时间 = 时间[:10]
+        上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
+        上车时间1 = 时间[:8] + '00'
+        下车时间 = 上车 + 上车时间[8:]
+        nums = [
+            f'0B050073{self.sbei905}0001000000010000010000E1EDBA03F78061001301{时间}000000000000004000E14C4603F7806E003104{时间}3590AA283590AA2801000000000001534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}00008004000000110110000100000000020001040000008E0202044C250400000000300103']
+        for w in nums:
+            a = get_xor(w)
+            b = get_bcc(a)
+            if b.upper() == "7E":
+                a.replace("00", "01")
+                b = get_bcc(a)
+            E = w + b.upper().zfill(2)
+            t = '7E' + E.replace("7E", "01") + '7E'
+            data = get_xor(t)
+            if data[:2] != "7E":
+                print(f"错误：{data}")
+                t = t[:81] + "00" + t[82:]
+                data = get_xor(t)
+                print("修改后data：{}".format(data))
+                print('\n' * 1)
+            print(data)
+            print(t)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((self.wg, int(self.wg905_port)))  # 测试
+            s.send(bytes().fromhex(data))
+            send = s.recv(1024).hex()
+            print('服务器应答：' + send.upper())
+            print('\n' * 1)
+            return '\n跨区域营运预警应答：' + send.upper()
+
+    # 车辆未办理网络预约出租车营运证预警
+    def get7(self):
+        now_time = time.strftime('%Y%m%d%H%M%S', time.localtime())
+        时间 = now_time[2:]
+        上车时间 = 时间[:10]
+        上车 = 时间[6:8].replace(f"{时间[6:8]}", "%02d" % (int(时间[6:8]) + 1))
+        上车时间1 = 时间[:8] + '00'
+        下车时间 = 上车 + 上车时间[8:]
+        nums = [
+            # f'0B0500730158752260350020000000000000030000C640B903F7CAAC00C812{时间}000000000000030000C7136503F5BFD000C819{时间}3590AA283590AA2801000000000000534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}00031002500001400180000190000000020301040000006E0202044C250400000000300103',
+            f'0B0500730153698544110015000000000000030000C640B903F7CAAC00C814{时间}000000000000030000C715BE03F5BF3800C818{时间}3590AA283590AA2801000000000000534E31323535534E3132333435363738393100000000534E3132333435363738393132333435363738{上车时间1}{下车时间}00031002100001700160000170000000020301040000006E0202044C250400000000300103'
+        ]
+        for w in nums:
+            a = get_xor(w)
+            b = get_bcc(a)
+            if b.upper() == "7E":
+                a.replace("00", "01")
+                b = get_bcc(a)
+            E = w + b.upper().zfill(2)
+            t = '7E' + E.replace("7E", "01") + '7E'
+            data = get_xor(t)
+            if data[:2] != "7E":
+                print(f"错误：{data}")
+                t = t[:81] + "00" + t[82:]
+                data = get_xor(t)
+                print("修改后data：{}".format(data))
+                print('\n' * 1)
+            print(data)
+            print(t)
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect((self.wg, int(self.wg905_port)))  # 测试
+            s.send(bytes().fromhex(data))
+            send = s.recv(1024).hex()
+            print('服务器应答：' + send.upper())
+            print('\n' * 1)
+            return '\n车辆未办理网络预约出租车营运证预警应答：' + send.upper()
 def countdown(t):
     for i in range(t):
         print("\r休眠倒计时：%d" % (t - i) + '秒', end='')
@@ -377,9 +483,11 @@ def countdown(t):
 if __name__ == '__main__':
     # while True:
     ll = login()
-    ll.get()
-    ll.get1()
-    ll.get2()
-    ll.ww1()
-    ll.get3()
+    # ll.get()
+    # ll.get1()
+    # ll.get2()
+    # ll.ww1()
+    # ll.get3()
     ll.get4()
+    # ll.get5()
+    # ll.get6()

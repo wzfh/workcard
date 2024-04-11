@@ -113,8 +113,8 @@ class login:
             print('ww:' + 上车时间1)
             下车时间 = 上车 + 上车时间[8:]
             print('ww:' + 下车时间)
-            计程公里数 = f'000{random.randint(52, 56)}0'
-            空驶里程 = f'0{random.randint(52, 56)}0'
+            计程公里数 = f'000{random.randint(38, 42)}0'
+            空驶里程 = f'0{random.randint(32, 40)}0'
             附加费 = f'0000{random.randint(10, 12)}'
             等待计时时间 = f'0{random.randint(10, 12)}0'
             交易金额 = f'000{random.randint(10, 12)}0'

@@ -27,15 +27,19 @@ def countdown(t):
 
 
 path = r'C:\Users\rjcsyb2\Desktop'
-file_path = os.path.join(path, "多媒体1.txt")
-with open(file_path, "r") as file:
+file_path = os.path.join(path, "多媒体.txt")
+with open(file_path, "r", encoding='utf-8') as file:
     for line in file:
-        print(line.strip())
+        设备号 = '013534912299'
+        sju = line.strip()
+        new_text = sju.replace("013333223344", 设备号)
+        print(new_text)  # 输出：Hello, Python!
+
         s = socket(AF_INET, SOCK_STREAM)
         s.connect(('120.79.74.223', 17201))  # 测试
         # s.connect(('120.79.176.183', 17800))#压测
         # s.connect(('47.119.168.112', 17800))#生产
-        s.send(bytes().fromhex(line.strip()))
+        s.send(bytes().fromhex(new_text))
         send = s.recv(1024).hex()
         print('服务器应答：' + send.upper())
         print('\n' * 1)
